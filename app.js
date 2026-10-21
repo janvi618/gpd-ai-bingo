@@ -89,6 +89,20 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
     });
   }
+  // QR code for SITE.shareUrl, drawn as crisp SVG (prints without background graphics).
+  // Includes a 4-module white quiet zone so phones can read it on the dark square.
+  function qrSvg(cls) {
+    var url = SITE.shareUrl;
+    if (!url || typeof window.qrcode !== "function") return "";
+    try {
+      var qr = window.qrcode(0, "M");
+      qr.addData(url); qr.make();
+      var n = qr.getModuleCount(), q = 4, size = n + q * 2, d = "";
+      for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (qr.isDark(r, c)) d += "M" + (c + q) + " " + (r + q) + "h1v1h-1z";
+      return '<svg class="' + cls + '" viewBox="0 0 ' + size + " " + size + '" shape-rendering="crispEdges" aria-hidden="true">' +
+        '<rect width="' + size + '" height="' + size + '" fill="#ffffff"/><path d="' + d + '" fill="#000000"/></svg>';
+    } catch (e) { return ""; }
+  }
   function levelLabel(l) { return (LEVELS[l] && LEVELS[l].label) || l; }
   function pips(level) {
     var n = LEVEL_ORDER.indexOf(level) + 1, out = '<span class="pips" aria-hidden="true">';
@@ -118,7 +132,7 @@
   function copyText(text, btn) {
     var original = btn.getAttribute("data-label") || btn.textContent;
     btn.setAttribute("data-label", original);
-    function ok() { flash(btn, "Copied!"); toast("Copied to your clipboard. Paste it into your approved AI tool."); }
+    function ok() { flash(btn, "Copied!"); toast(text === SITE.shareUrl ? "Link copied." : "Copied to your clipboard. Paste it into your approved AI tool."); }
     function fallback() {
       var ta = document.createElement("textarea");
       ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0"; ta.style.top = "0";
@@ -243,8 +257,14 @@
       for (var c = 0; c < 5; c++) {
         var i = r * 5 + c, slug = cells[i];
         if (slug === FREE) {
-          html += '<div role="img" class="free' + (inLine[i] ? " in-line" : "") + '" aria-label="Free space. Always marked.">' + ICON.seal +
-            '<span class="free-label">FREE<br>SPACE</span><span class="free-sub">On the house</span></div>';
+          var qrMark = qrSvg("qr-svg");
+          if (qrMark) {
+            html += '<button type="button" id="free-qr" class="free has-qr' + (inLine[i] ? " in-line" : "") + '" aria-label="Free space, always marked. Show a large QR code to open this site on a phone.">' +
+              '<span class="qr-tile">' + qrMark + '</span><span class="free-text"><span class="free-label">FREE<br>SPACE</span><span class="free-sub">Scan to open on your phone</span></span></button>';
+          } else {
+            html += '<div role="img" class="free' + (inLine[i] ? " in-line" : "") + '" aria-label="Free space. Always marked.">' + ICON.seal +
+              '<span class="free-label">FREE<br>SPACE</span><span class="free-sub">On the house</span></div>';
+          }
           continue;
         }
         var a = bySlug[slug];
@@ -283,6 +303,12 @@
       "<p>This clears all " + count + " stamps saved in this browser. You can’t undo it.</p>" +
       '<div class="modal-actions"><button type="button" class="btn btn-outline-ink" id="reset-cancel">Keep my progress</button><button type="button" class="btn btn-ink" id="reset-confirm">Clear my card</button></div></div></dialog>';
 
+    if (SITE.shareUrl) {
+      html += '<dialog class="modal qr-modal" id="qr-dialog" aria-labelledby="qr-title"><div class="modal-body"><h2 id="qr-title">Scan to play on your phone</h2>' +
+        '<div class="qr-big">' + qrSvg("qr-svg") + "</div>" +
+        '<p class="qr-url" id="qr-url">' + esc(SITE.shareUrl) + "</p>" +
+        '<div class="modal-actions"><button type="button" class="btn btn-outline-ink" id="qr-copy"><span class="lbl">Copy link</span></button><button type="button" class="btn btn-ink" id="qr-close">Done</button></div></div></dialog>';
+    }
     app.innerHTML = html;
     renderPrintCard();
     justStamped = null;
@@ -331,6 +357,13 @@
         if (next) { e.preventDefault(); next.focus(); next.scrollIntoView({ block: "nearest", inline: "nearest" }); return; }
       }
     });
+    // Big QR code
+    var fq = document.getElementById("free-qr"), qd = document.getElementById("qr-dialog");
+    if (fq && qd) {
+      fq.addEventListener("click", function () { if (qd.showModal) qd.showModal(); else qd.setAttribute("open", ""); document.getElementById("qr-close").focus(); });
+      document.getElementById("qr-close").addEventListener("click", function () { qd.close ? qd.close() : qd.removeAttribute("open"); fq.focus(); });
+      document.getElementById("qr-copy").addEventListener("click", function () { copyText(SITE.shareUrl, this); });
+    }
     // Hint
     var hc = document.getElementById("hint-close");
     if (hc) hc.addEventListener("click", function () { state.hintDismissed = true; save(); var h = document.getElementById("hint"); if (h) h.remove(); });
@@ -436,7 +469,12 @@
     h += '<p class="pc-legend">' + LEVEL_ORDER.map(function (l) { return textPips(l) + " <b>" + esc(levelLabel(l)) + "</b> " + esc(LEVELS[l] ? LEVELS[l].blurb : ""); }).join(" &nbsp;·&nbsp; ") + "</p>";
     h += '<div class="pc-grid">';
     cells.forEach(function (s) {
-      if (s === FREE) { h += '<div class="pc-free"><div>FREE SPACE<small>On the house</small></div></div>'; return; }
+      if (s === FREE) {
+        var pq = qrSvg("pc-qr");
+        h += pq ? '<div class="pc-free has-qr">' + pq + '<div>FREE<br>SPACE<small>Scan for how-tos</small></div></div>'
+                : '<div class="pc-free"><div>FREE SPACE<small>On the house</small></div></div>';
+        return;
+      }
       var a = bySlug[s]; if (!a) { h += '<div class="pc-sq"></div>'; return; }
       var done = !!state.completed[s];
       h += '<div class="pc-sq' + (done ? " done" : "") + '"><div class="t">' + esc(a.square) + '</div><div class="l"><span>' + textPips(a.level) + " " + esc(levelLabel(a.level)) + "</span><span>" + (done ? "✓ Tried" : "☐") + "</span></div></div>";

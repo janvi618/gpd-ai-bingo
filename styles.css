@@ -243,6 +243,17 @@ a { color: inherit; }
   border: 1.5px solid var(--ink); text-align: center; padding: 10px;
 }
 .free.in-line { box-shadow: 0 0 0 3px var(--gold); }
+.free.has-qr { flex-direction: row; gap: clamp(8px, 1vw, 14px); cursor: pointer; font: inherit; transition: transform .16s ease, box-shadow .16s ease; }
+.free.has-qr:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--gold-deep); }
+.free.has-qr:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.qr-tile { display: block; width: clamp(64px, 6.6vw, 94px); flex: none; border-radius: 6px; overflow: hidden; background: #fff; line-height: 0; }
+.qr-svg { display: block; width: 100%; height: auto; }
+.free-text { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; min-width: 0; }
+.free.has-qr .free-sub { font-size: 11px; line-height: 1.25; max-width: 11ch; }
+.qr-modal { max-width: min(460px, calc(100vw - 32px)); text-align: center; }
+.qr-big { width: min(320px, 70vw); margin: 8px auto 4px; border-radius: 10px; overflow: hidden; line-height: 0; border: 1.5px solid var(--paper-line); }
+.qr-url { font-family: var(--font-mono); font-size: 14px; word-break: break-all; color: var(--ink-soft); }
+.qr-modal .modal-actions { justify-content: center; }
 .free-mark { width: 38px; height: 38px; }
 .free-label { font-family: var(--font-display); font-weight: 800; letter-spacing: .16em; font-size: clamp(13px, 1.3vw, 17px); line-height: 1.1; }
 .free-sub { font-size: 11.5px; color: var(--moon-dim); letter-spacing: .04em; }
@@ -447,6 +458,8 @@ dialog.modal::backdrop { background: rgba(10, 8, 30, .66); }
   .pc-sq.done { border-width: 2.4pt; }
   .pc-free { border: 1.4pt dashed #000; border-radius: 3mm; height: 27mm; display: grid; place-items: center; text-align: center; font: 800 13pt var(--font-display); letter-spacing: .16em; }
   .pc-free small { display: block; font: 400 8pt var(--font-body); letter-spacing: 0; margin-top: 1mm; }
+  .pc-free.has-qr { display: flex; align-items: center; justify-content: center; gap: 2.5mm; font-size: 10.5pt; text-align: left; }
+  .pc-qr { width: 23mm; height: 23mm; flex: none; }
   .pc-foot { display: flex; justify-content: space-between; gap: 10mm; margin-top: 3mm; font-size: 8.5pt; }
   .pc-foot p { margin: 0; }
   .pc-legend { font-size: 8.5pt; margin: 0 0 2mm; }

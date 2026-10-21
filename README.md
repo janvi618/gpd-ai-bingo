@@ -23,6 +23,7 @@ The middle row is all Explore squares plus the FREE SPACE, so anyone can reach B
 | `styles.css` | Colors, layout, mobile and print styles | Only for design changes |
 | `app.js` | Board, activity pages, stamping, Bingo detection, filters, Surprise Me, copy buttons | No |
 | `fonts/` | Self-hosted fonts (SIL Open Font License), so nothing loads from outside | No |
+| `vendor/qrcode.js` | QR code generator ([qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator), MIT) that draws the FREE SPACE QR code in the browser | No |
 | `GPD-AI-Bingo-Card.pdf` | Printable blank card (US Letter, landscape) | Regenerate after content changes |
 | `PRESENTER-AND-TEAMS.md` | 30–45 second presenter script and a Teams/email post | Yes |
 | `tests/` | Automated browser checks and the PDF generator | No |
@@ -53,7 +54,7 @@ Open `content.js` in any text editor (VS Code, Notepad, TextEdit in plain-text m
 - **Change wording:** edit the text between quotes `"…"`. Prompts sit between backticks `` `…` ``.
 - **Replace a challenge:** overwrite the fields in its `{ … }` block. If you change its `slug`, update the same slug in the `board` layout.
 - **Rearrange the card:** reorder the slugs in `board` (5 rows of 5). Keep `"FREE"` in the middle.
-- **Add the site link to the printed card:** once the site is hosted, put its real address in `shareUrl`.
+- **Site link and QR code:** `shareUrl` holds the live address (`https://janvi618.github.io/gpd-ai-bingo/`). It becomes the QR code in the FREE SPACE (click it for a large, projector-friendly version) and is printed on the card. If the site moves, change it here and regenerate the PDF; set it to `""` to hide the QR code.
 
 Rules that keep the file working:
 
@@ -71,14 +72,14 @@ Each activity has these fields: `id`, `slug`, `level`, `square`, `title`, `categ
 
 **There is no build step.** The folder is the production site. To deploy:
 
-1. Copy these files and folders to the web server: `index.html`, `styles.css`, `content.js`, `app.js`, `fonts/`, and (optionally) `GPD-AI-Bingo-Card.pdf`. You don't need to deploy `tests/` or the markdown files.
+1. Copy these files and folders to the web server: `index.html`, `styles.css`, `content.js`, `app.js`, `fonts/`, `vendor/`, and (optionally) `GPD-AI-Bingo-Card.pdf`. You don't need to deploy `tests/` or the markdown files.
 2. Serve them as static files. Any of these work:
    - An internal static web server (IIS, Apache, nginx)
    - An Azure Static Web App or an Azure Storage static website, with access restricted to the corporate tenant
    - SharePoint or Teams **only if** your tenant allows custom script pages (many don't; check with IT)
    - GitHub Pages on an internal or enterprise account, if approved
 3. Open the hosted link and run a quick check: click a square, copy a prompt, mark it complete, refresh.
-4. Put the real link into `shareUrl` in `content.js`, regenerate the PDF (below) and share the link. Only make a QR code from that verified link.
+4. Put the real link into `shareUrl` in `content.js` (this also updates the QR code), regenerate the PDF (below), then scan the QR code with a phone to confirm it opens the site.
 
 **No environment configuration is needed:** no API keys, secrets, databases or accounts.
 
@@ -93,7 +94,9 @@ Each activity has these fields: `id`, `slug`, `level`, `square`, `title`, `categ
 
 ## Test it
 
-Automated checks (needs Node.js and Playwright: `npm i -D playwright && npx playwright install chromium`):
+**Currently hosted at:** https://janvi618.github.io/gpd-ai-bingo/ (GitHub Pages, from the `main` branch of `janvi618/gpd-ai-bingo`). Updating the site = pushing changed files to that branch; Pages republishes in about a minute.
+
+Automated checks (needs Node.js and Playwright: `npm i -D playwright && npx playwright install chromium`; add `npm i -D jsqr pngjs` to also scan the QR codes):
 
 ```bash
 node tests/smoke-test.js

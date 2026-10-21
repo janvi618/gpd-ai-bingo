@@ -32,9 +32,10 @@ window.BINGO = {
     bottomMessage: "Start anywhere. One square is a win.",
     responsibleUse: ["Use approved AI tools.", "Protect confidential information.", "Review AI outputs."],
     bingoMessage: "Look what you’ve explored.",
-    // Optional: once the site is hosted, paste its real link here so it
-    // appears on the printed card. Leave empty ("") until you have one.
-    shareUrl: ""
+    // The site's real, hosted link. It's turned into the QR code in the
+    // FREE SPACE (on screen and on the printed card) and printed on the card.
+    // Change it if the site moves. Leave empty ("") to show no QR code.
+    shareUrl: "https://janvi618.github.io/gpd-ai-bingo/"
   },
 
   /* ---------- The three levels ---------- */

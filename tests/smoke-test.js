@@ -51,6 +51,25 @@ function check(name, cond, detail) {
   check("1. Board renders as 5 columns x 5 rows", new Set(boxes.map(b => b[0])).size === 5 && new Set(boxes.map(b => b[1])).size === 5);
   check("1. FREE SPACE is in the center", (await page.locator("#board > *").nth(12).getAttribute("class")).includes("free"));
   check("Config validation reports no content errors", (await page.locator(".config-error").count()) === 0);
+
+  // QR code in the FREE SPACE (decoded with an independent QR reader, if installed)
+  if (B.site.shareUrl) {
+    check("QR code shown in the FREE SPACE", (await page.locator("#board .free .qr-svg").count()) === 1);
+    let jsQR, PNG;
+    try { jsQR = require("jsqr"); PNG = require("pngjs").PNG; }
+    catch (e) { try { const d = process.env.DECODER_MODULES; jsQR = require(d + "/jsqr"); PNG = require(d + "/pngjs").PNG; } catch (e2) { jsQR = null; } }
+    const decode = async (loc) => { const png = PNG.sync.read(await loc.screenshot()); const r = jsQR(new Uint8ClampedArray(png.data), png.width, png.height); return r && r.data; };
+    if (jsQR) {
+      check("Small board QR code scans to the site link", (await decode(page.locator("#board .qr-tile"))) === B.site.shareUrl, B.site.shareUrl);
+      await page.click("#free-qr");
+      check("Clicking FREE SPACE opens the large QR code", await page.isVisible("#qr-dialog"));
+      check("Large QR code scans to the site link", (await decode(page.locator(".qr-big"))) === B.site.shareUrl);
+      await page.screenshot({ path: path.join(OUT, "desktop-qr-dialog.png") });
+      await page.click("#qr-close");
+    } else {
+      console.log("SKIP QR decoding (install jsqr and pngjs to enable)");
+    }
+  }
   await page.screenshot({ path: path.join(OUT, "desktop-board.png"), fullPage: true });
 
   // 2-3. Every square opens the right page with complete content
@@ -177,6 +196,7 @@ function check(name, cond, detail) {
   const printCells = await page.locator(".print-card .pc-sq, .print-card .pc-free").count();
   check("13. Print card has 25 cells", printCells === 25);
   check("13. App UI hidden in print", !(await page.isVisible("#app")));
+  if (B.site.shareUrl) check("13. Printed card includes the QR code", (await page.locator(".print-card .pc-qr").count()) === 1);
   await page.pdf({ path: path.join(OUT, "print-preview.pdf"), format: "Letter", landscape: true, printBackground: false });
   await page.emulateMedia({ media: "screen" });
 
