@@ -52,7 +52,7 @@ window.BINGO = {
   board: [
     ["messy-notes",      "poke-holes",        "three-expert-panel", "ai-interviews-you",        "one-minute-brief"],
     ["doc-to-visual", "meeting-prep",      "idea-scorecard",     "workflow-redesign",       "skeptic-rehearsal"],
-    ["kinder-email",     "explain-it-twice",  "FREE",               "slide-headline",          "scary-task-checklist"],
+    ["kinder-email",     "explain-it-twice",  "FREE",               "end-boring",          "scary-task-checklist"],
     ["feedback-to-experiments", "ten-minute-training", "feedback-growth-plan", "fridge-dinner",   "research-head-start"],
     ["devils-advocate",      "learning-plan", "blind-taste-test-for-ai", "process-one-pager", "self-critique-loop"]
   ],
@@ -232,60 +232,59 @@ After both versions, tell me which idea appears in both, since that’s probably
       },
       {
           id: "b4",
-          slug: "slide-headline",
+          slug: "end-boring",
           level: "explore",
-          square: "Use End Boring to fix one slide’s headline.",
-          title: "Use End Boring to fix one slide’s headline",
+          square: "End Boring your next presentation.",
+          title: "End Boring your next presentation",
           category: "Communication",
           time: "5–10 min",
-          summary: "Put Ivan Wanis Ruiz’s End Boring training to work on one real slide: find its walkaway, say it as a visceral statement, and let the slide support you instead of doing the talking.",
-          why: "GPD went through Ivan Wanis Ruiz’s End Boring training: “A Tactical Approach to Public Speaking and Communication.” A training sticks when you use it on real work, and a single slide headline is the fastest place to start. Ivan’s core idea is that audiences remember very little of what they hear, so you decide your one to three walkaways before anything else and say each one as a short, visceral statement. His Public Speaking Lab adds two slide tactics: the “One, Two, Three” method, an occasional slide with only two or three words as a memory anchor, and keeping the focus on you rather than your slides (he puts it as 70% speaker, 30% slides). This square uses AI to apply all of that in under ten minutes.",
+          summary: "Run your next presentation through Ivan Wanis Ruiz’s End Boring ideas: clear walkaways, visceral statements, a stronger opening, less slide text and a quick out-loud rehearsal.",
+          why: "GPD went through Ivan Wanis Ruiz’s End Boring training: “A Tactical Approach to Public Speaking and Communication.” Ivan’s starting point is that audiences remember very little, so you decide your one to three walkaways first and say each as a short, visceral statement. He suggests opening with something more interesting than your name and topic, using an occasional two- or three-word slide as a memory anchor (his Public Speaking Lab calls this the “One, Two, Three” method), and keeping the focus on you rather than your slides. He also practices by shrinking a talk to one sentence and to 30 seconds, then rehearsing out loud. AI can apply all of that to your next presentation in a few minutes.",
           needs: [
             "Your company-approved AI chat tool",
-            "One slide you’re presenting soon: its current title and what’s on it",
+            "A presentation you’re giving soon: its topic, audience and length, plus the outline or slide titles",
             "Optional: your own notes from the End Boring session",
             "Remove confidential details or use a made-up example unless your tool is approved for that information."
           ],
-          prompt: `You are a presentation coach using Ivan Wanis Ruiz’s End Boring approach. Apply these End Boring ideas to my slide, and label each part of your answer with the idea it uses:
-- WALKAWAY: audiences remember little, so name the one thing they should walk away with.
-- VISCERAL STATEMENT: say the walkaway as a short, vivid statement, not a topic label.
-- ONE, TWO, THREE: an occasional slide with only 2–3 words works as a memory anchor.
-- 70/30: the speaker carries the message; the slide supports.
+          prompt: `You are a presentation coach using Ivan Wanis Ruiz’s End Boring approach. Review my presentation and label each part of your answer with the End Boring idea it uses.
 
-My slide:
-Current title: [YOUR CURRENT SLIDE TITLE]
-What’s on it: [PASTE OR DESCRIBE THE POINTS, CHART OR FINDING]
-Audience: [E.G., MY DIRECTOR, A CROSS-FUNCTIONAL TEAM]
-My End Boring notes: [OPTIONAL: ANYTHING ELSE YOU REMEMBER FROM THE SESSION]
+My presentation:
+Topic: [WHAT IT’S ABOUT]
+Audience: [WHO WILL BE THERE]
+Length: [E.G., 10 MINUTES]
+Outline or slide titles: [PASTE THEM]
+My End Boring notes: [OPTIONAL: ANYTHING YOU REMEMBER FROM THE SESSION]
 
 Give me:
-1. WALKAWAY: one plain sentence.
-2. VISCERAL STATEMENT: five headline options under 10 words.
-3. ONE, TWO, THREE: one 2–3 word anchor version.
-4. 70/30: what to cut from the slide and say out loud instead.
+1. WALKAWAYS: the one to three things the audience should remember. If my outline has more, tell me what to cut.
+2. VISCERAL STATEMENTS: one short, vivid sentence for each walkaway, not a topic label.
+3. OPENING: two openings that don’t start with my name and topic, such as a question or a surprising statement that leads into the first walkaway.
+4. ONE, TWO, THREE: where a slide with only 2–3 words would work as a memory anchor, and the words.
+5. 70/30: which slides are doing too much talking, and what to say out loud instead.
+6. PRACTICE: my talk in one sentence, then a 30-second version I can rehearse out loud.
 
-Use only facts and numbers I gave you. Don’t add End Boring ideas beyond these four and my notes. Then ask which headline I want to polish.`,
+Use only facts and numbers I gave you, and don’t add End Boring ideas beyond these and my notes. Then ask which part I want to work on first.`,
           steps: [
-            "Pick a slide you’re presenting soon. Real stakes make the End Boring ideas easier to judge.",
-            "If you took the End Boring session, add anything else you remember in the notes line.",
-            "Paste the prompt into your AI chat tool, fill in the brackets and send.",
-            "Say each headline out loud, as you would in the room. Choose the one that sounds like you, and decide whether a full headline or the 2–3 word anchor fits this moment.",
-            "Update the slide, cut what you’ll now say instead, and rehearse it once out loud."
+            "Pick a presentation you’re giving in the next few weeks. Real stakes make it easier to judge the suggestions.",
+            "Paste the prompt into your approved AI tool, add your outline or slide titles, and send.",
+            "Check the walkaways. Are those really the one to three things you want people to leave with? You know the room and the goal; adjust them before anything else.",
+            "Choose an opening and the visceral statements that sound like you, and say them out loud. Drop anything that feels forced.",
+            "Make the slide changes, then rehearse the 30-second version out loud once before your full run-through."
           ],
-          output: "One slide rebuilt the End Boring way: a clear walkaway, a short visceral headline, and less text competing with you.",
+          output: "Your next presentation reworked the End Boring way: clear walkaways, visceral statements, a stronger opening, leaner slides and a 30-second version you’ve said out loud.",
           goodLooksLike: [
-            "You can say the slide’s walkaway in one breath",
-            "The headline is a statement someone would repeat, not a topic label",
-            "The slide has less text, and that content now lives in what you say",
-            "It doesn’t overstate the data"
+            "You can say your walkaways in one breath, and there are no more than three",
+            "Your opening would make someone look up from their laptop",
+            "At least one slide has less text because you’ll say it instead",
+            "You’ve rehearsed the 30-second version out loud, not just read it"
           ],
-          doneWhen: "Your slide has a new headline you’d actually present, and you’ve said it out loud once.",
-          extension: "End Boring your whole deck: paste just your slide titles and ask, “What are the one to three walkaways of this talk? Rewrite the titles as visceral statements that build toward them, and suggest where a One, Two, Three anchor slide would help.”",
+          doneWhen: "You’ve chosen your walkaways and opening, updated at least one slide, and said the 30-second version out loud.",
+          extension: "Ask for a live rehearsal: “I’ll type my opening and first walkaway the way I’d say them. Play a distracted audience member and tell me the moment you’d stop listening, and why.”",
           watchFor: [
-            "The AI knows only the End Boring ideas in the prompt and your notes. Don’t trust it to describe the rest of the training.",
-            "A visceral headline can overclaim. Make sure the data on the slide supports it.",
+            "The AI knows only the End Boring ideas listed in the prompt and your notes. Don’t trust it to describe the rest of the training.",
+            "A visceral statement can overclaim. Make sure your data supports every line.",
             "Some audiences, like a leadership review, may want plain and precise over punchy. You know the room.",
-            "Don’t paste unpublished results or confidential project names unless your tool is approved for them."
+            "Don’t paste unpublished results or confidential project details unless your tool is approved for them."
           ]
       },
       {

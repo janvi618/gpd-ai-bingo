@@ -118,7 +118,7 @@ function check(name, cond, detail) {
   check("8. Undo removes the stamp", !(await page.getAttribute('#board [data-slug="messy-notes"]', "class")).includes("done"));
 
   // 9-10. Bingo detection: row 3 (4 Explore squares + FREE)
-  for (const slug of ["kinder-email", "explain-it-twice", "slide-headline"]) {
+  for (const slug of ["kinder-email", "explain-it-twice", "end-boring"]) {
     await page.goto(base + "#" + slug); await page.click("#mark-complete");
   }
   check("10. No bingo yet with 3 of 4 + free", (await page.evaluate(() => window.GPD_BINGO.lines())).length === 0);
