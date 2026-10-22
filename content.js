@@ -52,9 +52,9 @@ window.BINGO = {
   board: [
     ["messy-notes",      "poke-holes",        "three-expert-panel", "ai-interviews-you",        "one-minute-brief"],
     ["doc-to-visual", "meeting-prep",      "idea-scorecard",     "workflow-redesign",       "skeptic-rehearsal"],
-    ["kinder-email",     "explain-it-twice",  "FREE",               "end-boring",          "scary-task-checklist"],
-    ["feedback-to-experiments", "ten-minute-training", "feedback-growth-plan", "fridge-dinner",   "research-head-start"],
-    ["devils-advocate",      "learning-plan", "blind-taste-test-for-ai", "process-one-pager", "self-critique-loop"]
+    ["kinder-email",     "explain-it-twice",  "FREE",               "end-boring",          "perfect-gift"],
+    ["user-manual-of-me", "ten-minute-training", "feedback-growth-plan", "fridge-dinner",   "research-head-start"],
+    ["devils-advocate",      "learning-plan", "blind-taste-test-for-ai", "team-trivia", "self-critique-loop"]
   ],
 
   /* ---------- The 24 activities ----------
@@ -401,58 +401,57 @@ Afterwards, ask whether I want a shorter version I can glance at on my phone.`,
         ]
       },
       {
-        id: "b7",
-        slug: "scary-task-checklist",
-        level: "explore",
-        square: "Shrink a big, scary task into a checklist.",
-        title: "Shrink a big, scary task into a checklist",
-        category: "Everyday work",
-        time: "5–10 min",
-        summary: "Describe a task you’ve been putting off and have AI break it into small, doable steps with a first move you can make today.",
-        why: "Big tasks feel heavy mostly because the first step is unclear. AI is good at breaking work into bite-sized pieces and putting them in a sensible order. Seeing a 15-minute first step is often all it takes to get moving.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "A task you’ve been avoiding, at work or at home",
-          "A rough sense of your deadline, if there is one"
-        ],
-        prompt: `You are a supportive, practical coach who helps people get started on big tasks.
+          id: "b7",
+          slug: "perfect-gift",
+          level: "explore",
+          square: "Find a gift for someone impossible to shop for.",
+          title: "Find a gift for someone impossible to shop for",
+          category: "Just for fun",
+          time: "5–10 min",
+          summary: "Describe the person who has everything, or wants nothing, and get ten thoughtful gift ideas with a reason each one fits.",
+          why: "Gift searches online push whatever is popular. AI works the other way: it starts from the person’s quirks, hobbies and habits and reasons toward something that fits them. It’s also good at categories you might not consider, like experiences, small upgrades to something they use every day, or gifts you make yourself. It’s a fun way to see how much better AI gets when you give it real detail.",
+          needs: [
+            "Your company-approved AI chat tool, or a personal tool for personal use if your company allows it",
+            "A person to shop for, their interests and quirks, the occasion and your budget",
+            "No need for their name or private details. A few true descriptions are enough."
+          ],
+          prompt: `Help me find a gift for someone who is hard to shop for.
 
-The task I’ve been putting off: [DESCRIBE THE TASK, E.G., WRITE THE PROJECT SUMMARY FOR MY YEAR-END REVIEW]
-Deadline (if any): [DATE OR "NONE"]
-What’s making it feel hard: [E.G., DON’T KNOW WHERE TO START, NEED INPUT FROM OTHERS, IT’S JUST BIG]
-Time I can realistically give it each day: [E.G., 20 MINUTES]
+About them: [AGE RANGE, HOBBIES, WHAT THEY DO ON A FREE SATURDAY, LITTLE QUIRKS]
+What they already have or don’t want: [E.G., “HATES CLUTTER,” “HAS EVERY KITCHEN GADGET”]
+Occasion: [BIRTHDAY, RETIREMENT, THANK-YOU, HOLIDAY]
+Budget: [E.G., UNDER $50]
+How well I know them: [CLOSE FRIEND, COLLEAGUE, IN-LAW…]
 
-Please turn this into a checklist:
-1. Break it into 6 to 10 small steps, each doable in 30 minutes or less
-2. Put them in a sensible order
-3. Mark the single easiest first step I can do today in 15 minutes
-4. Note any step where I’ll need something from someone else
-5. If there’s a deadline, suggest a simple schedule
+If you need more to go on, ask me up to 3 quick questions first.
 
-Don’t assume details about my job that I haven’t shared. If you need to know more, ask me up to 2 questions first.
+Then give me 10 ideas, mixing these types: an experience, an everyday upgrade, something they can use up (food, drink, plants), something sentimental or personalized, and something I could make or do myself.
 
-Then ask me if any step still feels too big, so we can split it further.`,
-        steps: [
-          "Name the task you’ve been avoiding. Be honest about why it feels hard.",
-          "Paste the prompt into your AI chat tool, fill in the brackets, and send.",
-          "Look at the order and the step sizes. Move, merge or delete steps based on what you know about the real work.",
-          "Ask the AI to split any step that still feels too big.",
-          "Do the 15-minute first step right now, then copy the checklist somewhere you’ll see it."
-        ],
-        output: "A short, ordered checklist with a clearly marked first step you can do today.",
-        goodLooksLike: [
-          "Every step starts with a verb and feels doable in one sitting",
-          "The first step is genuinely easy, not just smaller",
-          "Dependencies on other people are called out",
-          "You feel a little lighter looking at it"
-        ],
-        doneWhen: "You’ve checked off the first step.",
-        extension: "Ask the AI to be your accountability buddy: “Write me a 2-line note to send myself at the end of the week asking how far I got and what’s blocking me.”",
-        watchFor: [
-          "AI doesn’t know your workload or organization. Its time estimates are guesses, so adjust them.",
-          "A tidy checklist can hide a real blocker, like a decision someone else needs to make. Flag those early.",
-          "If the task involves confidential projects, describe it in general terms or use a made-up example unless your tool is approved for that information."
-        ]
+For each idea:
+- One line on why it fits this person specifically
+- A rough price range
+
+Mark your top 3. Describe gifts by type rather than naming specific products or stores unless you’re sure they exist. I’ll check prices and availability myself.`,
+          steps: [
+            "Think of the person and jot down three or four true details: what they love, what they complain about, what they already own.",
+            "Paste the prompt into your AI chat tool, fill in the brackets and send. Answer any questions it asks.",
+            "Read the ten ideas and cross out anything that doesn’t feel like them. You know them; the AI doesn’t.",
+            "If none are quite right, tell it why (“too practical,” “she’d never use that”) and ask for five more.",
+            "Pick one, then check the real price and availability yourself before you buy."
+          ],
+          output: "A shortlist of gift ideas that fit the person, with a reason for each, and one you actually want to give.",
+          goodLooksLike: [
+            "At least one idea made you think, “That’s so them”",
+            "The ideas use the details you gave, not generic bestsellers",
+            "There’s a mix of things to buy, do and make"
+          ],
+          doneWhen: "You’ve picked a gift you’re genuinely excited to give.",
+          extension: "Ask for a short handwritten-card message to go with it: “Write three short card messages that explain why I chose this gift for them, in a warm but not cheesy tone.”",
+          watchFor: [
+            "AI may suggest products, prices or shops that don’t exist or have changed. Check before you buy.",
+            "You don’t need names, addresses or private details about the person. Describe their interests instead.",
+            "Use a personal AI tool for personal shopping if your company policy prefers that, and keep work tools for work."
+          ]
       },
       {
         id: "b8",
@@ -730,55 +729,60 @@ Don’t invent facts about my company, numbers or people. If a stronger answer n
         ]
       },
       {
-        id: "i5",
-        slug: "feedback-to-experiments",
-        level: "levelup",
-        square: "Turn messy feedback into experiments.",
-        title: "From messy feedback to testable experiments",
-        category: "Innovation practice",
-        time: "15–25 min",
-        summary: "Cluster scattered feedback into themes, then turn each theme into a testable hypothesis with a cheap way to check it.",
-        why: "Feedback piles up faster than anyone can act on it, and the loudest comment often wins. Clustering first and then framing hypotheses moves you from reacting to learning. Each theme becomes something you can test, rather than something to argue about.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "10–30 pieces of feedback, paraphrased and stripped of names or personal details (a sample or made-up set works fine for practice)",
-          "A sentence describing what the feedback is about"
-        ],
-        prompt: `You are a research-minded innovation coach. Help me turn messy feedback into a short list of experiments.
+          id: "i5",
+          slug: "user-manual-of-me",
+          level: "levelup",
+          square: "Write a “user manual of me” for your team.",
+          title: "Write a “user manual of me” for your team",
+          category: "Communication",
+          time: "15–25 min",
+          summary: "Let AI interview you about how you work best, then turn your answers into a one-page guide that helps your team work with you.",
+          why: "Every team learns by trial and error how each person likes to communicate, get feedback and make decisions. A “user manual of me” shortcuts that. It’s hard to write about yourself from a blank page, so AI asks the questions and you answer honestly. It’s especially useful when you join a new team, get a new manager, or welcome someone new.",
+          needs: [
+            "Your company-approved AI tool",
+            "About 15 minutes of honest reflection",
+            "Optional: feedback or comments you’ve had about how you work, to check your answers against"
+          ],
+          prompt: `Help me write a one-page “user manual of me” for my team. Interview me first, then draft it. Work in stages.
 
-What the feedback is about: [E.G. “A PROTOTYPE BREAKFAST CONCEPT SHOWN AT AN INTERNAL TASTING”]
-Where it came from: [E.G. “TEAM TASTING NOTES, STAKEHOLDER COMMENTS”]
-Feedback (paraphrased, no names or personal details):
-[PASTE 10–30 SHORT FEEDBACK ITEMS, ONE PER LINE]
+My role: [YOUR ROLE AND TEAM, IN GENERAL TERMS]
+Who will read it: [MY TEAM, A NEW MANAGER, A CROSS-FUNCTIONAL GROUP]
 
-Please work in this order:
-1. Cluster the feedback into 4–7 themes. For each theme show: Theme name | Item numbers included | How many items | A one-line summary. Note any items that don’t fit and any that contradict each other.
-2. Ask me which themes matter most for my goals and whether any clustering looks wrong. Wait for my answer.
-3. For my top 3 themes, write a testable hypothesis in this form: “We believe [change] will result in [outcome] for [who]. We’ll know we’re right if [observable signal].”
-4. For each hypothesis, propose the cheapest credible test we could run in under two weeks, what it would cost in time or effort, and what result would make us drop or keep the idea.
+Stage 1: Interview. Ask me these one at a time, waiting for each answer. Ask one short follow-up if my answer is vague.
+1. When and how do you do your best work?
+2. How do you like to communicate: chat, email, calls, or in person? How fast do you usually reply?
+3. How do you like to receive feedback, and how do you tend to give it?
+4. What do you need from others to make a good decision?
+5. What energizes you at work, and what drains you?
+6. What’s something about you people often misread?
+7. How can people help you when you’re stretched?
+8. What can people always count on you for?
 
-Rules: Don’t invent feedback, numbers or sources. Remember that a count of comments is not the same as how many consumers feel this way, so say so. Mark where a sensory, consumer insights, food safety or regulatory expert should be involved in designing the test.`,
-        steps: [
-          "Gather and paraphrase the feedback, removing names and any personal or confidential details.",
-          "Review the clusters and correct anything the AI grouped wrongly. You know the context behind the comments.",
-          "Pick the three themes that matter most and check that each hypothesis is genuinely testable.",
-          "Choose one experiment to run and decide who needs to be involved."
-        ],
-        output: "A short set of feedback themes, three testable hypotheses and a cheap experiment for each.",
-        goodLooksLike: [
-          "Themes reflect what was actually said, including contradictions",
-          "Each hypothesis has a clear, observable signal of success",
-          "Tests are small enough to run within two weeks",
-          "Expert involvement is flagged where it matters"
-        ],
-        doneWhen: "You’ve chosen one hypothesis and its test to run next.",
-        extension: "Ask the AI to stress-test your top experiment: “What could make this test give us a misleading result, and how do we design around it?”",
-        watchFor: [
-          "Never paste consumer personal data or identifiable comments; paraphrase and anonymize first",
-          "Internal or small-sample feedback isn’t representative of consumers, so treat themes as leads",
-          "AI may smooth over contradictions; check that dissenting comments weren’t lost",
-          "Real consumer tests should go through approved research channels and processes"
-        ]
+Stage 2: Draft. Write a one-page manual with short headings and bullets, in my voice and first person. Use only what I told you, and don’t add traits or flattering filler. Mark anything you inferred rather than heard directly as [CHECK].
+
+Stage 3: Sharpen. Point out any answers that sound like rules for others rather than how to work well with me, and suggest friendlier wording.`,
+          steps: [
+            "Run the interview and answer honestly. The best manuals include real quirks, not a polished self-description.",
+            "Read the draft out loud. Change anything that doesn’t sound like you, and resolve every [CHECK].",
+            "Use Stage 3 to make sure it reads as an invitation, not a list of demands. This is your judgment call.",
+            "Ask one trusted colleague, “Does this match the person you work with?” and adjust.",
+            "Share it with your team, and invite others to write theirs so it goes both ways."
+          ],
+          output: "A one-page “user manual of me” in your own voice, checked by a colleague and ready to share.",
+          goodLooksLike: [
+            "A new teammate could read it in two minutes and know how to work well with you",
+            "It includes at least one honest quirk or misread, not just strengths",
+            "It reads as “here’s how to work well with me,” not “here are my rules”",
+            "A colleague who knows you agrees it’s accurate"
+          ],
+          doneWhen: "You’ve written your manual, had one colleague check it, and shared it or saved it for your next team kickoff.",
+          extension: "Turn it into a team exercise: “Create a 30-minute team session where everyone shares their manuals, with three discussion questions about where our working styles clash and how to handle it.”",
+          watchFor: [
+            "Share only what you’re comfortable with. Health, family or other personal details don’t belong in a work manual.",
+            "A manual describes preferences, not rules. Stay flexible when others work differently.",
+            "AI can make you sound more polished than you are. Keep your real voice.",
+            "Don’t write anyone else’s manual for them. Invite them to write their own."
+          ]
       },
       {
           id: "i6",
@@ -889,53 +893,56 @@ Rules: Don’t invent facts, statistics or resources. If you’re unsure about s
       },
       {
           id: "i8",
-          slug: "process-one-pager",
+          slug: "team-trivia",
           level: "levelup",
-          square: "Turn a messy process into a one-page how-to.",
-          title: "Turn a messy process into a one-page how-to",
-          category: "Workflow redesign",
+          square: "Build a trivia game about your team or family.",
+          title: "Build a trivia game about your team or family",
+          category: "Just for fun",
           time: "15–25 min",
-          summary: "Describe a process you know well, let AI ask clarifying questions and draft a one-page how-to, then test it with AI playing a brand-new employee.",
-          why: "Every team has processes that live in one person’s head, and they’re hard to write down because the expert no longer sees the steps. Being questioned pulls out the details you skip without noticing. Testing the page with a “new employee” shows exactly where a real newcomer would get stuck, before one does.",
+          summary: "Collect a few fun, shareable facts and have AI turn them into a ready-to-host trivia game, with rounds, an answer key and a host script.",
+          why: "A good quiz takes hours to write, and the best questions are about the people in the room. AI can turn a handful of fun facts into varied rounds, mix difficulty, write plausible wrong answers and even script the host’s jokes. It’s a low-stakes way to see how well AI structures, formats and adapts content, and you end up with something people will actually enjoy.",
           needs: [
-            "Your company-approved AI chat tool",
-            "A process you know well, such as onboarding a new team member, submitting a sample request or setting up a sensory test",
-            "Non-confidential notes about it, or a sanitized description in your own words"
+            "Your company-approved AI tool (or a personal tool for a family game)",
+            "8–15 fun facts people have agreed to share, e.g., first job, hidden talent, favorite cereal, best vacation",
+            "Optional: an approved quiz or forms tool to run it"
           ],
-          prompt: `You are a clear, practical technical writer. Help me turn a process I know well into a one-page how-to that a new colleague could follow. I’m the expert on this process; you help me organize and write it.
+          prompt: `Help me build a trivia game for [MY TEAM / MY FAMILY], about 15 minutes long, for [NUMBER] people. Work in stages.
 
-The process: [E.G., “ONBOARDING A NEW TEAM MEMBER,” “SUBMITTING A SAMPLE REQUEST,” “SETTING UP A SENSORY TEST”]
-Who will use the guide: [E.G., “A NEW HIRE IN THEIR FIRST MONTH”]
-My notes (non-confidential or sanitized): [DESCRIBE THE STEPS AS YOU’D EXPLAIN THEM, OR PASTE ROUGH NOTES]
+Fun facts (everyone agreed to share these):
+[LIST THEM, E.G., “PRIYA: FIRST JOB WAS A ZOO KEEPER’S ASSISTANT,” “DAD: HAS NEVER SEEN STAR WARS”]
+Tone: [E.G., LIGHT AND SILLY, OR GENTLE AND INCLUSIVE FOR NEW TEAM MEMBERS]
 
-Work with me in stages:
-1. Ask me up to 5 clarifying questions about gaps, such as who does what, where things get stuck and what people usually get wrong. Ask one at a time and wait for each answer.
-2. Write a one-page how-to with these sections: Purpose (one sentence) | Before you start | Steps (numbered, each starting with a verb, with the owner in brackets) | Common mistakes | FAQ (4–5 questions) | Who to ask for help. Keep it under 400 words.
-3. Wherever my notes didn’t say something (an owner, a system name, a timing), write [CHECK] instead of filling it in.
-4. Ask me to review the draft and tell you what to change. Wait for my reply.
-5. Then test it: play a brand-new employee who has only this page. Ask me 5 naive but realistic questions, one at a time. After the last one, list which parts of the page should change so those questions are answered up front.
+Stage 1: Plan. Propose 3 rounds using different formats, for example “Who is it?”, “Two truths and a lie”, and a general-knowledge round on a theme I choose (e.g., breakfast foods or our city). Then stop and let me choose.
 
-Rules: Don’t invent steps, names, systems, tools or policies. If something sounds like it should follow an official procedure, flag it so I can confirm with the process owner.`,
+Stage 2: Questions. Write 12–15 questions across the rounds. Use only the facts I gave you for questions about people, and don’t invent facts about anyone. For multiple choice, write wrong answers that are believable but kind. For the general-knowledge round, mark every fact [VERIFY] so I can check it.
+
+Stage 3: Host kit. Give me:
+1. A short host script with an opening line and a one-line transition between rounds
+2. An answer key
+3. A simple scoring rule and a tiebreaker question
+
+Keep everything inclusive. No question should embarrass anyone or depend on inside jokes only some people know.`,
           steps: [
-            "Pick a process you know well and others often ask you about. Write or paste rough, non-confidential notes.",
-            "Answer the AI’s clarifying questions. This is where your expertise fills the gaps.",
-            "Review the draft and replace every [CHECK] with the right detail, or confirm it with the process owner.",
-            "Answer the “new employee” questions and decide which ones the page should answer up front.",
-            "Share the final page with a colleague who knows the process and ask them to catch anything missing."
+            "Collect facts with permission. A quick “Send me two fun facts you’re happy to share” works well.",
+            "Run Stages 1–3 and pick the round formats yourself. You know what this group will enjoy.",
+            "Check every [VERIFY] fact, and remove any question that could embarrass someone or leave a newcomer out.",
+            "Do a 2-minute read-through of the host script out loud and cut anything that falls flat.",
+            "Run the game at a team meeting or family night, and ask afterward which round people liked best."
           ],
-          output: "A one-page how-to with steps, owners, common mistakes and an FAQ, tested against a newcomer’s questions.",
+          output: "A ready-to-host 15-minute trivia game: three rounds, an answer key, a host script and scoring.",
           goodLooksLike: [
-            "Every step starts with a verb and has a named owner or role",
-            "Gaps are marked [CHECK] rather than filled in with guesses",
-            "The FAQ answers the questions a newcomer actually asked",
-            "Someone new could follow it without needing to find you first"
+            "Every person-based question uses a fact that person agreed to share",
+            "There’s a mix of easy and tricky questions, so everyone gets some right",
+            "General-knowledge answers are checked, not taken on trust",
+            "Someone who joined last week could still enjoy playing"
           ],
-          doneWhen: "You have a reviewed one-page how-to with no [CHECK] markers left, ready to share with your team.",
-          extension: "Turn it into a quick checklist: “Make a 10-item checklist version of this page that someone could tick off as they go.”",
+          doneWhen: "You’ve hosted the game, or have it ready to run at your next team or family get-together.",
+          extension: "Ask AI to format it for an approved quiz or forms tool, or to make a printable answer sheet. Or try a themed version: “Make a round where each answer is a famous breakfast cereal.”",
           watchFor: [
-            "AI may invent plausible steps, system names or policies. Check every step against how the process really works.",
-            "Official procedures, safety steps or quality requirements must match the approved source, not the AI’s version.",
-            "Keep confidential system details, supplier names and personal information out unless your tool is approved for them."
+            "Only use facts people agreed to share. Avoid anything about health, family situations or other personal topics.",
+            "AI can get general trivia wrong with total confidence. Check every answer in that round.",
+            "Inside jokes can leave newer people out. Keep most questions answerable by everyone.",
+            "Keep work-related questions free of confidential projects or results."
           ]
       },
 

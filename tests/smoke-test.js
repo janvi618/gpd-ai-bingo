@@ -129,7 +129,7 @@ function check(name, cond, detail) {
     await page.goto(base + "#" + slug); await page.click("#mark-complete");
   }
   check("10. No bingo yet with 3 of 4 + free", (await page.evaluate(() => window.GPD_BINGO.lines())).length === 0);
-  await page.goto(base + "#scary-task-checklist"); await page.click("#mark-complete");
+  await page.goto(base + "#perfect-gift"); await page.click("#mark-complete");
   await page.waitForSelector("#bingo-dialog[open]");
   check("9/10. Row bingo using FREE SPACE triggers celebration", (await page.textContent("#bingo-dialog")).includes("BINGO"));
   await page.screenshot({ path: path.join(OUT, "desktop-bingo.png") });
