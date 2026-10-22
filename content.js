@@ -53,8 +53,8 @@ window.BINGO = {
     ["messy-notes",      "poke-holes",        "three-expert-panel", "ai-interviews-you",        "one-minute-brief"],
     ["reusable-assistant", "meeting-prep",      "idea-scorecard",     "workflow-redesign",       "skeptic-rehearsal"],
     ["kinder-email",     "explain-it-twice",  "FREE",               "slide-headline",          "scary-task-checklist"],
-    ["feedback-to-experiments", "ten-concepts-kill-seven", "tough-feedback", "fridge-dinner",   "research-head-start"],
-    ["ai-red-team",      "learning-plan", "blind-taste-test-for-ai", "process-one-pager", "self-critique-loop"]
+    ["feedback-to-experiments", "catch-ai-making-things-up", "tough-feedback", "fridge-dinner",   "research-head-start"],
+    ["devils-advocate",      "learning-plan", "blind-taste-test-for-ai", "process-one-pager", "self-critique-loop"]
   ],
 
   /* ---------- The 24 activities ----------
@@ -238,51 +238,52 @@ After both versions, tell me which idea appears in both, since that’s probably
           title: "Give a slide a headline people actually remember",
           category: "Communication",
           time: "5–10 min",
-          summary: "Turn a slide’s topic title into a headline that states the point, and bring in what you remember from the End Boring session if you took it.",
-          why: "Most slide titles name a topic (“Q3 Sensory Results”) instead of saying what the audience should take away. A headline that states the point does half the presenting for you. If you took the End Boring session with Ivan (“End Boring: A Tactical Approach to Public Speaking and Communication,” 2024), this is an easy way to put what you remember back to work. If you didn’t, the activity works just as well without it.",
+          summary: "Use ideas from Ivan Wanis Ruiz’s End Boring training to turn a slide’s topic title into one short, memorable takeaway.",
+          why: "Most slide titles name a topic (“Q3 Sensory Results”) instead of saying what the audience should take away. Ivan Wanis Ruiz, whose End Boring training GPD received, argues that audiences walk away with very little, so you should decide your one to three “walkaways” up front and say each one as a short, visceral statement. His Public Speaking Lab also suggests occasional slides with just two or three words as memory anchors, and keeping the focus on you rather than the slides. AI is a fast way to try those ideas on a real slide.",
           needs: [
             "Your company-approved AI chat tool",
             "One slide you’re working on: its current title and the main points on it",
-            "Optional: your notes or memories from the End Boring session",
+            "Optional: your own notes from the End Boring session",
             "Remove confidential details or use a made-up example unless your tool is approved for that information."
           ],
-          prompt: `You are a presentation coach who writes slide headlines that state the takeaway, not just the topic.
+          prompt: `You are a presentation coach. Help me rewrite one slide using these ideas from Ivan Wanis Ruiz’s End Boring approach:
+- Decide the one walkaway: the single thing the audience should remember from this slide.
+- Say it as a short, visceral statement, not a topic label.
+- Sometimes a slide works best with just 2–3 words, as a memory anchor.
+- The slide supports the speaker; it shouldn’t carry the whole talk.
 
-Here’s my slide:
+My slide:
 Current title: [YOUR CURRENT SLIDE TITLE]
-What’s on the slide: [PASTE OR DESCRIBE THE KEY POINTS, CHART OR FINDING]
-Audience: [WHO WILL SEE IT, E.G., MY DIRECTOR, A CROSS-FUNCTIONAL TEAM]
-What I want them to think or do after this slide: [YOUR GOAL]
-Principles to apply: [OPTIONAL: PASTE OR DESCRIBE 2–3 PRINCIPLES YOU REMEMBER FROM THE END BORING TRAINING]
+What’s on it: [PASTE OR DESCRIBE THE KEY POINTS, CHART OR FINDING]
+Audience: [E.G., MY DIRECTOR, A CROSS-FUNCTIONAL TEAM]
+My own End Boring notes: [OPTIONAL: ANYTHING YOU REMEMBER FROM THE SESSION]
 
-Give me 5 headline options, each under 12 words, with one line on why each works.
+Please give me:
+1. The walkaway, in one plain sentence.
+2. Five headline options under 10 words that state it.
+3. One 2–3 word anchor version.
+4. What I could move off the slide and say out loud instead.
 
-If I shared principles, apply them and name which one each option uses, in my words. Don’t add anything else about that training. If that line is blank, aim for clear, specific and easy to say.
-
-Rules:
-- Only use facts and numbers from what I gave you. Don’t exaggerate the finding.
-- If my slide is making more than one point, tell me and suggest how to split it.
-
-Then ask me which headline I like best so we can polish it together.`,
+Rules: use only facts and numbers I gave you, and don’t overstate the finding. If the slide makes more than one point, say so and suggest a split. Then ask which headline I want to polish.`,
           steps: [
             "Pick a slide from a deck you’re building or recently presented.",
-            "If you took the End Boring session, jot down 2–3 things you remember from it. If you didn’t, skip that line.",
+            "If you took the End Boring session, jot down anything you remember. If you didn’t, skip that line.",
             "Paste the prompt into your AI chat tool, fill in the brackets and send.",
-            "Read the options out loud. You know the room, so pick the one you’d actually say there, and ask the AI to polish it.",
-            "Put the new headline on your slide and check that the rest of the slide still supports it."
+            "Read the options out loud. You know the room, so pick the one you’d actually say there, and decide whether the 2–3 word anchor or a full headline fits this moment.",
+            "Update the slide, then check the rest of it still supports the headline. Move anything extra into what you say."
           ],
-          output: "A short, takeaway-style headline for your slide that you’d be happy to present.",
+          output: "A slide with one clear walkaway, stated as a short headline you’d be happy to present.",
           goodLooksLike: [
             "Someone could read only the headline and know the point of the slide",
-            "It’s under about 12 words and easy to say out loud",
-            "It doesn’t overstate the data",
-            "If you shared End Boring principles, you can see them in the result"
+            "It’s short, specific and easy to say out loud",
+            "The slide has less text because more of the story lives in what you say",
+            "It doesn’t overstate the data"
           ],
           doneWhen: "Your slide has a new headline you’d actually present.",
-          extension: "Do the same for your whole storyline: paste just your slide titles and ask, “Rewrite these as takeaway headlines so they tell the story in order.”",
+          extension: "Do it for the whole talk: paste just your slide titles and ask, “What are the one to three walkaways of this deck? Rewrite the titles so each one builds toward them, and suggest where a 2–3 word anchor slide would help.”",
           watchFor: [
             "Punchy headlines can overclaim. Make sure the data on the slide supports it.",
-            "The AI doesn’t know what the End Boring session covered. Rely on your own notes, not its guesses about the training.",
+            "The AI only knows the End Boring ideas listed in the prompt. For anything more, rely on your own notes from the session, not its guesses.",
             "Catchy isn’t always right for the audience. A leadership review may want plain and clear.",
             "Don’t paste unpublished results or confidential project names unless your tool is approved for them."
           ]
@@ -1102,63 +1103,63 @@ Do not invent productivity statistics or benchmarks.`,
         fallback: "This works fully in a basic chat. If long staged prompts get lost, paste one stage at a time and copy the previous stage’s table back in before continuing."
       },
       {
-        id: "a4",
-        slug: "ten-concepts-kill-seven",
-        level: "gofurther",
-        square: "Generate 10 concepts. Kill 7. Stress-test 3.",
-        title: "Run a concept tournament",
-        category: "Innovation practice",
-        time: "40–60 min",
-        summary: "Generate ten deliberately different concepts, set criteria before ranking, eliminate seven with stated reasons, and stress-test the three survivors.",
-        why: "Generating ideas is the easy part of using AI; most people stop there and keep the first few they like. The discipline is in forcing diversity, committing to criteria before you see results, and writing down why ideas die. This turns AI into a sparring partner for convergent thinking, not just a source of options.",
-        needs: [
-          "A hypothetical opportunity space or brief (no unpublished plans)",
-          "Your company-approved AI tool",
-          "Three to five criteria you care about, drafted before you start"
-        ],
-        prompt: `You are running a concept tournament with me. We will diverge, then converge with discipline. Pause where I say.
+          id: "a4",
+          slug: "catch-ai-making-things-up",
+          level: "gofurther",
+          square: "Set a trap: catch AI making things up.",
+          title: "Set a trap and catch AI making things up",
+          category: "AI experimentation",
+          time: "30–45 min",
+          summary: "Build a small test of questions where you already know the answers, see where AI invents things, and turn what you learn into your own verification checklist.",
+          why: "Everyone has heard that AI can invent facts, but few people know where their own tool fails in their own field. Testing it on questions you can already answer shows you which requests are safe, which need checking, and which prompts reduce the risk. That calibrated trust is a core skill for anyone using AI daily.",
+          needs: [
+            "Your company-approved AI tool",
+            "Five questions from your field where you already know the right answer from your own expertise or a source you trust",
+            "A non-confidential topic: public science, published standards or general knowledge, not internal data"
+          ],
+          prompt: `I’m testing how reliable you are in my field. Answer each question below as you normally would. I already know the answers, so accuracy matters more than sounding complete.
 
-OPPORTUNITY SPACE:
-[DESCRIBE IN 3–5 SENTENCES. USE A HYPOTHETICAL OR NON-CONFIDENTIAL VERSION, E.G., “A SAVORY SNACK FOR ADULTS WHO EAT AT THEIR DESK BETWEEN 2 AND 4 PM.”]
-Constraints: [E.G., SHELF-STABLE, AMBIENT DISTRIBUTION, NO NEW CAPITAL EQUIPMENT]
+Rules for this test:
+- For every factual claim, rate your confidence as HIGH, MEDIUM or LOW.
+- If you would normally cite a source, name it, then label it VERIFY: I will check whether it exists.
+- If you don’t know, say “I don’t know.” That counts as a good answer here.
 
-Stage 1: Criteria first. Before generating anything, propose 4–5 evaluation criteria with a one-line definition and a 1–5 scale anchor for each (what a 1 and a 5 look like). Include at least one criterion about consumer need and one about feasibility. Stop and let me edit and weight them. Do not generate concepts yet.
+My five questions (non-confidential, from my area of expertise):
+1. [A BASIC QUESTION YOU’RE SURE OF]
+2. [A QUESTION NEEDING A SPECIFIC NUMBER, DATE OR STANDARD]
+3. [A QUESTION ABOUT A NICHE DETAIL MOST PEOPLE WOULDN’T KNOW]
+4. [A QUESTION ASKING FOR 2–3 SUPPORTING SOURCES OR STUDIES]
+5. [A QUESTION WITH A FALSE PREMISE, E.G., ASKING WHY SOMETHING TRUE IS FALSE]
 
-Stage 2: Diverge with constraints. Generate exactly 10 concepts. Enforce diversity: no two concepts may share the same primary benefit, format, AND eating occasion. Include at least 2 that are uncomfortable or unconventional, 2 that are close to existing categories, and 1 that changes the business model or service rather than the product. For each: name, one-sentence description, target consumer, and the main assumption it rests on.
+After your answers, wait. I will tell you which were right, partly right or wrong.
 
-Stage 3: Score and eliminate. Score all 10 against my weighted criteria in a table: Concept | scores per criterion | Weighted total | Confidence (H/M/L). Then eliminate 7. For each eliminated concept, give the specific reason it lost and what would have to be true for it to come back. Stop and let me overrule any eliminations.
+Then do Stage 2: for each answer I mark wrong or partly right, explain what likely caused it (outdated information, guessing a plausible number, inventing a source, accepting a false premise) and suggest one prompt change that would reduce that error.
 
-Stage 4: Stress-test the 3 survivors. For each:
-1. Pre-mortem: it is two years later and it failed. Give the three most plausible reasons.
-2. Edge cases: consumers, uses or conditions where it breaks.
-3. What must be true: the 3 conditions that have to hold for it to succeed, each labeled EVIDENCE or ASSUMPTION.
-4. The cheapest test that could disprove it.
-
-Do not invent market data, consumer statistics or competitor facts. Flag anything about formulation, safety or claims that needs expert review.`,
-        steps: [
-          "Write your opportunity space and constraints in hypothetical terms, and jot your own criteria before opening the tool.",
-          "Run Stage 1. Human judgment: set the weights yourself. The tournament is only as good as criteria you committed to before seeing the concepts.",
-          "Run Stages 2 and 3. Overrule at least one elimination if you disagree, and note why; that disagreement is data about your criteria.",
-          "Run Stage 4 and read the pre-mortems critically. Mark which “what must be true” conditions you could actually test in the next month.",
-          "Assemble a concept tournament table: all 10 concepts, scores, elimination reasons, and the stress-test summary for the final 3."
-        ],
-        output: "A concept tournament table showing 10 concepts, criteria scores, reasons for each elimination and stress tests for the 3 survivors.",
-        goodLooksLike: [
-          "The 10 concepts are genuinely different; you could not merge any two without losing something",
-          "Criteria and weights were fixed before scoring and did not change to favor a concept you liked",
-          "Every elimination has a specific reason, not “weaker overall”",
-          "Each survivor has at least one disprovable assumption and a cheap test for it",
-          "No invented market sizes, statistics or competitor claims appear in the table"
-        ],
-        doneWhen: "The tournament table is complete and you can explain in one sentence why each of the three survivors earned its place.",
-        extension: "Swap one criterion for its opposite (e.g., “easy to make” becomes “hard for competitors to copy”) and re-score. Ask: “Which concepts moved the most, and what does that say about our criteria?”",
-        watchFor: [
-          "AI scores are opinions dressed as numbers; consistency matters more than precision",
-          "Concepts may unknowingly resemble existing products or protected ideas, so check before sharing widely",
-          "Formulation, nutrition, safety and claim feasibility need validation by qualified experts",
-          "Keep the opportunity space hypothetical; do not paste unpublished briefs or plans"
-        ],
-        fallback: "This runs in any basic chat. If the tool loses track of the table, paste the current table back in at the start of each stage."
+Finally, Stage 3: help me draft a 5-line personal checklist titled “When I must verify AI output”, based only on the failures we actually saw today. Don’t pad it with generic advice.`,
+          steps: [
+            "Write five questions you can answer yourself, using the five types in the prompt. Keep the topic non-confidential.",
+            "Run the prompt in a fresh chat and save the answers before you react to them.",
+            "Mark each answer right, partly right or wrong using your own knowledge, and check whether any named sources actually exist. This judgment is yours; don’t ask the AI to grade itself.",
+            "Share your marks, then work through Stages 2 and 3. Re-run one failed question with the suggested prompt change and note whether it helped.",
+            "Save your checklist where you’ll see it, and share one surprising failure with a colleague."
+          ],
+          output: "A five-question test log with your scores, one before-and-after prompt fix, and a personal “When I must verify” checklist.",
+          goodLooksLike: [
+            "Every answer is scored by you against a known answer, not by the AI",
+            "You found at least one confident-sounding error, or you can show the tool handled all five traps",
+            "Any cited source is checked and marked real or invented",
+            "Your re-run shows whether the prompt change actually helped",
+            "The checklist reflects today’s failures, so it’s specific to your field and tool"
+          ],
+          doneWhen: "You have a scored test log and a five-line verification checklist you’d actually use.",
+          extension: "Run the same five questions in a second approved tool, or with web search turned on if your tool has it, and compare. Where does each one fail?",
+          watchFor: [
+            "Five questions is a spot check, not a benchmark. Don’t generalize too far from it.",
+            "AI tools change often. A failure today may be fixed later, and new ones can appear.",
+            "Don’t use confidential formulas, results or internal data as test material.",
+            "A tool that passes your test can still be wrong on the next question. Keep checking what matters."
+          ],
+          fallback: "This works in any basic approved chat tool exactly as written. If your tool can search the web, run the test once with search off and once with it on, and compare."
       },
       {
           id: "a5",
@@ -1202,70 +1203,58 @@ Do not invent market data, consumer statistics or competitor facts. Flag anythin
           fallback: "In a chat-only tool without web access, skip the search part of Stage 3 and ask for source types and search terms you will run yourself. Everything else in the prompt works as written."
       },
       {
-        id: "a6",
-        slug: "ai-red-team",
-        level: "gofurther",
-        square: "Send your strategy through an AI red team.",
-        title: "Red-team a strategy with AI",
-        category: "Critical thinking",
-        time: "40–60 min",
-        summary: "Put a sanitized strategy in front of five AI adversaries, rank their attacks by severity and likelihood, and set defenses and tripwires for the top five.",
-        why: "Most people ask AI to improve a plan, which mostly polishes it. A red team asks it to defeat the plan, which surfaces the weaknesses you are motivated not to see. Pairing every vulnerability with a tripwire turns criticism into an early-warning system.",
-        needs: [
-          "A hypothetical or sanitized strategy summary (one paragraph, no confidential numbers or unpublished plans)",
-          "Your company-approved AI tool",
-          "Optionally, a colleague to challenge the final ranking"
-        ],
-        prompt: `You are running a red-team exercise against a strategy. Your goal is to find how it fails, not to improve its wording. Pause where I say.
+          id: "a6",
+          slug: "devils-advocate",
+          level: "gofurther",
+          square: "Have AI play devil’s advocate on your plan.",
+          title: "Have AI play devil’s advocate on your plan",
+          category: "Critical thinking",
+          time: "25–40 min",
+          summary: "Have AI argue hard against a plan you believe in, defend it round by round, and come out with a sharper plan or an honest change of mind.",
+          why: "Most of us collect agreement for plans we like. A good devil’s advocate argues the other side as strongly as possible so you can find the weak spots before someone else does. AI is useful here because it has no stake in being polite. The skill you practice is defending a position with reasons and evidence, and noticing when you can’t.",
+          needs: [
+            "Your company-approved AI tool",
+            "A plan, recommendation or decision you currently favor, in a hypothetical or non-confidential version",
+            "Optional: a second, fresh chat, so the devil’s advocate can’t see which side you’re on"
+          ],
+          prompt: `Play devil’s advocate against my plan. Your job is to argue as strongly as you can that I’m wrong, then help me judge which arguments actually hold up. Work in stages and wait for me between them.
 
-THE STRATEGY:
-[SUMMARIZE IN 5–8 SENTENCES: GOAL, TARGET CONSUMER, CORE MOVES, TIMELINE. USE A HYPOTHETICAL OR SANITIZED VERSION WITH NO CONFIDENTIAL FIGURES.]
-What success looks like in 3 years: [ONE OR TWO SENTENCES]
+MY PLAN:
+[DESCRIBE IT IN 3–5 SENTENCES. USE A HYPOTHETICAL OR NON-CONFIDENTIAL VERSION.]
+Why I believe it: [YOUR TOP 3 REASONS]
+My confidence that it’s right: [0–100]
 
-Stage 1: Attacks. Write five separate attacks, each in the voice of one adversary. Each gives its 3 strongest lines of attack.
-1. A competitor’s strategist planning how to neutralize this.
-2. A skeptical CFO who must fund it.
-3. A regulator or standards body reviewing claims, labeling or safety.
-4. A disappointed consumer who tried it once and stopped.
-5. The world in 3 years: shifts in technology, behavior, economics or retail that make this obsolete.
-Be specific. No generic risks like “execution risk.” Label each point EVIDENCE (from what I provided or widely established) or ASSUMPTION. Do not invent statistics, regulations or competitor facts; where a specific regulation might apply, say “check with regulatory” instead of naming one.
+Stage 1: The case against. Give the 5 strongest arguments against my plan, strongest first. Make them specific, not generic. For each, say what would have to be true for the argument to win. Label every point EVIDENCE (from what I told you or well established) or ASSUMPTION. Never invent data, statistics or sources. Then stop.
 
-Stop and ask me which attacks I can already answer.
+Stage 2: My rebuttals. I’ll answer each argument. Score each rebuttal HOLDS, PARTLY HOLDS or FAILS, with one line on why. Then push harder on my weakest answer, once. Then stop.
 
-Stage 2: Rank. Combine all attacks into one table: # | Vulnerability | Adversary | Severity (1–5) | Likelihood (1–5) | Score (S x L) | Rationale. Sort by score. Mark scores with low confidence.
+Stage 3: Switch sides. Now make the strongest case FOR my plan against your own attacks, to check you weren’t just being contrary.
 
-Stage 3: Defend. For the top 5 vulnerabilities, give:
-1. Mitigation: what we could change now.
-2. Tripwire: an observable signal that would tell us this risk is materializing, with a threshold and who would watch it.
-3. Response: what we would do if the tripwire fires.
-
-Stage 4: Honesty check. Name the one vulnerability you think I am most likely to underrate, and why.
-
-Flag anything needing legal, regulatory, finance or food-safety expert review.`,
-        steps: [
-          "Write a sanitized version of a strategy: real enough to be interesting, stripped of confidential figures, names and unpublished plans.",
-          "Run Stage 1. Human judgment: note which attacks you dismissed immediately. Those are worth a second look before you move on.",
-          "Run Stages 2 and 3. Re-score severity and likelihood yourself where you disagree; AI’s ratings are a starting point, not a verdict.",
-          "Run Stage 4, then ask a colleague to review the top 5 and the tripwires for realism.",
-          "Write a red-team report: the strategy summary, the ranked table, and the top 5 vulnerabilities with mitigation, tripwire and response for each."
-        ],
-        output: "A red-team report listing the top 5 vulnerabilities, each with a mitigation, a measurable tripwire and a planned response.",
-        goodLooksLike: [
-          "At least one vulnerability is something you had not seriously considered before",
-          "Every tripwire is observable, has a threshold, and names who would notice it",
-          "Severity and likelihood scores reflect your judgment, with your changes to AI’s scores visible",
-          "No invented regulations, competitor moves or figures appear as fact",
-          "The report would change at least one decision or plan for monitoring"
-        ],
-        doneWhen: "Your report has five ranked vulnerabilities, each with a mitigation and tripwire that a colleague agrees are realistic.",
-        extension: "Run the red team again on your mitigated strategy and ask: “Which of my defenses created a new vulnerability?”",
-        watchFor: [
-          "AI adversaries are simulations; real competitors, regulators and consumers will behave differently",
-          "Regulatory and legal points must be confirmed with qualified experts, not taken from AI",
-          "Strategy details are sensitive; use sanitized versions and approved tools only",
-          "Severity and likelihood numbers look precise but are judgment calls"
-        ],
-        fallback: "This runs fully in a basic chat. For more independent attacks, run each adversary in its own fresh chat and paste the five outputs into one chat for Stages 2–4."
+Stage 4: Summary table with columns: Argument | My rebuttal | Verdict | Evidence that would settle it. Then ask me for my new confidence (0–100). Do not make the decision for me. Flag any point that needs a subject-matter expert.`,
+          steps: [
+            "Pick a plan you genuinely favor. The exercise works best when you care about the answer.",
+            "For a tougher devil’s advocate, open a fresh chat and present the plan neutrally, as “a team is considering this plan”, so the AI can’t tell which side you’re on.",
+            "Write your rebuttals yourself before reading the AI’s scores. This is where your expertise does the work.",
+            "Check any argument that relies on a fact you can’t confirm. A persuasive argument isn’t automatically a true one.",
+            "Compare your confidence before and after, and write a short note: what changed, what you’ll test, and what you’ll keep."
+          ],
+          output: "A one-page summary table of the five strongest arguments against your plan, how you answered each, and your confidence before and after.",
+          goodLooksLike: [
+            "The arguments are specific to your plan, not generic risks that apply to anything",
+            "At least one argument made you change the plan, add a test, or explain your reasoning better",
+            "Your rebuttals rest on reasons or evidence, not just restating the plan",
+            "The side-switch in Stage 3 shows the AI can argue both ways, so you know it isn’t just contrarian",
+            "You made the final call and can say why"
+          ],
+          doneWhen: "You have the summary table and a short note on what you’ll change, test or keep.",
+          extension: "Swap roles: you play devil’s advocate against a plan the AI proposes, and ask it to score your arguments using the same HOLDS / PARTLY HOLDS / FAILS scale.",
+          watchFor: [
+            "AI can argue any side convincingly. How persuasive an argument sounds tells you nothing about whether it’s true.",
+            "Don’t let it talk you out of something your expertise or real data supports. Ask what evidence would settle the question instead.",
+            "It may invent facts to strengthen an argument. Check anything you’d repeat to others.",
+            "Use a hypothetical or sanitized plan unless your tool is approved for confidential strategy."
+          ],
+          fallback: "This works in a single basic chat as written. If your tool supports separate agents or sessions, run Stage 1 in a fresh session that only sees a neutral description of the plan, then paste its arguments into your main chat for Stages 2–4."
       },
       {
         id: "a7",
