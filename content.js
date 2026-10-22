@@ -239,6 +239,7 @@ After both versions, tell me which idea appears in both, since that’s probably
           category: "Communication",
           time: "5–10 min",
           summary: "Run your next presentation through Ivan Wanis Ruiz’s End Boring ideas: clear walkaways, visceral statements, a stronger opening, less slide text and a quick out-loud rehearsal.",
+          credit: "Based on End Boring: A Tactical Approach to Public Speaking and Communication by Ivan Wanis Ruiz.",
           why: "GPD went through Ivan Wanis Ruiz’s End Boring training: “A Tactical Approach to Public Speaking and Communication.” Ivan’s starting point is that audiences remember very little, so you decide your one to three walkaways first and say each as a short, visceral statement. He suggests opening with something more interesting than your name and topic, using an occasional two- or three-word slide as a memory anchor (his Public Speaking Lab calls this the “One, Two, Three” method), and keeping the focus on you rather than your slides. He also practices by shrinking a talk to one sentence and to 30 seconds, then rehearsing out loud. AI can apply all of that to your next presentation in a few minutes.",
           needs: [
             "Your company-approved AI chat tool",

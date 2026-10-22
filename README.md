@@ -64,7 +64,7 @@ Rules that keep the file working:
 
 After saving, refresh the page. If anything is inconsistent, such as a board slug with no matching activity, the site shows a **red message at the top** saying what to fix.
 
-Each activity has these fields: `id`, `slug`, `level`, `square`, `title`, `category`, `time`, `summary`, `why`, `needs[]`, `prompt`, `steps[]`, `output`, `goodLooksLike[]`, `doneWhen`, `extension`, `watchFor[]`, and optionally `fallback` (the basic-chat alternative shown on Go Further pages).
+Each activity has these fields: `id`, `slug`, `level`, `square`, `title`, `category`, `time`, `summary`, `why`, `needs[]`, `prompt`, `steps[]`, `output`, `goodLooksLike[]`, `doneWhen`, `extension`, `watchFor[]`, and optionally `fallback` (the basic-chat alternative shown on Go Further pages) and `credit` (an attribution line shown in italics under the page summary, e.g. for the End Boring square).
 
 ---
 

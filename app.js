@@ -169,6 +169,7 @@
     line("Level: " + levelLabel(a.level) + " | Time: " + a.time + " | Category: " + a.category);
     line("");
     line(a.summary);
+    if (a.credit) line(a.credit);
     line("");
     line("WHY TRY THIS?"); line(a.why); line("");
     line("WHAT YOU NEED"); list(a.needs); line("");
@@ -504,7 +505,9 @@
       '<span class="chip">' + esc(a.category) + "</span>" +
       (done ? '<span class="chip done-chip">' + "✓ You tried this</span>" : "") + "</div>";
     h += '<h1 class="activity-title" id="activity-title" tabindex="-1">' + esc(a.title) + "</h1>";
-    h += '<p class="activity-summary">' + esc(a.summary) + "</p></header>";
+    h += '<p class="activity-summary">' + esc(a.summary) + "</p>";
+    if (a.credit) h += '<p class="activity-credit">' + esc(a.credit) + "</p>";
+    h += "</header>";
 
     h += '<main id="main" class="wrap"><div class="sheet"><div class="activity-layout"><article class="activity-main">';
     h += section("Why try this?", "<p>" + esc(a.why) + "</p>");

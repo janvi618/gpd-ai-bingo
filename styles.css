@@ -316,6 +316,7 @@ a { color: inherit; }
 .chip.done-chip { background: var(--gold); color: var(--ink); border-color: transparent; }
 .activity-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4.4vw, 52px); line-height: 1.04; letter-spacing: -.02em; margin: 0; color: #fff; max-width: 22ch; text-wrap: balance; }
 .activity-summary { font-size: clamp(17px, 1.8vw, 20px); color: var(--moon-dim); max-width: 60ch; margin: 14px 0 0; }
+.activity-credit { font-style: italic; font-size: 15px; color: var(--moon-dim); max-width: 60ch; margin: 10px 0 0; }
 
 .sheet { background: var(--cream); color: var(--ink); border-radius: var(--radius-card); box-shadow: 0 30px 70px rgba(5,3,25,.5); }
 .activity-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 0; align-items: start; }
@@ -467,7 +468,7 @@ dialog.modal::backdrop { background: rgba(10, 8, 30, .66); }
   /* Activity page print */
   body.view-activity .site-foot, body.view-activity .back-link, body.view-activity .no-print { display: none !important; }
   body.view-activity .activity-top { padding: 0 0 4mm; }
-  body.view-activity .activity-title, body.view-activity .activity-summary { color: #000 !important; }
+  body.view-activity .activity-title, body.view-activity .activity-summary, body.view-activity .activity-credit { color: #000 !important; }
   body.view-activity .chip { border: 1px solid #000 !important; background: none !important; color: #000 !important; }
   body.view-activity .sheet { box-shadow: none; border: 0; background: none; }
   body.view-activity .activity-layout { display: block; }

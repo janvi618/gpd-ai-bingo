@@ -101,6 +101,13 @@ function check(name, cond, detail) {
   clip = await page.evaluate(() => navigator.clipboard.readText());
   check("5. Copy Full Instructions includes prompt, steps, criteria and cautions", ["HOW IT WORKS", "WHAT GOOD LOOKS LIKE", "THINGS TO WATCH FOR", "TRY IT NOW"].every(k => clip.includes(k)) && clip.includes(B.activities[0].steps[0]));
   await page.screenshot({ path: path.join(OUT, "desktop-activity.png"), fullPage: true });
+  for (const a of B.activities.filter(x => x.credit)) {
+    await page.goto(base + "#" + a.slug);
+    const credit = page.locator(".activity-credit");
+    check("Credit line shown in italics on " + a.slug, (await credit.textContent()) === a.credit && (await credit.evaluate(el => getComputedStyle(el).fontStyle)) === "italic");
+    if (a.slug === "end-boring") await page.screenshot({ path: path.join(OUT, "desktop-end-boring.png") });
+  }
+  await page.goto(base + "#messy-notes");
 
   // 6-8. Completion, persistence, undo
   await page.click("#mark-complete");
