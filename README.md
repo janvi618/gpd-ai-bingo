@@ -104,6 +104,15 @@ node tests/smoke-test.js
 
 It runs the testing checklist from the brief in a real browser. That covers layout, all 24 pages opening correctly, Copy Prompt and Copy Full Instructions, stamping, persistence after refresh, undo, Bingo on rows, columns and diagonals with the FREE SPACE, filters, Surprise Me, keyboard navigation, reset confirmation, print layout, mobile width, and no external requests or JavaScript errors. It also saves screenshots to `tests/screenshots/`.
 
+Record the demo video (about 50 seconds, 1920×1080 MP4 for PowerPoint or Teams; needs ffmpeg):
+
+```bash
+node tests/make-demo-video.js                       # opens "Turn messy notes into 3 clear actions"
+DEMO_SQUARE=end-boring node tests/make-demo-video.js # or feature a different square
+```
+
+It shows the card, the level filter, one activity page (copy prompt, mark complete), the stamped card, and ends on the QR code. Output: `demo/GPD-AI-Bingo-demo.mp4`.
+
 Regenerate the printable PDF after content edits:
 
 ```bash
