@@ -51,9 +51,9 @@ window.BINGO = {
      Bingo with four quick wins. */
   board: [
     ["messy-notes",      "poke-holes",        "three-expert-panel", "ai-interviews-you",        "one-minute-brief"],
-    ["reusable-assistant", "meeting-prep",      "idea-scorecard",     "workflow-redesign",       "skeptic-rehearsal"],
+    ["doc-to-visual", "meeting-prep",      "idea-scorecard",     "workflow-redesign",       "skeptic-rehearsal"],
     ["kinder-email",     "explain-it-twice",  "FREE",               "slide-headline",          "scary-task-checklist"],
-    ["feedback-to-experiments", "catch-ai-making-things-up", "tough-feedback", "fridge-dinner",   "research-head-start"],
+    ["feedback-to-experiments", "ten-minute-training", "tough-feedback", "fridge-dinner",   "research-head-start"],
     ["devils-advocate",      "learning-plan", "blind-taste-test-for-ai", "process-one-pager", "self-critique-loop"]
   ],
 
@@ -234,57 +234,57 @@ After both versions, tell me which idea appears in both, since that’s probably
           id: "b4",
           slug: "slide-headline",
           level: "explore",
-          square: "Give a slide a headline people remember.",
-          title: "Give a slide a headline people actually remember",
+          square: "Use End Boring to fix one slide’s headline.",
+          title: "Use End Boring to fix one slide’s headline",
           category: "Communication",
           time: "5–10 min",
-          summary: "Use ideas from Ivan Wanis Ruiz’s End Boring training to turn a slide’s topic title into one short, memorable takeaway.",
-          why: "Most slide titles name a topic (“Q3 Sensory Results”) instead of saying what the audience should take away. Ivan Wanis Ruiz, whose End Boring training GPD received, argues that audiences walk away with very little, so you should decide your one to three “walkaways” up front and say each one as a short, visceral statement. His Public Speaking Lab also suggests occasional slides with just two or three words as memory anchors, and keeping the focus on you rather than the slides. AI is a fast way to try those ideas on a real slide.",
+          summary: "Put Ivan Wanis Ruiz’s End Boring training to work on one real slide: find its walkaway, say it as a visceral statement, and let the slide support you instead of doing the talking.",
+          why: "GPD went through Ivan Wanis Ruiz’s End Boring training: “A Tactical Approach to Public Speaking and Communication.” A training sticks when you use it on real work, and a single slide headline is the fastest place to start. Ivan’s core idea is that audiences remember very little of what they hear, so you decide your one to three walkaways before anything else and say each one as a short, visceral statement. His Public Speaking Lab adds two slide tactics: the “One, Two, Three” method, an occasional slide with only two or three words as a memory anchor, and keeping the focus on you rather than your slides (he puts it as 70% speaker, 30% slides). This square uses AI to apply all of that in under ten minutes.",
           needs: [
             "Your company-approved AI chat tool",
-            "One slide you’re working on: its current title and the main points on it",
+            "One slide you’re presenting soon: its current title and what’s on it",
             "Optional: your own notes from the End Boring session",
             "Remove confidential details or use a made-up example unless your tool is approved for that information."
           ],
-          prompt: `You are a presentation coach. Help me rewrite one slide using these ideas from Ivan Wanis Ruiz’s End Boring approach:
-- Decide the one walkaway: the single thing the audience should remember from this slide.
-- Say it as a short, visceral statement, not a topic label.
-- Sometimes a slide works best with just 2–3 words, as a memory anchor.
-- The slide supports the speaker; it shouldn’t carry the whole talk.
+          prompt: `You are a presentation coach using Ivan Wanis Ruiz’s End Boring approach. Apply these End Boring ideas to my slide, and label each part of your answer with the idea it uses:
+- WALKAWAY: audiences remember little, so name the one thing they should walk away with.
+- VISCERAL STATEMENT: say the walkaway as a short, vivid statement, not a topic label.
+- ONE, TWO, THREE: an occasional slide with only 2–3 words works as a memory anchor.
+- 70/30: the speaker carries the message; the slide supports.
 
 My slide:
 Current title: [YOUR CURRENT SLIDE TITLE]
-What’s on it: [PASTE OR DESCRIBE THE KEY POINTS, CHART OR FINDING]
+What’s on it: [PASTE OR DESCRIBE THE POINTS, CHART OR FINDING]
 Audience: [E.G., MY DIRECTOR, A CROSS-FUNCTIONAL TEAM]
-My own End Boring notes: [OPTIONAL: ANYTHING YOU REMEMBER FROM THE SESSION]
+My End Boring notes: [OPTIONAL: ANYTHING ELSE YOU REMEMBER FROM THE SESSION]
 
-Please give me:
-1. The walkaway, in one plain sentence.
-2. Five headline options under 10 words that state it.
-3. One 2–3 word anchor version.
-4. What I could move off the slide and say out loud instead.
+Give me:
+1. WALKAWAY: one plain sentence.
+2. VISCERAL STATEMENT: five headline options under 10 words.
+3. ONE, TWO, THREE: one 2–3 word anchor version.
+4. 70/30: what to cut from the slide and say out loud instead.
 
-Rules: use only facts and numbers I gave you, and don’t overstate the finding. If the slide makes more than one point, say so and suggest a split. Then ask which headline I want to polish.`,
+Use only facts and numbers I gave you. Don’t add End Boring ideas beyond these four and my notes. Then ask which headline I want to polish.`,
           steps: [
-            "Pick a slide from a deck you’re building or recently presented.",
-            "If you took the End Boring session, jot down anything you remember. If you didn’t, skip that line.",
+            "Pick a slide you’re presenting soon. Real stakes make the End Boring ideas easier to judge.",
+            "If you took the End Boring session, add anything else you remember in the notes line.",
             "Paste the prompt into your AI chat tool, fill in the brackets and send.",
-            "Read the options out loud. You know the room, so pick the one you’d actually say there, and decide whether the 2–3 word anchor or a full headline fits this moment.",
-            "Update the slide, then check the rest of it still supports the headline. Move anything extra into what you say."
+            "Say each headline out loud, as you would in the room. Choose the one that sounds like you, and decide whether a full headline or the 2–3 word anchor fits this moment.",
+            "Update the slide, cut what you’ll now say instead, and rehearse it once out loud."
           ],
-          output: "A slide with one clear walkaway, stated as a short headline you’d be happy to present.",
+          output: "One slide rebuilt the End Boring way: a clear walkaway, a short visceral headline, and less text competing with you.",
           goodLooksLike: [
-            "Someone could read only the headline and know the point of the slide",
-            "It’s short, specific and easy to say out loud",
-            "The slide has less text because more of the story lives in what you say",
+            "You can say the slide’s walkaway in one breath",
+            "The headline is a statement someone would repeat, not a topic label",
+            "The slide has less text, and that content now lives in what you say",
             "It doesn’t overstate the data"
           ],
-          doneWhen: "Your slide has a new headline you’d actually present.",
-          extension: "Do it for the whole talk: paste just your slide titles and ask, “What are the one to three walkaways of this deck? Rewrite the titles so each one builds toward them, and suggest where a 2–3 word anchor slide would help.”",
+          doneWhen: "Your slide has a new headline you’d actually present, and you’ve said it out loud once.",
+          extension: "End Boring your whole deck: paste just your slide titles and ask, “What are the one to three walkaways of this talk? Rewrite the titles as visceral statements that build toward them, and suggest where a One, Two, Three anchor slide would help.”",
           watchFor: [
-            "Punchy headlines can overclaim. Make sure the data on the slide supports it.",
-            "The AI only knows the End Boring ideas listed in the prompt. For anything more, rely on your own notes from the session, not its guesses.",
-            "Catchy isn’t always right for the audience. A leadership review may want plain and clear.",
+            "The AI knows only the End Boring ideas in the prompt and your notes. Don’t trust it to describe the rest of the training.",
+            "A visceral headline can overclaim. Make sure the data on the slide supports it.",
+            "Some audiences, like a leadership review, may want plain and precise over punchy. You know the room.",
             "Don’t paste unpublished results or confidential project names unless your tool is approved for them."
           ]
       },
@@ -1004,44 +1004,61 @@ Stage 4: Chair synthesis. After my reply, produce:
       },
       {
           id: "a2",
-          slug: "reusable-assistant",
+          slug: "doc-to-visual",
           level: "gofurther",
-          square: "Turn your best prompt into a reusable AI assistant.",
-          title: "Turn your best prompt into a reusable assistant",
-          category: "AI experimentation",
+          square: "Turn a dense document into a one-page visual.",
+          title: "Turn a dense document into a one-page visual",
+          category: "Communication",
           time: "30–45 min",
-          summary: "Write standing instructions for a task you repeat, test them on three varied inputs including a deliberately tricky one, and revise based on what actually failed.",
-          why: "Most daily AI users retype a version of the same prompt every week, and the result depends on how carefully they typed it that day. Writing standing instructions forces you to make your quality bar explicit: the format, the rules, and what the assistant should flag instead of guessing. Testing on an awkward input shows you how instructions fail, which is a different skill from writing a good one-off prompt. Many approved tools offer this as custom assistants, agents, projects or saved instructions; check what yours offers and its data rules before you build.",
+          summary: "Have AI find the structure hidden in a dense process, report or plan, turn it into a one-page diagram, then check it line by line against the source.",
+          why: "Most people use AI to produce more words. This square uses it to replace words with structure. The hard part of a good visual is deciding what shape the information really has: a sequence, a comparison, a timeline or a hierarchy. AI is fast at proposing those shapes and drafting the diagram, and you stay responsible for the part it’s weakest at, which is making sure every box is true to the source.",
           needs: [
-            "A task you repeat every week or two (meeting notes into your team’s update format, a draft reviewed against your writing checklist, 1:1 prep) and your best current prompt for it",
-            "Your company-approved AI tool, plus its guidance on custom assistants or saved instructions and what files they may hold",
-            "Three test inputs written hypothetically or with non-confidential content, one of them deliberately awkward"
+            "Your company-approved AI tool. Diagram, chart or slide features help but aren’t required.",
+            "A dense, non-confidential document: a process description, a public report, a project plan or a long email thread",
+            "PowerPoint or another approved tool to finish the visual"
           ],
-          prompt: "You are helping me design, test and improve a reusable AI assistant for one task I repeat. Work in stages and stop where I say. Do not invent examples of my team’s work; if you need one, ask me or label yours HYPOTHETICAL.\n\nTHE TASK:\nWhat I repeat: [E.G., TURNING ROUGH MEETING NOTES INTO OUR TEAM’S WEEKLY UPDATE FORMAT]\nHow often: [E.G., WEEKLY]\nWhat a good result looks like: [FORMAT, LENGTH, TONE AND AUDIENCE. USE A HYPOTHETICAL OR NON-CONFIDENTIAL VERSION.]\nMy best prompt for this today: [PASTE IT WITH ANY CONFIDENTIAL DETAIL REMOVED]\n\nStage 1: Interview. Ask me up to 6 questions about the inputs I usually have, the audience, rules the output must follow, and the mistakes I most often fix by hand. Stop and wait.\n\nStage 2: Instructions v1. Write standing instructions under these headings: Role | Inputs to expect | Output format (exact template) | Rules | Flag or refuse (what to do when input is missing, ambiguous, looks confidential or is out of scope) | Questions to ask before answering. Keep it under 300 words. Label any rule you inferred rather than took from me as ASSUMPTION. Stop and let me edit.\n\nStage 3: Test design. Propose 3 test inputs: one typical, one messy or incomplete, and one tricky edge case designed to make the assistant fail (e.g., a decision nobody owns, conflicting dates, or a request outside its scope). Use hypothetical content only. For each, state the expected behavior. Stop. I will run the tests in the assistant and paste back what it actually produced.\n\nStage 4: Test log and v2. Produce a table: Test | Input type | Expected | Actual | Pass, partial or fail | Instruction change. Score each output 1–5 on format accuracy, faithfulness (nothing added that was not in the input) and correct flagging. Then write instructions v2 that fix the failures, and list what changed from v1. Do not fix a failure with a rule so broad it breaks the typical case.\n\nThroughout, separate what I told you from what you are assuming. Flag any point where the output must be checked by a person before it is used, and any data-handling question I should confirm against my tool’s rules.",
+          prompt: `Help me turn a dense document into a one-page visual. Work in stages and wait for me between them.
+
+DOCUMENT (non-confidential, or my tool is approved for it):
+[PASTE THE TEXT, OR DESCRIBE THE PROCESS OR REPORT]
+Audience: [WHO WILL SEE IT]
+What they should understand in 10 seconds: [THE ONE MESSAGE]
+
+Stage 1: Find the shape. Tell me which structure fits best (process flow, comparison table, timeline, hierarchy, cycle, or before-and-after) and why, plus one alternative. List the 5–9 elements that must appear, each with a short quote or reference to where it comes from in the document. Then stop.
+
+Stage 2: Draft the visual. After I choose, produce it in the best format you can:
+- If you can draw diagrams or charts, make one.
+- Otherwise give me diagram code my tool can render (such as Mermaid), or a slide layout spec: boxes, labels of 6 words or fewer, arrows and grouping, so I can build it in PowerPoint.
+
+Stage 3: Accuracy check. Make a table with columns: Element in the visual | Where it comes from in the document | Simplified or changed? | Risk of misleading. Flag anything you added that isn’t in the source.
+
+Stage 4: The 10-second test. Write 3 questions I can ask a colleague after showing them the visual for 10 seconds, to check whether the one message landed.
+
+Never invent steps, numbers or labels that aren’t in the document. Where the document is ambiguous, ask me instead of guessing.`,
           steps: [
-            "Pick a repeated task and find what your approved tool calls this feature (custom assistant, agent, project or saved instructions). Read its data rules, including who can see an assistant you share.",
-            "Run Stages 1 and 2 in a regular chat. Human judgment: edit v1 until the rules and the “flag or refuse” section reflect your team’s real standard, not AI’s guess at it.",
-            "Create the assistant in your tool and paste in v1. Add reference examples only if they are non-confidential and allowed in that tool.",
-            "Run Stage 3, then give each test input to the assistant in a fresh conversation. Human judgment: decide pass or fail yourself before you paste the outputs back and read AI’s scores.",
-            "Run Stage 4, update the assistant to v2, and rerun the test that failed. Keep v1, v2 and the test log together."
+            "Choose a dense document you or your team actually struggle to explain. Keep it non-confidential.",
+            "Run Stage 1 and decide the shape yourself. Choosing the structure is the real design decision.",
+            "Get the draft in Stage 2 and build or tidy it in PowerPoint or your approved tool. Avoid AI image generators for factual diagrams; they often garble text and invent details.",
+            "Use the Stage 3 table to check every element against the source. Fix anything simplified too far or added.",
+            "Show the visual to a colleague for 10 seconds, ask the Stage 4 questions, and revise based on what they missed."
           ],
-          output: "Instruction set v1 and v2, plus a 3-row test log showing expected versus actual behavior and what changed.",
+          output: "A one-page visual, plus an accuracy table showing where every element comes from and the results of your 10-second test.",
           goodLooksLike: [
-            "v1 names an exact output template and at least one situation the assistant must flag rather than guess",
-            "The edge-case test failed or partly failed on v1, and v2 handles it without breaking the typical case",
-            "Outputs add nothing that was not in the input; you checked this line by line on at least one test",
-            "A teammate could use the assistant for the task without asking you how it works",
-            "No confidential material went into the instructions or reference files"
+            "A colleague gets the one message within 10 seconds",
+            "Every element traces back to the source document; nothing is invented",
+            "Labels are short, and the structure (flow, comparison, timeline) matches how the information actually works",
+            "It replaces at least a page of text, or a few minutes of explaining",
+            "You can name what was simplified and why that’s acceptable for this audience"
           ],
-          doneWhen: "You have v1 and v2 instructions, a 3-row test log, and v2 passes the test that v1 failed.",
-          extension: "Give the assistant to one colleague for a week with a two-line note on what it is for. Ask them for one input where it let them down, add it as a fourth test, and decide whether v3 is needed.",
+          doneWhen: "You have a finished one-page visual that passed your accuracy check and a 10-second colleague test.",
+          extension: "Ask for the same content in a second structure, for example a timeline instead of a flow, and test both with two colleagues. Which shape communicates better, and why?",
           watchFor: [
-            "Sharing an assistant shares its instructions and any attached files; check what a colleague will be able to see",
-            "Do not upload confidential documents, formulas or unpublished plans as reference material unless your tool and data rules approve it",
-            "Assistants drift when the underlying model or your team’s standards change; rerun your three tests every month or two",
-            "A consistent format can hide wrong content; a person still checks the output before it is sent"
+            "Simplifying is where errors creep in. A missing step or merged box can change the meaning.",
+            "AI image generators are poor at accurate labels and diagrams. Use diagram tools, charts or PowerPoint for anything factual.",
+            "A clean visual can make uncertain information look settled. Mark estimates and open questions clearly.",
+            "Don’t paste confidential documents unless your tool is approved for them."
           ],
-          fallback: "If your tool is basic chat only, save v2 as an “instruction block” in a document. Start each fresh chat by pasting the block, then the input. Rerun the same three tests whenever you change the block."
+          fallback: "In a basic chat tool, use the slide layout spec option in Stage 2 and build the visual yourself in PowerPoint (SmartArt works well for flows and hierarchies). Stages 1, 3 and 4 work exactly as written."
       },
       {
         id: "a3",
@@ -1104,62 +1121,57 @@ Do not invent productivity statistics or benchmarks.`,
       },
       {
           id: "a4",
-          slug: "catch-ai-making-things-up",
+          slug: "ten-minute-training",
           level: "gofurther",
-          square: "Set a trap: catch AI making things up.",
-          title: "Set a trap and catch AI making things up",
-          category: "AI experimentation",
-          time: "30–45 min",
-          summary: "Build a small test of questions where you already know the answers, see where AI invents things, and turn what you learn into your own verification checklist.",
-          why: "Everyone has heard that AI can invent facts, but few people know where their own tool fails in their own field. Testing it on questions you can already answer shows you which requests are safe, which need checking, and which prompts reduce the risk. That calibrated trust is a core skill for anyone using AI daily.",
+          square: "Build a 10-minute training for your team.",
+          title: "Build a 10-minute training for your team",
+          category: "Workflow redesign",
+          time: "35–50 min",
+          summary: "Use AI as an instructional designer to turn something you know well into a short training with real-world practice questions, pilot it on a colleague, and fix what confused them.",
+          why: "Every team has know-how that lives in a few people’s heads, and most of it never gets taught because building a training takes too long. AI can draft the parts that usually take hours: learning objectives, realistic scenarios and plausible wrong answers that reveal misunderstandings. You supply the expertise and judge what’s right, and a quick pilot shows you whether people actually learned it.",
           needs: [
             "Your company-approved AI tool",
-            "Five questions from your field where you already know the right answer from your own expertise or a source you trust",
-            "A non-confidential topic: public science, published standards or general knowledge, not internal data"
+            "A topic you know well that others on your team need, e.g., how to submit a sample request, how to read a sensory report, or how your project stage-gates work",
+            "One colleague willing to spend 10 minutes trying it"
           ],
-          prompt: `I’m testing how reliable you are in my field. Answer each question below as you normally would. I already know the answers, so accuracy matters more than sounding complete.
+          prompt: `You are an instructional designer. I’m the subject-matter expert. Help me build a 10-minute training for my team. Work in stages and wait for me between them.
 
-Rules for this test:
-- For every factual claim, rate your confidence as HIGH, MEDIUM or LOW.
-- If you would normally cite a source, name it, then label it VERIFY: I will check whether it exists.
-- If you don’t know, say “I don’t know.” That counts as a good answer here.
+TOPIC: [WHAT YOU WANT TO TEACH. USE NON-CONFIDENTIAL MATERIAL]
+Learners: [WHO, AND WHAT THEY ALREADY KNOW]
+What goes wrong today: [THE MISTAKES OR QUESTIONS YOU SEE MOST]
+My expert notes: [THE KEY STEPS, RULES OR TIPS, IN YOUR OWN WORDS]
 
-My five questions (non-confidential, from my area of expertise):
-1. [A BASIC QUESTION YOU’RE SURE OF]
-2. [A QUESTION NEEDING A SPECIFIC NUMBER, DATE OR STANDARD]
-3. [A QUESTION ABOUT A NICHE DETAIL MOST PEOPLE WOULDN’T KNOW]
-4. [A QUESTION ASKING FOR 2–3 SUPPORTING SOURCES OR STUDIES]
-5. [A QUESTION WITH A FALSE PREMISE, E.G., ASKING WHY SOMETHING TRUE IS FALSE]
+Stage 1: Objectives. Propose 3 learning objectives, each starting with an action verb (e.g., “Choose…”, “Spot…”), tied to the mistakes I listed. Ask me 2 questions about anything in my notes that’s unclear. Then stop.
 
-After your answers, wait. I will tell you which were right, partly right or wrong.
+Stage 2: Practice. Write 5 scenario-based questions set in realistic situations. Each needs one correct answer, two plausible wrong answers that reflect real misunderstandings, and one line of feedback for every option. Use only what’s in my notes. If something needs a fact I didn’t give you, mark it [EXPERT TO CONFIRM] instead of guessing. Then stop for my review.
 
-Then do Stage 2: for each answer I mark wrong or partly right, explain what likely caused it (outdated information, guessing a plausible number, inventing a source, accepting a false premise) and suggest one prompt change that would reduce that error.
+Stage 3: Job aid. Turn the essentials into a one-page cheat sheet: steps, common mistakes and who to ask.
 
-Finally, Stage 3: help me draft a 5-line personal checklist titled “When I must verify AI output”, based only on the failures we actually saw today. Don’t pad it with generic advice.`,
+Stage 4: Pilot plan. Give me a 10-minute run-of-show for testing it on one colleague, and 3 debrief questions to find what confused them.`,
           steps: [
-            "Write five questions you can answer yourself, using the five types in the prompt. Keep the topic non-confidential.",
-            "Run the prompt in a fresh chat and save the answers before you react to them.",
-            "Mark each answer right, partly right or wrong using your own knowledge, and check whether any named sources actually exist. This judgment is yours; don’t ask the AI to grade itself.",
-            "Share your marks, then work through Stages 2 and 3. Re-run one failed question with the suggested prompt change and note whether it helped.",
-            "Save your checklist where you’ll see it, and share one surprising failure with a colleague."
+            "Pick a topic where you are the expert and the material isn’t confidential. Don’t use this to replace required or official compliance training.",
+            "Work through Stages 1–3, correcting the AI wherever it misreads your notes. You are the authority on what’s right.",
+            "Check every [EXPERT TO CONFIRM] item and every answer key before anyone sees it.",
+            "Run the pilot with one colleague. Watch which questions they get wrong and where they hesitate.",
+            "Revise the confusing parts, then share the module and cheat sheet with your team or keep it for the next new starter."
           ],
-          output: "A five-question test log with your scores, one before-and-after prompt fix, and a personal “When I must verify” checklist.",
+          output: "A 10-minute training with 3 objectives, 5 scenario questions with an answer key, a one-page cheat sheet, and notes from one pilot.",
           goodLooksLike: [
-            "Every answer is scored by you against a known answer, not by the AI",
-            "You found at least one confident-sounding error, or you can show the tool handled all five traps",
-            "Any cited source is checked and marked real or invented",
-            "Your re-run shows whether the prompt change actually helped",
-            "The checklist reflects today’s failures, so it’s specific to your field and tool"
+            "Each question tests a real decision people make, not trivia",
+            "The wrong answers are tempting because they reflect real mistakes",
+            "You checked every answer and fact, and nothing is marked unconfirmed",
+            "Your pilot colleague could do something afterward they couldn’t do before",
+            "Someone new could use the cheat sheet without asking you"
           ],
-          doneWhen: "You have a scored test log and a five-line verification checklist you’d actually use.",
-          extension: "Run the same five questions in a second approved tool, or with web search turned on if your tool has it, and compare. Where does each one fail?",
+          doneWhen: "You’ve piloted the training with one colleague and revised it based on what you saw.",
+          extension: "Ask for a harder version for experienced team members: “Write 3 tricky edge-case scenarios where the usual rule doesn’t apply, and explain the judgment call in each.”",
           watchFor: [
-            "Five questions is a spot check, not a benchmark. Don’t generalize too far from it.",
-            "AI tools change often. A failure today may be fixed later, and new ones can appear.",
-            "Don’t use confidential formulas, results or internal data as test material.",
-            "A tool that passes your test can still be wrong on the next question. Keep checking what matters."
+            "AI can fill gaps with confident but wrong procedure. Only your notes and your review make it accurate.",
+            "Official, regulatory, safety or compliance training must go through the proper channels. Use this for team know-how.",
+            "Keep confidential processes, formulas and customer details out unless your tool is approved for them.",
+            "A training that looks polished can still teach the wrong thing. The pilot is what tells you it works."
           ],
-          fallback: "This works in any basic approved chat tool exactly as written. If your tool can search the web, run the test once with search off and once with it on, and compare."
+          fallback: "This works in any basic approved chat tool as written. If your tool can create documents, slides or forms, ask it to format Stage 2 as a quiz and Stage 3 as a one-page document you can share."
       },
       {
           id: "a5",

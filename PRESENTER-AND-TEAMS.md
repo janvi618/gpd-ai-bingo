@@ -8,7 +8,7 @@
 >
 > Every square is something you can try with AI. Click one and you get a short explanation, a prompt you can copy straight into your approved AI tool, and what good looks like.
 >
-> Some squares take five minutes, like turning messy notes into three clear actions. Others are a real stretch, like turning your best prompt into a reusable AI assistant, or redesigning a workflow with AI on the team.
+> Some squares take five minutes, like turning messy notes into three clear actions. Others are a real stretch, like turning a dense document into a one-page visual, or redesigning a workflow with AI on the team.
 >
 > Whether you're new to AI or experimenting with agents, there's something here for you. Pick one square you've never tried and give it a go. Five in a row is Bingo, but one square is a win.
 
