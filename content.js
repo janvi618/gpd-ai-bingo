@@ -53,7 +53,7 @@ window.BINGO = {
     ["messy-notes",      "poke-holes",        "three-expert-panel", "ai-interviews-you",        "one-minute-brief"],
     ["doc-to-visual", "meeting-prep",      "idea-scorecard",     "workflow-redesign",       "skeptic-rehearsal"],
     ["kinder-email",     "explain-it-twice",  "FREE",               "slide-headline",          "scary-task-checklist"],
-    ["feedback-to-experiments", "ten-minute-training", "tough-feedback", "fridge-dinner",   "research-head-start"],
+    ["feedback-to-experiments", "ten-minute-training", "feedback-growth-plan", "fridge-dinner",   "research-head-start"],
     ["devils-advocate",      "learning-plan", "blind-taste-test-for-ai", "process-one-pager", "self-critique-loop"]
   ],
 
@@ -782,55 +782,57 @@ Rules: Don’t invent feedback, numbers or sources. Remember that a count of com
       },
       {
           id: "i6",
-          slug: "tough-feedback",
+          slug: "feedback-growth-plan",
           level: "levelup",
-          square: "Prepare a tough feedback conversation.",
-          title: "Prepare a tough feedback conversation",
-          category: "Communication",
+          square: "Turn feedback you got into a growth plan.",
+          title: "Turn feedback you got into a growth plan",
+          category: "Everyday work",
           time: "15–25 min",
-          summary: "Plan what to say in a hard conversation, anticipate how the other person might react, then practice with AI playing them and get coaching afterward.",
-          why: "Feedback conversations are easier to avoid than to have, and the words that come out under pressure are rarely the ones we planned. Structuring your message as observation, impact and request keeps it clear and fair. Practicing out loud, even with an AI stand-in, makes the real conversation calmer and kinder for both of you.",
+          summary: "Paste feedback you’ve received, with names removed, and have AI help you find the real patterns, pick one behavior to work on, and plan small weekly actions.",
+          why: "Feedback often arrives in a pile: a review, a few comments, a 360 report. It’s hard to read calmly, and it’s easy to fixate on the one sharp comment and miss the pattern. AI can sort it without the sting, separate repeated themes from one-offs, and turn “be more strategic” into something you can actually practice next week. You decide what’s fair and what to work on.",
           needs: [
-            "Your company-approved AI chat tool",
-            "A made-up or anonymized version of the situation, with no names or personal details",
-            "Your company’s HR guidance, if the situation touches performance, conduct or wellbeing"
+            "Your company-approved AI tool",
+            "Feedback you’ve received: a review, a 360 summary, comments after a presentation, or notes from a 1:1",
+            "Remove names, other people’s details and anything confidential before you paste. Paraphrase if you prefer."
           ],
-          prompt: `You are an experienced, warm leadership coach. Help me prepare a feedback conversation that is clear, kind and specific. I’ll describe a made-up or anonymized version of the situation, with no names or personal details.
+          prompt: `Act as a thoughtful career coach. I’m going to share feedback I’ve received. Help me turn it into a focused growth plan. Work in stages and wait for me between them.
 
-Our roles: [E.G., “I MANAGE THEM,” “WE’RE PEERS,” “I COACH THEM”]
-The situation (anonymized): [WHAT HAPPENED, IN 2–4 SENTENCES, FOCUSED ON BEHAVIOR YOU SAW OR HEARD]
-What I want from the conversation: [YOUR GOAL]
-What I’m worried about: [E.G., “THEY’LL GET DEFENSIVE,” “I’LL SOFTEN IT TOO MUCH”]
+THE FEEDBACK (names and confidential details removed):
+[PASTE OR PARAPHRASE THE FEEDBACK]
+Where it came from: [E.G., ANNUAL REVIEW, 360, PEERS AFTER A PRESENTATION]
+My role and what I’m aiming for: [E.G., SENIOR SCIENTIST, WANT TO LEAD LARGER PROJECTS]
 
-Work with me in stages:
-1. Ask me up to 3 questions, one at a time, waiting for each answer.
-2. Help me draft an opening in three parts: the specific observation (what I saw or heard, not a judgment of the person), the impact (on the work, the team or me), and the request (what I’m asking for going forward). Keep it under 100 words, in my voice, and let me edit it.
-3. List 4 ways the other person might react (for example, surprised, defensive, upset, quick to agree) and suggest one calm, respectful response to each.
-4. Role-play: play the other person realistically, not as a villain. Respond to my opening, one turn at a time, and stay in character until I type COACH.
-5. When I type COACH, tell me what was clear and kind, where I was vague or slipped into judgment, and one line I could say better.
+Stage 1: Patterns. Group the feedback into themes. For each theme, show the comments it came from and label it REPEATED (several sources say it) or ONE-OFF. List strengths separately; don’t skip them. Use only what’s in the feedback, and don’t guess at the motives of the people who wrote it. Then ask me which themes feel fair and which surprised me, and stop.
 
-Rules: Don’t invent facts about the person or guess at their motives. You are not a substitute for HR advice; if this may involve performance management, conduct or wellbeing, remind me to talk with HR first. I decide what to say.`,
+Stage 2: Focus. Based on my answer, help me pick ONE behavior to work on: the one with the biggest payoff for my goal. Rewrite it as something observable, e.g., “I share a clear recommendation before the discussion starts” rather than “be more strategic.” Then stop.
+
+Stage 3: Plan. Give me:
+1. Three small actions I can practice in the next four weeks, tied to meetings or work I already have.
+2. One way to tell it’s working, without a survey.
+3. A short, natural question I can ask one or two colleagues in a month to get fresh feedback.
+
+Keep the tone encouraging but honest. Don’t soften the feedback until it means nothing.`,
           steps: [
-            "Write a short, anonymized or made-up version of the situation. Leave out names, health details and anything personal.",
-            "Answer the AI’s questions, then edit the draft opening until it sounds like you. You know the person and the relationship; the AI doesn’t.",
-            "Read the likely reactions and pick the one that worries you most.",
-            "Run the role-play, type COACH when you’re ready, and decide which coaching points to keep.",
-            "If the situation involves performance, conduct or wellbeing, check your plan with HR before the real conversation."
+            "Gather feedback you’ve received. Remove names and any confidential project details, or paraphrase in your own words.",
+            "Paste the prompt into your approved AI tool, fill in the brackets and send.",
+            "Read the Stage 1 themes and decide for yourself which feel fair. You know the context; the AI doesn’t.",
+            "Pick your one behavior in Stage 2. Choose the one that matters most for your goal, not the easiest one.",
+            "Put the three actions in your calendar next to the meetings they belong to, and set a reminder to ask for fresh feedback in a month."
           ],
-          output: "A short, specific opening for the conversation, responses for likely reactions, and a practice run with coaching.",
+          output: "A one-page plan: your feedback themes, the one behavior you’re working on, three weekly actions, and a follow-up question for colleagues.",
           goodLooksLike: [
-            "The opening describes behavior and impact, not personality",
-            "The request is clear enough that the other person would know what to do differently",
-            "You practiced at least one difficult reaction and stayed calm and respectful",
-            "No names or personal details were shared with the AI"
+            "The themes reflect what people actually said, with repeated patterns clearly separated from one-offs",
+            "Your focus is one specific, observable behavior, not a vague trait",
+            "Each action fits into work you already do, so it doesn’t need extra time",
+            "You have a simple way to find out in a month whether anything changed"
           ],
-          doneWhen: "You have an opening you’re comfortable saying out loud and you’ve practiced it at least once.",
-          extension: "Plan the follow-up too: “Help me write a short, kind check-in message I could send a week after the conversation.”",
+          doneWhen: "You’ve chosen one behavior to work on and scheduled your first action.",
+          extension: "Ask for a role-play: “Play a colleague in a meeting where I practice this behavior. Give me a realistic situation, let me respond, then tell me what worked and what to try next time.”",
           watchFor: [
-            "Use a made-up or anonymized situation. Don’t include names, health information or other personal details.",
-            "AI is not a substitute for HR advice. Follow your HR guidance, especially for performance, conduct or wellbeing concerns.",
-            "The role-play is a rehearsal, not a prediction. Real people respond in ways no simulation can anticipate.",
-            "AI can make feedback sound polished but cold. Keep your own warmth and words."
+            "Remove names and details about other people. Feedback is about you, but it often mentions colleagues.",
+            "AI can over-read or soften feedback. Check its themes against the original words.",
+            "Formal performance matters, such as ratings, development plans or concerns, belong with your manager and HR. Use this for your own reflection.",
+            "Keep the plan small. One behavior practiced well beats five half-tried."
           ]
       },
       {
