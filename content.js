@@ -50,11 +50,11 @@ window.BINGO = {
      free space. The middle row is all Explore squares, so anyone can get
      Bingo with four quick wins. */
   board: [
-    ["messy-notes",      "poke-holes",        "three-expert-panel", "reinvent-a-snack",        "flavor-pairings"],
-    ["vibe-code-a-tool", "meeting-prep",      "idea-scorecard",     "workflow-redesign",       "skeptic-rehearsal"],
+    ["messy-notes",      "poke-holes",        "three-expert-panel", "ai-interviews-you",        "one-minute-brief"],
+    ["reusable-assistant", "meeting-prep",      "idea-scorecard",     "workflow-redesign",       "skeptic-rehearsal"],
     ["kinder-email",     "explain-it-twice",  "FREE",               "slide-headline",          "scary-task-checklist"],
-    ["feedback-to-experiments", "ten-concepts-kill-seven", "smallest-test", "fridge-dinner",   "research-sprint-design"],
-    ["ai-red-team",      "simulated-shoppers", "blind-taste-test-for-ai", "trend-to-opportunity", "team-jam-with-ai"]
+    ["feedback-to-experiments", "ten-concepts-kill-seven", "tough-feedback", "fridge-dinner",   "research-head-start"],
+    ["ai-red-team",      "learning-plan", "blind-taste-test-for-ai", "process-one-pager", "self-critique-loop"]
   ],
 
   /* ---------- The 24 activities ----------
@@ -231,117 +231,115 @@ After both versions, tell me which idea appears in both, since that’s probably
         ]
       },
       {
-        id: "b4",
-        slug: "slide-headline",
-        level: "explore",
-        square: "Give a slide a headline people remember.",
-        title: "Give a slide a headline people actually remember",
-        category: "Communication",
-        time: "5–10 min",
-        summary: "Turn a slide’s vague topic title into a headline that states the point, using AI to brainstorm options.",
-        why: "Most slide titles name a topic (“Q3 Sensory Results”) instead of saying what the audience should take away. A headline that states the point does half the presenting for you. AI can generate a dozen options in seconds, which makes it easy to spot the one that clicks.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "One slide you’re working on: its current title and the main points on it",
-          "Remove confidential details or use a made-up example unless your tool is approved for that information."
-        ],
-        prompt: `You are a presentation coach who writes slide headlines that state the takeaway, not just the topic.
+          id: "b4",
+          slug: "slide-headline",
+          level: "explore",
+          square: "Give a slide a headline people remember.",
+          title: "Give a slide a headline people actually remember",
+          category: "Communication",
+          time: "5–10 min",
+          summary: "Turn a slide’s topic title into a headline that states the point, and bring in what you remember from the End Boring session if you took it.",
+          why: "Most slide titles name a topic (“Q3 Sensory Results”) instead of saying what the audience should take away. A headline that states the point does half the presenting for you. If you took the End Boring session with Ivan (“End Boring: A Tactical Approach to Public Speaking and Communication,” 2024), this is an easy way to put what you remember back to work. If you didn’t, the activity works just as well without it.",
+          needs: [
+            "Your company-approved AI chat tool",
+            "One slide you’re working on: its current title and the main points on it",
+            "Optional: your notes or memories from the End Boring session",
+            "Remove confidential details or use a made-up example unless your tool is approved for that information."
+          ],
+          prompt: `You are a presentation coach who writes slide headlines that state the takeaway, not just the topic.
 
 Here’s my slide:
 Current title: [YOUR CURRENT SLIDE TITLE]
 What’s on the slide: [PASTE OR DESCRIBE THE KEY POINTS, CHART OR FINDING]
 Audience: [WHO WILL SEE IT, E.G., MY DIRECTOR, A CROSS-FUNCTIONAL TEAM]
 What I want them to think or do after this slide: [YOUR GOAL]
+Principles to apply: [OPTIONAL: PASTE OR DESCRIBE 2–3 PRINCIPLES YOU REMEMBER FROM THE END BORING TRAINING]
 
-Please give me 6 headline options, each under 12 words:
-- 2 that are clear and direct
-- 2 that are a little bolder or more memorable
-- 2 that are framed as a question or a surprise
+Give me 5 headline options, each under 12 words, with one line on why each works.
 
-For each, add one line on why it might work.
+If I shared principles, apply them and name which one each option uses, in my words. Don’t add anything else about that training. If that line is blank, aim for clear, specific and easy to say.
 
 Rules:
 - Only use facts and numbers from what I gave you. Don’t exaggerate the finding.
-- If my slide seems to be making more than one point, tell me, and suggest how to split it.
+- If my slide is making more than one point, tell me and suggest how to split it.
 
-Then ask me which headline I like best so we can polish it.`,
-        steps: [
-          "Pick a slide from a deck you’re building or recently presented.",
-          "Paste the prompt into your AI chat tool and fill in the title, content, audience and goal.",
-          "Read the 6 options out loud. The one you’d actually say in the room is usually the winner.",
-          "Ask the AI to polish your favorite, or combine two you like.",
-          "Put the new headline on your slide and see if the rest of the slide still supports it."
-        ],
-        output: "A short, takeaway-style headline for your slide that you’d be happy to present.",
-        goodLooksLike: [
-          "Someone could read only the headline and know the point of the slide",
-          "It’s under about 12 words and easy to say out loud",
-          "It doesn’t overstate the data",
-          "It sounds like you on a good day"
-        ],
-        doneWhen: "Your slide has a new headline you’d actually present.",
-        extension: "Do the same for your whole storyline: paste just your slide titles and ask, “Rewrite these as takeaway headlines so they tell the story in order.”",
-        watchFor: [
-          "Punchy headlines can overclaim. Make sure the data on the slide supports it.",
-          "Catchy isn’t always right for the audience. A leadership review may want plain and clear.",
-          "Don’t paste unpublished results or confidential project names unless your tool is approved for them."
-        ]
+Then ask me which headline I like best so we can polish it together.`,
+          steps: [
+            "Pick a slide from a deck you’re building or recently presented.",
+            "If you took the End Boring session, jot down 2–3 things you remember from it. If you didn’t, skip that line.",
+            "Paste the prompt into your AI chat tool, fill in the brackets and send.",
+            "Read the options out loud. You know the room, so pick the one you’d actually say there, and ask the AI to polish it.",
+            "Put the new headline on your slide and check that the rest of the slide still supports it."
+          ],
+          output: "A short, takeaway-style headline for your slide that you’d be happy to present.",
+          goodLooksLike: [
+            "Someone could read only the headline and know the point of the slide",
+            "It’s under about 12 words and easy to say out loud",
+            "It doesn’t overstate the data",
+            "If you shared End Boring principles, you can see them in the result"
+          ],
+          doneWhen: "Your slide has a new headline you’d actually present.",
+          extension: "Do the same for your whole storyline: paste just your slide titles and ask, “Rewrite these as takeaway headlines so they tell the story in order.”",
+          watchFor: [
+            "Punchy headlines can overclaim. Make sure the data on the slide supports it.",
+            "The AI doesn’t know what the End Boring session covered. Rely on your own notes, not its guesses about the training.",
+            "Catchy isn’t always right for the audience. A leadership review may want plain and clear.",
+            "Don’t paste unpublished results or confidential project names unless your tool is approved for them."
+          ]
       },
       {
-        id: "b5",
-        slug: "flavor-pairings",
-        level: "explore",
-        square: "Invent 5 flavor pairings nobody's tried.",
-        title: "Invent 5 flavor pairings nobody’s tried yet",
-        category: "Flavor & product play",
-        time: "5–10 min",
-        summary: "Use AI as a brainstorming partner to dream up five unexpected flavor pairings for a product format you pick.",
-        why: "AI has read a lot about food, cultures and ingredients, so it can make connections you might not reach on your own. It’s a fast way to warm up your creative thinking before a real ideation session. You stay the judge, because AI has never tasted anything.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "A product format to play with, such as a granola bar, a yogurt, a snack mix or a cereal",
-          "Keep it to public, general ideas; don’t paste formulas, unpublished concepts or pipeline plans."
-        ],
-        prompt: `You are a creative flavor brainstorming partner with broad knowledge of global cuisines and ingredients.
+          id: "b5",
+          slug: "one-minute-brief",
+          level: "explore",
+          square: "Turn a long read into a one-minute brief.",
+          title: "Turn a long read into a one-minute brief",
+          category: "Everyday work",
+          time: "5–10 min",
+          summary: "Hand AI a long article, report or document and get back a short brief: what it says, why it matters to you, what to do and what’s still uncertain.",
+          why: "Long reads pile up, and the ones that matter most often get skimmed the least. A short brief in a fixed shape helps you decide quickly whether to read the whole thing, and what to look for when you do. Asking what’s uncertain keeps the summary honest, and follow-up questions turn it into a conversation instead of a shortcut.",
+          needs: [
+            "Your company-approved AI chat tool",
+            "A long document, article or report: something public, or something your tool is approved for",
+            "Ten minutes to check the brief against the original",
+            "Don’t paste confidential General Mills documents unless your tool is approved for that information."
+          ],
+          prompt: `You are a clear, careful analyst who writes short briefs for busy people. Turn the long document below into a brief I can read in one minute.
 
-Product format: [E.G., GRANOLA BAR, YOGURT, SAVORY SNACK MIX, CEREAL]
-Occasion or consumer (optional): [E.G., AFTERNOON PICK-ME-UP, KIDS’ LUNCHBOX, ADVENTUROUS SNACKERS]
-Anything to avoid (optional): [E.G., NO NUTS, NO SPICY HEAT]
+About me: [YOUR ROLE AND WHAT YOU CARE ABOUT, E.G., A FOOD SCIENTIST WORKING ON SNACK TEXTURE]
+The document: [PASTE THE TEXT OF A PUBLIC ARTICLE OR REPORT, OR ONE YOUR TOOL IS APPROVED FOR]
 
-Give me 5 flavor pairings that feel fresh and unexpected for this format. For each:
-1. The pairing, with a short catchy name
-2. Where the inspiration comes from (a cuisine, a dish, a season)
-3. Why the flavors might work together, in one sentence
-4. One honest risk or question to test
+Use this format, about 150 words in total:
+1. What it says: 3 bullet points
+2. Why it matters to me: 1–2 sentences, based on what I told you about my role
+3. What I might do: up to 2 suggestions
+4. What’s uncertain: anything the document leaves open, hedges on or doesn’t support well
 
 Rules:
-- Don’t claim something has never been done, since you can’t know that. Just aim for unusual.
-- Don’t claim health benefits or make nutrition promises.
-- Flag any common allergens in each pairing.
+- Only use what’s in the document. Don’t add facts, numbers, names or sources.
+- For each key number or claim, tell me roughly where it appears (section or heading) so I can check it.
+- If the document was too long to read in full, say so.
 
-Then ask me which 2 I want to push further, or whether I want a wilder round.`,
-        steps: [
-          "Choose a product format and, if you like, an occasion or consumer to design for.",
-          "Paste the prompt into your AI chat tool, fill in the brackets, and send.",
-          "Use your own palate and expertise to pick the 2 most intriguing ideas. This is where your judgment matters most.",
-          "Ask for a wilder round, or ask the AI to develop your favorites a little further.",
-          "Jot your best idea down for a future brainstorm, and remember it’s a starting point, not a recipe."
-        ],
-        output: "Five unexpected flavor pairing ideas with their inspiration, reasoning and a risk to test for each.",
-        goodLooksLike: [
-          "At least one idea makes you say “huh, that could be interesting”",
-          "Each pairing has a clear reason it might work, not just random words",
-          "Allergens are flagged",
-          "No health claims or “first ever” claims"
-        ],
-        doneWhen: "You’ve picked at least one pairing you’d bring to a real brainstorm or mention to a colleague.",
-        extension: "Ask for a consumer-facing description: “Write a 2-sentence package-back description for my favorite pairing, with no health claims.”",
-        watchFor: [
-          "AI doesn’t know if something tastes good. Treat every idea as a hypothesis for real sensory work.",
-          "Any idea that goes further needs food-safety, regulatory, allergen and sensory expert review.",
-          "AI can’t check whether a pairing already exists in market, so “nobody’s tried” is just for fun.",
-          "Keep formulas, unpublished concepts and pipeline plans out of the chat."
-        ]
+Then suggest 3 follow-up questions I could ask you about it.`,
+          steps: [
+            "Pick a long read that’s been sitting in your inbox or browser tabs. Public articles and reports are perfect for practice.",
+            "Paste the prompt into your AI chat tool, add a line about your role and the document text, and send.",
+            "Spot-check the brief against the original, especially numbers and anything in “What I might do.” You decide what’s worth acting on.",
+            "Ask one or two of the follow-up questions, or your own, to dig into the part that matters most to you."
+          ],
+          output: "A one-minute brief you can read, forward or file, plus a couple of questions worth exploring.",
+          goodLooksLike: [
+            "The brief fits on one screen and takes about a minute to read",
+            "Every number and claim can be found in the original",
+            "“What’s uncertain” names real gaps, not just generic caveats",
+            "“Why it matters to me” actually connects to your work"
+          ],
+          doneWhen: "You’ve checked the brief against the source and decided whether to read the full document, act on it or let it go.",
+          extension: "Turn the brief into a note for your team: “Rewrite this as a 4-sentence message for my team, with one question for discussion.”",
+          watchFor: [
+            "Summaries can drop or distort nuance, such as a caveat, a small sample or an “only in some cases.” Check against the source before you rely on it.",
+            "AI may invent details, numbers or quotes that aren’t in the document. If you can’t find it in the original, don’t repeat it.",
+            "Don’t paste confidential General Mills documents, formulas or unpublished plans unless your tool is approved for them."
+          ]
       },
       {
         id: "b6",
@@ -564,110 +562,114 @@ Rules: Don’t invent statistics, studies or sources. If you rely on general kno
         ]
       },
       {
-        id: "i2",
-        slug: "reinvent-a-snack",
-        level: "levelup",
-        square: "Reinvent a familiar snack 3 radical ways.",
-        title: "One snack, three radical reinventions",
-        category: "Flavor & product play",
-        time: "15–25 min",
-        summary: "Take a familiar snack category and push it in three directions: a new format, a new occasion and a new consumer.",
-        why: "Incremental ideas come easily; real stretch takes deliberate constraints. Forcing one change at a time (format, occasion, consumer) keeps the exploration disciplined and makes it easier to spot which axis has the most energy. It’s practice for the kind of divergent thinking that early innovation needs.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "A familiar, public snack category, such as granola bars, popcorn or fruit snacks (not unpublished plans)",
-          "Something to jot down the ideas you’d actually defend"
-        ],
-        prompt: `You are a creative product development partner who knows food science basics and consumer trends, and who likes bold ideas grounded in reality.
+          id: "i2",
+          slug: "ai-interviews-you",
+          level: "levelup",
+          square: "Let AI interview you until your thinking is clear.",
+          title: "Let AI interview you until your thinking is clear",
+          category: "Critical thinking",
+          time: "10–20 min",
+          summary: "Flip the usual direction: the AI asks you questions, one at a time, about a fuzzy project or decision, then plays back a crisp summary, open questions and a next step.",
+          why: "Most of the time we ask AI for answers. Sometimes what we need is a good question. Being interviewed by a patient, curious partner helps you put half-formed thoughts into words and notice what you haven’t decided yet. The thinking stays yours; the AI just keeps asking until it’s clear.",
+          needs: [
+            "Your company-approved AI chat tool",
+            "A project, goal or decision that feels fuzzy (describe it in general terms if it’s confidential)",
+            "15 quiet minutes to answer honestly"
+          ],
+          prompt: `You are a calm, curious thinking partner. I have a project, goal or decision that feels fuzzy, and I want you to interview me until my thinking is clear. You ask the questions; I do the thinking.
 
-Snack category: [PICK A FAMILIAR PUBLIC CATEGORY, E.G. GRANOLA BARS]
-What people usually love about it today: [2–3 THINGS, IN YOUR OWN WORDS]
+The topic: [ONE OR TWO SENTENCES, E.G., “HOW TO SET UP OUR TEAM’S SHELF-LIFE TESTING NEXT YEAR” OR “WHETHER TO TAKE ON A STRETCH ASSIGNMENT”]
+What would help most: [E.G., A CLEAR GOAL, A DECISION, A PLAN I CAN EXPLAIN TO MY MANAGER]
 
-Let’s reinvent it in three radical directions, one at a time:
-1. New format: change the physical form, texture or eating mechanics.
-2. New occasion: move it to a time, place or moment where it rarely shows up today.
-3. New consumer: design it for a group who doesn’t usually buy this category.
+How to run the interview:
+1. Ask me one question at a time, then wait for my answer. Never ask two questions at once.
+2. Start broad (what I’m trying to achieve and why it matters now), then get specific (who’s involved, constraints, what I already know, what worries me, what “done” looks like).
+3. Build on my answers. If I’m vague, ask a gentle follow-up. If I contradict myself, point it out kindly and ask which I mean.
+4. Don’t give advice or opinions during the interview.
+5. After 8–12 questions, or when I type WRAP UP, stop and give me:
+- A one-paragraph summary of my thinking in plain language, using my words where possible
+- Open questions: up to 5 things I still don’t know or haven’t decided
+- One next step I could take this week, phrased as an action
+- Anything I mentioned that seemed important but I didn’t follow through on
 
-For each direction, give me 3 concepts. For each concept include: a working name, a one-sentence description, the consumer tension it solves, what has to be true technically for it to work, and a “boldness” rating from 1 (small tweak) to 5 (truly new).
-
-Before moving to the next direction, ask me which concept I find most interesting and why, then build one round of improvements on my choice. Wait for my reply each time.
-
-At the end, give me a short table of my three chosen concepts with the biggest open question for each.
-
-Rules: Don’t invent market sizes, statistics or sources. Label any trend you mention as general observation, not data. Flag where food safety, nutrition, regulatory or legal experts would need to weigh in, especially on health or nutrition claims.`,
-        steps: [
-          "Choose a public snack category and describe what people like about it today.",
-          "Work through each direction, picking your favorite concept and explaining why. Your reasoning steers the next round.",
-          "Push back when a concept is too safe or too far-fetched and ask for a bolder or more realistic version.",
-          "Review the final table and decide which open question you’d most want answered by a technical expert."
-        ],
-        output: "Three developed snack concepts, one per direction, each with the key question that would make or break it.",
-        goodLooksLike: [
-          "At least one concept rated 4 or 5 on boldness that you still find plausible",
-          "The three directions feel genuinely different from each other",
-          "Each concept names a real consumer tension, not just a novelty",
-          "Technical and regulatory questions are flagged rather than glossed over"
-        ],
-        doneWhen: "You’ve picked one concept per direction and listed the biggest open question for each.",
-        extension: "Combine two directions into one concept: “Merge my format idea and my new-consumer idea into a single concept and tell me what new problems that creates.”",
-        watchFor: [
-          "AI can propose ingredients or processes that aren’t feasible or safe; treat technical claims as starting points for expert review",
-          "Any health, nutrition or functional claim needs regulatory, nutrition and legal review before it goes anywhere",
-          "Keep to public categories and hypothetical concepts in approved AI tools; don’t paste unpublished pipeline details",
-          "Trend references from AI may be outdated or invented, so verify before repeating them"
-        ]
+Rules: Only reflect what I actually told you. Don’t invent facts, names, numbers or deadlines. If the summary includes your own interpretation, label it. Then ask me what you got wrong and revise until it sounds like me.`,
+          steps: [
+            "Pick something that’s been on your mind but isn’t yet clear: a project, a goal or a decision. Keep confidential details general.",
+            "Paste the prompt, fill in the topic, and answer each question as honestly as you would with a trusted colleague.",
+            "Type WRAP UP when you feel ready, or let the AI stop after about ten questions.",
+            "Read the summary and correct anything that isn’t quite right. You’re the authority on what you think.",
+            "Decide whether the suggested next step is the right one, and put it on your calendar."
+          ],
+          output: "A one-paragraph summary of your thinking, a short list of open questions and one next step you chose.",
+          goodLooksLike: [
+            "The AI asked one question at a time and built on your answers",
+            "The summary sounds like you and you’d be comfortable sharing it",
+            "At least one open question is something you hadn’t named before",
+            "The next step is small, specific and doable this week"
+          ],
+          doneWhen: "You have a summary you agree with and one next step you’ve committed to.",
+          extension: "Use the summary to brief someone else: “Turn this into a 3-sentence update for my manager, ending with the one thing I need from them.”",
+          watchFor: [
+            "The summary may smooth over doubts you still have. Add them back if they matter.",
+            "If the AI starts giving advice instead of asking, remind it to go back to questions.",
+            "Keep confidential project names, financials and personal details out unless your tool is approved for them.",
+            "Any interpretation the AI adds is a guess about you, not a fact. Keep only what rings true."
+          ]
       },
       {
-        id: "i3",
-        slug: "idea-scorecard",
-        level: "levelup",
-        square: "Build a scorecard. Let your ideas compete.",
-        title: "Let your ideas compete on a fair scorecard",
-        category: "Innovation practice",
-        time: "20–25 min",
-        summary: "Define your criteria and weights first, let AI challenge them, then score several ideas and check how sensitive the ranking is.",
-        why: "When we score ideas without agreeing on criteria first, the favorite usually wins. Setting weights before scoring, and having them questioned, makes your thinking visible and fairer. A quick sensitivity check shows whether the winner is truly strong or just lucky in how you weighted things.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "3–5 ideas to compare, described in a sentence each (hypothetical or sanitized)",
-          "A rough sense of what matters most for your team right now"
-        ],
-        prompt: `You are a decision coach who helps innovation teams compare ideas fairly. We’ll build a scorecard before we score anything.
+          id: "i3",
+          slug: "idea-scorecard",
+          level: "levelup",
+          square: "Make a tough choice with a simple scorecard.",
+          title: "Make a tough choice with a simple scorecard",
+          category: "Critical thinking",
+          time: "15–20 min",
+          summary: "Choosing between 2–4 real options? Set your criteria and weights first, score each option, check whether the result holds up, then make the call yourself.",
+          why: "When a choice is close, the option we already like tends to win, and it’s hard to explain why to anyone else. Agreeing on what matters before scoring anything makes your reasoning visible and fairer. A quick check of how much the weights matter shows whether you have a clear winner or a genuine close call. The scorecard organizes your judgment; it doesn’t replace it.",
+          needs: [
+            "Your company-approved AI chat tool",
+            "A real choice with 2–4 options, such as which project to prioritize, which conference to attend, or which of two vendors or approaches to use (sanitized if needed)",
+            "A rough sense of what matters most to you or your team right now"
+          ],
+          prompt: `You are a practical decision coach. I need to choose between a few real options, and I want to do it with a simple, fair scorecard. I make the final call; your job is to keep the process honest.
 
-Context: [ONE OR TWO SENTENCES ON THE GOAL, E.G. “PICK ONE SNACK CONCEPT TO EXPLORE NEXT QUARTER”]
-My ideas (hypothetical or sanitized):
-1. [IDEA A]
-2. [IDEA B]
-3. [IDEA C]
-[ADD UP TO 2 MORE]
+The choice: [E.G., “WHICH OF TWO PROJECTS TO PRIORITIZE NEXT QUARTER” OR “WHICH CONFERENCE TO ATTEND”]
+My options (2–4, sanitized if needed):
+A. [OPTION A]
+B. [OPTION B]
+C. [OPTIONAL]
+D. [OPTIONAL]
 
-Step 1: Ask me what matters most for this decision. Then propose 5–6 criteria (for example consumer appeal, technical feasibility, strategic fit, speed to learn, cost to test) with a one-line definition and a suggested weight for each, totaling 100%. Do not look at or score my ideas yet.
-Step 2: Challenge my weights. Point out where I might be over- or under-weighting something and ask me to confirm or change them. Wait for my reply.
-Step 3: Only after weights are locked, score each idea 1–5 per criterion. Show a table: Idea | each criterion score | weighted total. Give a one-line rationale for every score and mark any score that depends on information you don’t have as “needs input.”
-Step 4: Run a sensitivity check. Show how the ranking changes if the top two weights are each shifted by 10 points, and tell me whether the winner is robust or fragile.
+Let’s go step by step:
+Step 1: Ask me what matters most for this choice and any hard limits (budget, time, must-haves). Wait for my answer.
+Step 2: Propose 4–6 criteria, each with a one-line definition and a suggested weight, totaling 100%. Don’t score any option yet. Ask me to change or confirm the criteria and weights, and wait. I decide the weights.
+Step 3: Once I confirm, score each option 1–5 on each criterion. Show a table: Option | one column per criterion | Weighted total. Give a one-line reason for each score. If a score depends on information you don’t have, write “needs my input” and ask me instead of guessing.
+Step 4: Check sensitivity. Show whether the winner changes if each of my top two weights moves up or down by 10 points. Tell me plainly whether the result is clear or a close call.
+Step 5: Ask me whether the result matches my gut. If it doesn’t, help me find which criterion or score explains the gap.
 
-Rules: Don’t invent data, market figures or sources. Mark assumptions clearly. Remind me that the final decision belongs to the team and the relevant experts.`,
-        steps: [
-          "List your ideas and a one-sentence goal, keeping everything hypothetical or sanitized.",
-          "Agree on criteria and weights, and take the AI’s challenges seriously before locking them in. This is the main judgment call.",
-          "Review the scores and replace any “needs input” scores with your own informed estimate.",
-          "Read the sensitivity check and decide whether the ranking is strong enough to act on or needs more evidence."
-        ],
-        output: "A weighted scorecard ranking your ideas, plus a note on how robust that ranking is.",
-        goodLooksLike: [
-          "Weights were set and defended before any idea was scored",
-          "Every score has a short, readable rationale",
-          "The sensitivity check tells you clearly whether the winner holds up",
-          "Gaps in knowledge are visible rather than hidden in a number"
-        ],
-        doneWhen: "You have a final ranked scorecard and know whether the top idea is robust or fragile.",
-        extension: "Ask for the cheapest next step to firm up the closest race: “Which single piece of information would most likely change the ranking between my top two ideas?”",
-        watchFor: [
-          "Numbers can look more precise than the thinking behind them; treat scores as structured opinions",
-          "AI may fill unknowns with plausible guesses, so check every “needs input” item",
-          "Keep real project names, financials and unpublished plans out unless your approved tool and policy allow it",
-          "A scorecard supports a team decision, it doesn’t replace one"
-        ]
+Rules: Don’t invent facts, prices, dates or numbers about my options. The scorecard supports my decision; it doesn’t make it.`,
+          steps: [
+            "Pick a real choice you’re facing and list 2–4 options, leaving out confidential details.",
+            "Tell the AI what matters, then set the criteria and weights yourself before anything is scored. This is the main judgment call.",
+            "Review the scores and fill in every “needs my input” with what you know.",
+            "Read the sensitivity check: is it a clear winner or a close call?",
+            "Make the decision yourself, and note the one or two reasons you’d give if someone asked why."
+          ],
+          output: "A weighted scorecard for your options, a note on whether the result holds up, and a decision you can explain.",
+          goodLooksLike: [
+            "Criteria and weights were set before any option was scored",
+            "Every score has a short, readable reason",
+            "You know whether the winner is clear or a close call",
+            "The final decision is yours, and you can explain it in a sentence or two"
+          ],
+          doneWhen: "You’ve made your choice and can explain why in one or two sentences.",
+          extension: "If it’s a close call, ask: “What single piece of information would most likely change the result between my top two options, and how could I get it this week?”",
+          watchFor: [
+            "Scores can look more precise than the thinking behind them; treat them as structured opinions",
+            "AI may fill gaps with plausible guesses about vendors, prices or events, so check every fact it adds",
+            "Keep confidential project names, financials and unpublished plans out unless your tool and policy allow it",
+            "If the scorecard and your gut disagree, that’s useful information, not a reason to ignore either one"
+          ]
       },
       {
         id: "i4",
@@ -778,155 +780,160 @@ Rules: Don’t invent feedback, numbers or sources. Remember that a count of com
         ]
       },
       {
-        id: "i6",
-        slug: "smallest-test",
-        level: "levelup",
-        square: "Design the smallest real test of a big idea.",
-        title: "Design the smallest real test of a big idea",
-        category: "Innovation practice",
-        time: "15–20 min",
-        summary: "Find the riskiest assumption behind a big idea and design a test you could run in a week, with success and kill criteria set in advance.",
-        why: "Big ideas stall when the first step feels as big as the idea itself. Shrinking the question to one risky assumption and one cheap test gets you learning fast. Writing success and kill criteria before you start keeps you honest about what you find.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "A big idea you’d like to move forward (hypothetical or sanitized)",
-          "A realistic sense of the time and resources you could spare this week"
-        ],
-        prompt: `You are a lean experimentation coach. Help me design the smallest real test of a big idea.
+          id: "i6",
+          slug: "tough-feedback",
+          level: "levelup",
+          square: "Prepare a tough feedback conversation.",
+          title: "Prepare a tough feedback conversation",
+          category: "Communication",
+          time: "15–25 min",
+          summary: "Plan what to say in a hard conversation, anticipate how the other person might react, then practice with AI playing them and get coaching afterward.",
+          why: "Feedback conversations are easier to avoid than to have, and the words that come out under pressure are rarely the ones we planned. Structuring your message as observation, impact and request keeps it clear and fair. Practicing out loud, even with an AI stand-in, makes the real conversation calmer and kinder for both of you.",
+          needs: [
+            "Your company-approved AI chat tool",
+            "A made-up or anonymized version of the situation, with no names or personal details",
+            "Your company’s HR guidance, if the situation touches performance, conduct or wellbeing"
+          ],
+          prompt: `You are an experienced, warm leadership coach. Help me prepare a feedback conversation that is clear, kind and specific. I’ll describe a made-up or anonymized version of the situation, with no names or personal details.
 
-The big idea: [DESCRIBE IT IN 2–3 SENTENCES, HYPOTHETICAL OR SANITIZED]
-What I have available this week: [E.G. “A FEW HOURS, A SMALL BUDGET, ACCESS TO A PILOT KITCHEN”]
-What I can’t do: [E.G. “NO EXTERNAL CONSUMERS WITHOUT APPROVAL”]
+Our roles: [E.G., “I MANAGE THEM,” “WE’RE PEERS,” “I COACH THEM”]
+The situation (anonymized): [WHAT HAPPENED, IN 2–4 SENTENCES, FOCUSED ON BEHAVIOR YOU SAW OR HEARD]
+What I want from the conversation: [YOUR GOAL]
+What I’m worried about: [E.G., “THEY’LL GET DEFENSIVE,” “I’LL SOFTEN IT TOO MUCH”]
 
-Walk me through this, one stage at a time:
-1. Ask me 2–3 questions to understand what would have to be true for this idea to succeed. Wait for my answers.
-2. List the 5 most important assumptions and help me pick the riskiest one: the one that, if wrong, sinks the idea, and that we know least about. Explain your reasoning and let me overrule you.
-3. Propose 3 different tests for that assumption that could run within one week, from scrappiest to most rigorous. For each give: what we’d do, who’s involved, time and effort, and what it can and can’t tell us.
-4. After I pick one, help me write a one-page test card: Assumption | Test | Metric or signal | Success criteria | Kill criteria | Date we decide.
+Work with me in stages:
+1. Ask me up to 3 questions, one at a time, waiting for each answer.
+2. Help me draft an opening in three parts: the specific observation (what I saw or heard, not a judgment of the person), the impact (on the work, the team or me), and the request (what I’m asking for going forward). Keep it under 100 words, in my voice, and let me edit it.
+3. List 4 ways the other person might react (for example, surprised, defensive, upset, quick to agree) and suggest one calm, respectful response to each.
+4. Role-play: play the other person realistically, not as a villain. Respond to my opening, one turn at a time, and stay in character until I type COACH.
+5. When I type COACH, tell me what was clear and kind, where I was vague or slipped into judgment, and one line I could say better.
 
-Make me commit to the success and kill criteria before the test runs. Don’t invent benchmarks or statistics; if a threshold is a judgment call, say so. Flag any part of the test that needs food safety, regulatory, legal or consumer research approval.`,
-        steps: [
-          "Describe your idea and your real constraints for the week, keeping details sanitized.",
-          "Answer the AI’s questions, then decide which assumption is truly the riskiest. Overrule the AI if your knowledge says otherwise.",
-          "Pick one of the three test options based on what you can actually do this week.",
-          "Set success and kill criteria yourself before running anything, and put a decision date on the calendar."
-        ],
-        output: "A one-page test card for a week-long experiment with success and kill criteria agreed in advance.",
-        goodLooksLike: [
-          "The test targets one assumption, not the whole idea",
-          "It can genuinely be done within a week with what you have",
-          "Success and kill criteria are specific and written before the test",
-          "Required approvals are identified up front"
-        ],
-        doneWhen: "You have a completed test card and a date when you’ll decide what to do next.",
-        extension: "Plan the next step either way: “If the test passes, what’s the next riskiest assumption? If it fails, what’s the most promising pivot?”",
-        watchFor: [
-          "Small tests answer small questions; don’t over-read the results",
-          "Thresholds suggested by AI are not industry benchmarks unless you verify them",
-          "Anything involving consumers, food handling or claims needs the right approvals first",
-          "Use approved AI tools and keep unpublished plans out of the chat"
-        ]
+Rules: Don’t invent facts about the person or guess at their motives. You are not a substitute for HR advice; if this may involve performance management, conduct or wellbeing, remind me to talk with HR first. I decide what to say.`,
+          steps: [
+            "Write a short, anonymized or made-up version of the situation. Leave out names, health details and anything personal.",
+            "Answer the AI’s questions, then edit the draft opening until it sounds like you. You know the person and the relationship; the AI doesn’t.",
+            "Read the likely reactions and pick the one that worries you most.",
+            "Run the role-play, type COACH when you’re ready, and decide which coaching points to keep.",
+            "If the situation involves performance, conduct or wellbeing, check your plan with HR before the real conversation."
+          ],
+          output: "A short, specific opening for the conversation, responses for likely reactions, and a practice run with coaching.",
+          goodLooksLike: [
+            "The opening describes behavior and impact, not personality",
+            "The request is clear enough that the other person would know what to do differently",
+            "You practiced at least one difficult reaction and stayed calm and respectful",
+            "No names or personal details were shared with the AI"
+          ],
+          doneWhen: "You have an opening you’re comfortable saying out loud and you’ve practiced it at least once.",
+          extension: "Plan the follow-up too: “Help me write a short, kind check-in message I could send a week after the conversation.”",
+          watchFor: [
+            "Use a made-up or anonymized situation. Don’t include names, health information or other personal details.",
+            "AI is not a substitute for HR advice. Follow your HR guidance, especially for performance, conduct or wellbeing concerns.",
+            "The role-play is a rehearsal, not a prediction. Real people respond in ways no simulation can anticipate.",
+            "AI can make feedback sound polished but cold. Keep your own warmth and words."
+          ]
       },
       {
-        id: "i7",
-        slug: "simulated-shoppers",
-        level: "levelup",
-        square: "Let 5 simulated shoppers question your concept.",
-        title: "Five simulated shoppers, twenty better questions",
-        category: "Consumer understanding",
-        time: "20–25 min",
-        summary: "Have AI role-play five distinct hypothetical shoppers reacting to a concept so you can generate sharper questions to validate with real consumers.",
-        why: "Before talking to real consumers, it helps to anticipate the confusions and doubts people might have. Simulated personas are a fast way to widen your perspective and sharpen your interview questions. They are not consumers and not evidence, so the output is a question list, not a finding.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "A hypothetical or sanitized concept described in a few sentences",
-          "Access to your approved consumer research channels for the real validation step"
-        ],
-        prompt: `Important framing: you will role-play simulated, hypothetical shoppers. These are AI personas for brainstorming, not real consumers. Nothing they say is consumer research or evidence. The goal is to generate hypotheses and interview questions that I will validate with real consumers through approved research channels.
+          id: "i7",
+          slug: "learning-plan",
+          level: "levelup",
+          square: "Build a 30-day plan to learn a new skill.",
+          title: "Build a 30-day plan to learn a new skill",
+          category: "Everyday work",
+          time: "15–20 min",
+          summary: "Pick a skill you want to grow, let AI build a realistic week-by-week plan around your time and level, then get quizzed on day one.",
+          why: "Learning goals often stall because they’re too big or too vague to start. A plan built around your real calendar, with small practice tasks tied to your actual work, makes progress feel doable. A quick quiz on day one turns the plan into practice straight away, and shows you where to focus.",
+          needs: [
+            "Your company-approved AI chat tool",
+            "A skill you’d like to build, such as a statistics method, a sensory-science concept, presenting data, a new software tool or better AI prompting",
+            "An honest sense of how much time you have each week",
+            "Access to your company’s learning resources for finding courses and materials"
+          ],
+          prompt: `You are a patient, practical learning coach. Help me build a realistic 30-day plan to learn a new skill, then check my understanding on day one.
 
-My concept (hypothetical or sanitized): [DESCRIBE THE CONCEPT IN 3–4 SENTENCES]
-Where it would be sold: [E.G. “GROCERY CEREAL AISLE”]
+The skill: [E.G., “DESIGN OF EXPERIMENTS BASICS,” “A SENSORY-SCIENCE CONCEPT LIKE TRIANGLE TESTS,” “PRESENTING DATA CLEARLY,” “A NEW SOFTWARE TOOL,” “WRITING BETTER AI PROMPTS”]
+Why I want it: [HOW YOU’D USE IT AT WORK]
 
-Step 1: Propose 5 clearly different hypothetical shopper personas relevant to this category (vary life stage, budget, motivations, household and shopping habits). Avoid stereotypes. Give each a one-line sketch and ask me to adjust any before we continue. Wait for my reply.
-Step 2: Interview each persona one at a time. Have each one react to the concept in their own voice, then ask the questions, confusions and doubts they might have. Label every response “SIMULATED.”
-Step 3: Step out of character and give me:
-- A table: Question or confusion | Which personas raised it | Why it might matter | Hypothesis it suggests
-- The 10 best open-ended questions to ask real consumers, written in neutral, non-leading language
-- A note on what simulated personas are likely to get wrong or miss
+Work with me step by step:
+1. Ask me, one question at a time, about my current level, how much time I have each week, how I like to learn (reading, video, doing, talking it through), and what “good enough” looks like on day 30. Wait for each answer.
+2. Build a 4-week plan. For each week give: a focus, 2–3 small practice tasks I can do in my real work (each under 30 minutes), and a quick self-check to know I’m on track. Keep the total within the time I told you.
+3. For resources, describe the type to look for (for example, “an introductory course on this topic” or “your team’s internal guide”) rather than naming specific titles or links. If you do name a specific book, course or link, mark it “unverified” so I check it exists. Remind me to look at company learning resources first.
+4. Ask me whether the plan feels realistic and adjust it based on my answer. I decide what stays in.
+5. Then start day one: quiz me with 5 short questions on the basics, one at a time. After each answer, tell me what I got right and explain anything I missed in plain language.
 
-Rules: Do not present anything as data, percentages or consumer findings. Don’t invent statistics or sources. Flag any questions touching health, nutrition or claims as needing regulatory and legal review before use with consumers.`,
-        steps: [
-          "Describe a hypothetical or sanitized concept; never paste unpublished concept boards or consumer data.",
-          "Review the five personas and adjust any that feel stereotyped or irrelevant before the interviews start.",
-          "Read the simulated reactions as prompts for curiosity, not as findings. Note which questions surprise you.",
-          "Edit the final question list with your own judgment and take it to your consumer insights partners for real validation."
-        ],
-        output: "A list of open, neutral questions and hypotheses to validate with real consumers through approved research channels.",
-        goodLooksLike: [
-          "Every persona response is clearly labeled as simulated",
-          "Personas are genuinely different and avoid stereotypes",
-          "Questions are neutral and open, not leading",
-          "Nothing is framed as evidence about what consumers think"
-        ],
-        doneWhen: "You have a reviewed list of questions ready to share with your consumer insights or research partners.",
-        extension: "Ask the AI to sort your questions by what to learn first: “Group these questions by which ones would most change our concept if the answer surprised us.”",
-        watchFor: [
-          "Simulated personas are not consumers; never cite them as research, evidence or insight",
-          "AI personas can reflect stereotypes and bias, so review them critically",
-          "Real validation must go through approved consumer research channels and processes",
-          "Don’t paste consumer personal data or unpublished concepts; use approved AI tools only"
-        ]
+Rules: Don’t invent facts, statistics or resources. If you’re unsure about something technical, say so.`,
+          steps: [
+            "Choose one skill that would make a real difference in your work over the next month.",
+            "Answer the AI’s questions honestly, especially about your time. A plan you can keep beats an ambitious one you can’t.",
+            "Review the plan and cut or swap anything that doesn’t fit your work or your week. You know what’s realistic.",
+            "Take the day-one quiz and notice what you already know and where you need more practice.",
+            "Look up any suggested resources in your company’s learning tools before using anything else, and put week one’s tasks on your calendar."
+          ],
+          output: "A week-by-week learning plan with small practice tasks, plus a day-one quiz that shows where to start.",
+          goodLooksLike: [
+            "The plan fits inside the time you said you have",
+            "Practice tasks connect to your real work, not just reading",
+            "Any named resource is marked unverified until you’ve checked it",
+            "The quiz explanations helped you understand something better"
+          ],
+          doneWhen: "You’ve finished the day-one quiz and put the first week’s tasks on your calendar.",
+          extension: "Come back at the end of week one and ask: “Here’s what I did this week and what felt hard. Adjust next week’s plan and quiz me on what I learned.”",
+          watchFor: [
+            "AI may recommend books, courses or links that don’t exist. Verify every title and link, and prefer company learning resources.",
+            "Technical explanations can be slightly off. Check important concepts with a colleague or trusted source.",
+            "Quizzes from AI can contain wrong answers. If an answer seems off, question it.",
+            "Keep confidential project details out of your practice tasks unless your tool is approved for them."
+          ]
       },
       {
-        id: "i8",
-        slug: "trend-to-opportunity",
-        level: "levelup",
-        square: "Turn an outside trend into 3 GPD opportunities.",
-        title: "Turn an outside trend into three GPD opportunities",
-        category: "Creativity",
-        time: "15–25 min",
-        summary: "Bring a public trend, have AI separate signal from hype, then shape three opportunities for GPD and flag what needs verifying.",
-        why: "Trends arrive wrapped in hype, and it’s easy to either chase them or dismiss them. Sorting signal from noise before ideating gives you opportunities rooted in something real. Flagging what needs checking keeps you from repeating claims you can’t back up.",
-        needs: [
-          "Your company-approved AI chat tool",
-          "A public trend you’ve noticed, from a news article, trade publication or everyday observation",
-          "Any public sources you already have, so you can check them yourself"
-        ],
-        prompt: `You are a thoughtful trend analyst working with a food product development team. Help me turn an outside trend into grounded opportunities.
+          id: "i8",
+          slug: "process-one-pager",
+          level: "levelup",
+          square: "Turn a messy process into a one-page how-to.",
+          title: "Turn a messy process into a one-page how-to",
+          category: "Workflow redesign",
+          time: "15–25 min",
+          summary: "Describe a process you know well, let AI ask clarifying questions and draft a one-page how-to, then test it with AI playing a brand-new employee.",
+          why: "Every team has processes that live in one person’s head, and they’re hard to write down because the expert no longer sees the steps. Being questioned pulls out the details you skip without noticing. Testing the page with a “new employee” shows exactly where a real newcomer would get stuck, before one does.",
+          needs: [
+            "Your company-approved AI chat tool",
+            "A process you know well, such as onboarding a new team member, submitting a sample request or setting up a sensory test",
+            "Non-confidential notes about it, or a sanitized description in your own words"
+          ],
+          prompt: `You are a clear, practical technical writer. Help me turn a process I know well into a one-page how-to that a new colleague could follow. I’m the expert on this process; you help me organize and write it.
 
-The trend: [NAME OR DESCRIBE A PUBLIC TREND, E.G. “PROTEIN IN EVERYTHING” OR “SMALL-PORTION SNACKING”]
-Where I saw it: [E.G. “A TRADE ARTICLE, SOCIAL MEDIA, STORE VISITS”]
-My team’s focus area: [E.G. “SNACKS, BAKING, CEREAL”]
+The process: [E.G., “ONBOARDING A NEW TEAM MEMBER,” “SUBMITTING A SAMPLE REQUEST,” “SETTING UP A SENSORY TEST”]
+Who will use the guide: [E.G., “A NEW HIRE IN THEIR FIRST MONTH”]
+My notes (non-confidential or sanitized): [DESCRIBE THE STEPS AS YOU’D EXPLAIN THEM, OR PASTE ROUGH NOTES]
 
-Please work through this in order:
-1. Explain the trend in plain language: what’s driving it, who it affects and what it’s a reaction to. Clearly separate what you know with reasonable confidence from what you’re inferring.
-2. Build a table: Claim about the trend | Signal or hype? | Why | How I could verify it. Do not invent statistics, studies, market sizes or sources. If you’re unsure, say “unverified” and suggest what kind of source would confirm it.
-3. Ask me which signals feel most relevant to my team. Wait for my answer.
-4. Generate 3 opportunities for product development. For each: a working name, the consumer need, how it connects to the trend, what we’d need to believe for it to work, and the first question to verify.
-5. End with a “before you share this” checklist of every claim that needs checking against a credible public source or an internal expert.
+Work with me in stages:
+1. Ask me up to 5 clarifying questions about gaps, such as who does what, where things get stuck and what people usually get wrong. Ask one at a time and wait for each answer.
+2. Write a one-page how-to with these sections: Purpose (one sentence) | Before you start | Steps (numbered, each starting with a verb, with the owner in brackets) | Common mistakes | FAQ (4–5 questions) | Who to ask for help. Keep it under 400 words.
+3. Wherever my notes didn’t say something (an owner, a system name, a timing), write [CHECK] instead of filling it in.
+4. Ask me to review the draft and tell you what to change. Wait for my reply.
+5. Then test it: play a brand-new employee who has only this page. Ask me 5 naive but realistic questions, one at a time. After the last one, list which parts of the page should change so those questions are answered up front.
 
-Flag anything that touches nutrition, health claims, food safety or regulation as requiring expert review.`,
-        steps: [
-          "Pick a public trend and note where you encountered it.",
-          "Review the signal vs hype table and challenge anything that sounds too neat. Your own observations count here.",
-          "Choose which signals matter for your team so the opportunities stay relevant.",
-          "Work through the verification checklist before sharing any of it, and bring in experts for claims or nutrition questions."
-        ],
-        output: "Three trend-based opportunities for your team, plus a checklist of claims to verify before sharing.",
-        goodLooksLike: [
-          "Signal and hype are clearly separated with reasons",
-          "No statistics or sources appear that you haven’t verified",
-          "Opportunities connect to a real consumer need, not just the trend label",
-          "Items needing expert review are clearly flagged"
-        ],
-        doneWhen: "You have three opportunities and a verification checklist, with at least one claim already checked against a credible public source.",
-        extension: "Look at the trend from the other side: “What’s the counter-trend or backlash to this, and is there an opportunity there too?”",
-        watchFor: [
-          "AI can invent statistics, studies or sources that sound real; verify every figure before you repeat it",
-          "AI knowledge may be out of date on fast-moving trends",
-          "Health, nutrition and claims-related opportunities need regulatory, nutrition and legal review",
-          "Use approved AI tools and keep internal strategy and unpublished plans out of the chat"
-        ]
+Rules: Don’t invent steps, names, systems, tools or policies. If something sounds like it should follow an official procedure, flag it so I can confirm with the process owner.`,
+          steps: [
+            "Pick a process you know well and others often ask you about. Write or paste rough, non-confidential notes.",
+            "Answer the AI’s clarifying questions. This is where your expertise fills the gaps.",
+            "Review the draft and replace every [CHECK] with the right detail, or confirm it with the process owner.",
+            "Answer the “new employee” questions and decide which ones the page should answer up front.",
+            "Share the final page with a colleague who knows the process and ask them to catch anything missing."
+          ],
+          output: "A one-page how-to with steps, owners, common mistakes and an FAQ, tested against a newcomer’s questions.",
+          goodLooksLike: [
+            "Every step starts with a verb and has a named owner or role",
+            "Gaps are marked [CHECK] rather than filled in with guesses",
+            "The FAQ answers the questions a newcomer actually asked",
+            "Someone new could follow it without needing to find you first"
+          ],
+          doneWhen: "You have a reviewed one-page how-to with no [CHECK] markers left, ready to share with your team.",
+          extension: "Turn it into a quick checklist: “Make a 10-item checklist version of this page that someone could tick off as they go.”",
+          watchFor: [
+            "AI may invent plausible steps, system names or policies. Check every step against how the process really works.",
+            "Official procedures, safety steps or quality requirements must match the approved source, not the AI’s version.",
+            "Keep confidential system details, supplier names and personal information out unless your tool is approved for them."
+          ]
       },
 
     /* ===== GO FURTHER (advanced) ===== */
@@ -995,64 +1002,45 @@ Stage 4: Chair synthesis. After my reply, produce:
         fallback: "If you only have one basic chat, use the prompt above as written. It is a simulated-role alternative, so label your memo “single-session simulation” and do not describe the perspectives as independent."
       },
       {
-        id: "a2",
-        slug: "vibe-code-a-tool",
-        level: "gofurther",
-        square: "Vibe-code a working tool in under an hour.",
-        title: "Vibe-code a small working tool",
-        category: "AI experimentation",
-        time: "45–60 min",
-        summary: "Describe the behavior of a small tool in plain language, have AI build it as a runnable prototype, then test it and fix what breaks.",
-        why: "Most daily AI users ask for text; far fewer have described a behavior and watched AI turn it into something that runs. Building and then breaking a tiny tool teaches you what AI gets right on the first try, where it silently guesses, and how specific a spec has to be. That instinct carries over to every future conversation with a software team.",
-        needs: [
-          "An approved AI-supported development environment, or an approved AI tool that can create runnable single-file HTML apps",
-          "A small, real annoyance to solve (concept scoring, a sensory-panel tally, a brainstorm randomizer)",
-          "Fictional or non-sensitive sample data only"
-        ],
-        prompt: `You are a careful prototype developer. I want a small working tool built in stages. This is a throwaway prototype with fictional data, not production software.
-
-Stage 1: Clarify. Here is the problem and the behavior I want:
-Problem: [ONE OR TWO SENTENCES, E.G., “OUR TEAM SCORES 8–12 CONCEPTS ON 4 CRITERIA IN A SPREADSHEET AND THE MATH KEEPS BREAKING.”]
-Who uses it: [E.G., 3–6 PEOPLE IN A WORKSHOP]
-Inputs: [E.G., CONCEPT NAMES, 4 CRITERIA, SCORES 1–5, OPTIONAL WEIGHTS]
-Outputs: [E.G., RANKED TABLE, WEIGHTED TOTAL, HIGHLIGHT THE TOP 3]
-Must not: [E.G., SEND DATA ANYWHERE, NEED A LOGIN, STORE ANYTHING ONLINE]
-
-Before writing code, restate the behavior as a numbered list of requirements, list every assumption you are making, and ask me up to 5 questions about anything ambiguous. Stop and wait for my answers.
-
-Stage 2: Build. After I answer, create a single self-contained HTML file (HTML, CSS and JavaScript in one file, no external libraries, no network calls, no data storage beyond the page). Preload it with 5 rows of obviously fictional sample data. Keep the interface plain and readable.
-
-Stage 3: Test plan. Give me a short test table with columns: Test # | What to do | Expected result. Include at least two edge cases (empty input, ties, out-of-range values).
-
-Stop and wait. I will run the tests and report what actually happened.
-
-Stage 4: Fix. For each bug I report, explain the cause in one plain sentence, then give the corrected full file. Do not add features I did not ask for.
-
-Throughout: if a requirement is risky or you are unsure how something should behave, say so instead of guessing. Remind me that anything going beyond prototype use needs review by the appropriate technical team.`,
-        steps: [
-          "Pick a problem small enough to finish in an hour. Write the problem, users, inputs, outputs and must-nots before you open the tool.",
-          "Paste the prompt into your approved environment and answer its clarifying questions. Human judgment: the questions it asks show where your spec was vague, so fix the spec rather than accepting its defaults.",
-          "Save the generated file and open it locally only if your IT policy allows that. Run every test in its test table and add one test of your own.",
-          "Report the bugs you actually observed, not ones you assume, and let it fix them. Stop after two fix rounds.",
-          "Write a 5-line test log: what you tested, what failed, what was fixed, what still does not work, and whether the tool is worth a real build."
-        ],
-        output: "A working single-file prototype plus a 5-line test log of what you tested, what broke and what was fixed.",
-        goodLooksLike: [
-          "Someone else can use the tool for its purpose without you explaining it",
-          "The tool passes your own edge-case test, not just the ones AI proposed",
-          "The test log records at least one real bug and how it was resolved",
-          "You can name one requirement AI got wrong because your spec was ambiguous",
-          "No real, confidential or personal data was used at any point"
-        ],
-        doneWhen: "The prototype runs, passes its test table after fixes, and the 5-line test log is written.",
-        extension: "Ask: “Review this file as a skeptical senior developer. List the three things that would break first with 50 real users, and what a production version would need that this one lacks.”",
-        watchFor: [
-          "A prototype is not production software; it has not been reviewed for security, accessibility or data handling",
-          "AI-written code can look right and calculate wrong, so check outputs by hand on a few rows",
-          "Use fictional or non-sensitive data only, and open or run files only where IT policy allows",
-          "AI fills gaps in your spec with confident guesses that are easy to miss"
-        ],
-        fallback: "In a basic chat that cannot produce runnable files, run Stages 1 and 3 and ask for a detailed functional spec plus a screen-by-screen clickable-flow description instead of code. If the chat can output a single HTML file and IT allows opening it locally, request that file in Stage 2."
+          id: "a2",
+          slug: "reusable-assistant",
+          level: "gofurther",
+          square: "Turn your best prompt into a reusable AI assistant.",
+          title: "Turn your best prompt into a reusable assistant",
+          category: "AI experimentation",
+          time: "30–45 min",
+          summary: "Write standing instructions for a task you repeat, test them on three varied inputs including a deliberately tricky one, and revise based on what actually failed.",
+          why: "Most daily AI users retype a version of the same prompt every week, and the result depends on how carefully they typed it that day. Writing standing instructions forces you to make your quality bar explicit: the format, the rules, and what the assistant should flag instead of guessing. Testing on an awkward input shows you how instructions fail, which is a different skill from writing a good one-off prompt. Many approved tools offer this as custom assistants, agents, projects or saved instructions; check what yours offers and its data rules before you build.",
+          needs: [
+            "A task you repeat every week or two (meeting notes into your team’s update format, a draft reviewed against your writing checklist, 1:1 prep) and your best current prompt for it",
+            "Your company-approved AI tool, plus its guidance on custom assistants or saved instructions and what files they may hold",
+            "Three test inputs written hypothetically or with non-confidential content, one of them deliberately awkward"
+          ],
+          prompt: "You are helping me design, test and improve a reusable AI assistant for one task I repeat. Work in stages and stop where I say. Do not invent examples of my team’s work; if you need one, ask me or label yours HYPOTHETICAL.\n\nTHE TASK:\nWhat I repeat: [E.G., TURNING ROUGH MEETING NOTES INTO OUR TEAM’S WEEKLY UPDATE FORMAT]\nHow often: [E.G., WEEKLY]\nWhat a good result looks like: [FORMAT, LENGTH, TONE AND AUDIENCE. USE A HYPOTHETICAL OR NON-CONFIDENTIAL VERSION.]\nMy best prompt for this today: [PASTE IT WITH ANY CONFIDENTIAL DETAIL REMOVED]\n\nStage 1: Interview. Ask me up to 6 questions about the inputs I usually have, the audience, rules the output must follow, and the mistakes I most often fix by hand. Stop and wait.\n\nStage 2: Instructions v1. Write standing instructions under these headings: Role | Inputs to expect | Output format (exact template) | Rules | Flag or refuse (what to do when input is missing, ambiguous, looks confidential or is out of scope) | Questions to ask before answering. Keep it under 300 words. Label any rule you inferred rather than took from me as ASSUMPTION. Stop and let me edit.\n\nStage 3: Test design. Propose 3 test inputs: one typical, one messy or incomplete, and one tricky edge case designed to make the assistant fail (e.g., a decision nobody owns, conflicting dates, or a request outside its scope). Use hypothetical content only. For each, state the expected behavior. Stop. I will run the tests in the assistant and paste back what it actually produced.\n\nStage 4: Test log and v2. Produce a table: Test | Input type | Expected | Actual | Pass, partial or fail | Instruction change. Score each output 1–5 on format accuracy, faithfulness (nothing added that was not in the input) and correct flagging. Then write instructions v2 that fix the failures, and list what changed from v1. Do not fix a failure with a rule so broad it breaks the typical case.\n\nThroughout, separate what I told you from what you are assuming. Flag any point where the output must be checked by a person before it is used, and any data-handling question I should confirm against my tool’s rules.",
+          steps: [
+            "Pick a repeated task and find what your approved tool calls this feature (custom assistant, agent, project or saved instructions). Read its data rules, including who can see an assistant you share.",
+            "Run Stages 1 and 2 in a regular chat. Human judgment: edit v1 until the rules and the “flag or refuse” section reflect your team’s real standard, not AI’s guess at it.",
+            "Create the assistant in your tool and paste in v1. Add reference examples only if they are non-confidential and allowed in that tool.",
+            "Run Stage 3, then give each test input to the assistant in a fresh conversation. Human judgment: decide pass or fail yourself before you paste the outputs back and read AI’s scores.",
+            "Run Stage 4, update the assistant to v2, and rerun the test that failed. Keep v1, v2 and the test log together."
+          ],
+          output: "Instruction set v1 and v2, plus a 3-row test log showing expected versus actual behavior and what changed.",
+          goodLooksLike: [
+            "v1 names an exact output template and at least one situation the assistant must flag rather than guess",
+            "The edge-case test failed or partly failed on v1, and v2 handles it without breaking the typical case",
+            "Outputs add nothing that was not in the input; you checked this line by line on at least one test",
+            "A teammate could use the assistant for the task without asking you how it works",
+            "No confidential material went into the instructions or reference files"
+          ],
+          doneWhen: "You have v1 and v2 instructions, a 3-row test log, and v2 passes the test that v1 failed.",
+          extension: "Give the assistant to one colleague for a week with a two-line note on what it is for. Ask them for one input where it let them down, add it as a fourth test, and decide whether v3 is needed.",
+          watchFor: [
+            "Sharing an assistant shares its instructions and any attached files; check what a colleague will be able to see",
+            "Do not upload confidential documents, formulas or unpublished plans as reference material unless your tool and data rules approve it",
+            "Assistants drift when the underlying model or your team’s standards change; rerun your three tests every month or two",
+            "A consistent format can hide wrong content; a person still checks the output before it is sent"
+          ],
+          fallback: "If your tool is basic chat only, save v2 as an “instruction block” in a document. Start each fresh chat by pasting the block, then the input. Rerun the same three tests whenever you change the block."
       },
       {
         id: "a3",
@@ -1173,64 +1161,45 @@ Do not invent market data, consumer statistics or competitor facts. Flag anythin
         fallback: "This runs in any basic chat. If the tool loses track of the table, paste the current table back in at the start of each stage."
       },
       {
-        id: "a5",
-        slug: "research-sprint-design",
-        level: "gofurther",
-        square: "Design a research sprint with AI as your analyst.",
-        title: "Design an AI-assisted research sprint",
-        category: "Consumer understanding",
-        time: "40–60 min",
-        summary: "Design a short research sprint in which AI drafts the desk-research plan, interview guide and coding scheme, while real consumers, approved partners and source checks supply the truth.",
-        why: "AI is fast at research scaffolding and unreliable at research facts, and daily users often blur the two. Designing a sprint that assigns each job to the right party (AI, a human researcher, real consumers, verified sources) is a skill on its own. You end up with a plan that is faster to run and harder to fool.",
-        needs: [
-          "A research question framed hypothetically or without confidential detail",
-          "Your company-approved AI tool; web or deep-research features only if your approved tool includes them",
-          "Awareness of your organization’s approved research partners and consumer research policies"
-        ],
-        prompt: `You are a senior consumer insights lead helping me design a 2-week research sprint. Your job is to design the method and draft materials, not to supply findings. Never invent data, statistics, quotes, studies or citations. If you mention a source, say whether it is something I must locate and verify.
-
-RESEARCH QUESTION:
-[STATE THE QUESTION IN 1–2 SENTENCES. USE A HYPOTHETICAL OR NON-CONFIDENTIAL VERSION, E.G., “WHY DO PARENTS OF TEENS STOP BUYING BREAKFAST BARS?”]
-Decision this research informs: [WHAT WILL CHANGE BASED ON THE ANSWER]
-What we already believe: [HYPOTHESES, LABELED AS SUCH]
-
-Stage 1: Sharpen. Break the question into 3–5 sub-questions. For each, say what kind of evidence would answer it (published data, expert input, consumer behavior, consumer attitudes). Stop and let me edit.
-
-Stage 2: Division of labor. Produce a table: Sub-question | What AI can draft or synthesize | What requires real consumers | What requires an approved research partner | What requires source verification by a person.
-
-Stage 3: Desk research plan. List the types of sources to look for (not specific invented titles), search terms, and how to judge source quality. If I have a web or deep-research tool, explain how I should use it and how to check that each cited source exists and says what is claimed.
-
-Stage 4: Draft materials.
-1. A 30-minute interview guide with a warm-up, 8–10 open questions, and probes. Avoid leading questions.
-2. A starter coding scheme for qualitative data: 6–10 codes with definitions and an example of what would and would not count.
-
-Stage 5: Verification checklist. A checklist I must complete before any finding is shared, covering source existence, quote accuracy, sample limitations, AI-drafted versus consumer-sourced content, and privacy rules for consumer data.
-
-Mark every item that needs approval from insights, legal or privacy teams.`,
-        steps: [
-          "Write a research question and the decision it informs, keeping details hypothetical or non-confidential.",
-          "Run Stages 1 and 2. Human judgment: the division-of-labor table is the core of the plan, so move anything that depends on real consumer truth out of the AI column.",
-          "Run Stage 3. If your approved tool has web or deep-research features, try one search and open every cited source yourself to confirm it exists and supports the claim.",
-          "Run Stages 4 and 5. Review the interview guide for leading questions and check the coding scheme against how your insights team works.",
-          "Compile a one-page research plan: question, sub-questions, division of labor, materials list and verification checklist."
-        ],
-        output: "A one-page research sprint plan with a division-of-labor table and a verification checklist.",
-        goodLooksLike: [
-          "The plan clearly separates AI drafting from evidence that must come from real consumers or verified sources",
-          "No citation, statistic or quote in the plan was produced by AI without a person verifying it",
-          "An insights colleague would run the interview guide with minor edits, not a rewrite",
-          "The coding scheme has definitions precise enough that two people would code the same quote the same way",
-          "The verification checklist could be used as a real gate before sharing findings"
-        ],
-        doneWhen: "You have a one-page plan whose verification checklist an insights colleague agrees is usable.",
-        extension: "Ask: “Role-play three very different interviewees answering question 4, then tell me which of my probes failed to get past a surface answer.” Treat the role-play as a way to test the guide, never as data.",
-        watchFor: [
-          "AI can fabricate citations, statistics and quotes that look real; verify every source by opening it",
-          "Simulated consumer responses are not consumer research and must never be reported as findings",
-          "Consumer personal data must follow privacy policies and stay out of unapproved tools",
-          "Research design choices should be reviewed by insights professionals before fieldwork"
-        ],
-        fallback: "In a chat-only tool without web access, skip the search part of Stage 3 and ask for a list of source types and search terms you will run yourself. Everything else in the prompt works as written."
+          id: "a5",
+          slug: "research-head-start",
+          level: "gofurther",
+          square: "Give your next research question a head start.",
+          title: "Give your research question a head start",
+          category: "Consumer understanding",
+          time: "30–45 min",
+          summary: "Use AI as a research assistant to scope your question, map what is known and unknown, and draft a desk-research plan and interview guide, so your expertise and your research partners can start from a stronger plan.",
+          why: "The slow part of starting research is often the setup: scoping the question, sorting what you know from what you assume, deciding where to look and drafting a guide. An AI research assistant can draft that scaffolding quickly. It cannot tell you what is true about consumers, and it does not know what your experience and your insights colleagues know. This exercise practices a clear division of work: AI prepares materials, you make the research calls, and real consumers, approved research partners and checked sources supply the evidence.",
+          needs: [
+            "A research question you own, framed hypothetically or without confidential detail",
+            "Your company-approved AI tool; web or deep-research features only if your approved tool includes them",
+            "Awareness of your organization’s approved research partners and consumer research policies"
+          ],
+          prompt: "You are a research assistant supporting me. I am the researcher: I own the question, the method choices and the conclusions. Your job is to help me prepare faster by organizing, drafting and listing what to check. You do not supply findings. Never invent data, statistics, quotes, studies or citations. If you name a source type or organization, label it TO VERIFY.\n\nMY RESEARCH QUESTION:\n[STATE IT IN 1–2 SENTENCES. USE A HYPOTHETICAL OR NON-CONFIDENTIAL VERSION, E.G., “WHY DO PARENTS OF TEENS STOP BUYING BREAKFAST BARS?”]\nDecision it informs: [WHAT WILL CHANGE BASED ON THE ANSWER]\nWhat I already know from my own work: [YOUR EXPERTISE AND HYPOTHESES, LABELED AS SUCH]\n\nStage 1: Scope. Suggest 3–5 sub-questions and one thing I could deliberately leave out of scope. Ask me 3 questions that would help you understand what my expertise already tells me. Stop and let me rewrite.\n\nStage 2: Known vs unknown map. Table: Sub-question | Evidence I gave you | What I am assuming | Genuinely unknown | Best way to find out (published source, internal expert, insights team, approved research partner, real consumers). Put nothing in the evidence column that I did not give you. Stop and let me correct it.\n\nStage 3: Desk-research plan. Source types to check (not invented titles), search terms, and 3 questions for judging each source’s quality. If my tool has approved web or deep-research features, tell me how to confirm that each cited source exists and says what is claimed.\n\nStage 4: Draft interview guide. A 30-minute guide for real consumer or expert conversations: warm-up, 8 open questions with probes, no leading questions. Mark which questions I should check with my insights team or research partner.\n\nStage 5: Verification checklist. A checklist I complete before sharing anything, covering: the source exists and says what is cited, quote accuracy, sample limits, what came from AI drafting versus real consumers or verified sources, and privacy rules for consumer data. Flag every item that needs insights, legal or privacy review.",
+          steps: [
+            "Write your question, the decision it informs and what you already know from your own work, keeping details hypothetical or non-confidential.",
+            "Run Stages 1 and 2. Human judgment: rewrite the sub-questions in your own terms and correct the known/unknown map. You know the category; the assistant is pattern-matching.",
+            "Run Stage 3. If your approved tool has web or deep-research features, open every cited source yourself to confirm it exists and supports the claim.",
+            "Run Stage 4 and edit the guide for leading questions. Human judgment: review it with your insights team or research partner before any fieldwork.",
+            "Run Stage 5 and compile a one-page plan: question, sub-questions, known/unknown map, desk-research plan, guide outline and verification checklist."
+          ],
+          output: "A one-page research plan with a known/unknown map and a verification checklist.",
+          goodLooksLike: [
+            "The evidence column contains only what you supplied or verified; nothing in it came from AI unchecked",
+            "Each unknown names who or what will answer it: a source, an expert, the insights team, a research partner or real consumers",
+            "No citation, statistic or quote appears without a person having opened and checked the source",
+            "An insights colleague would use the interview guide with minor edits, not a rewrite",
+            "The verification checklist could be used as a real gate before sharing findings"
+          ],
+          doneWhen: "You have a one-page plan you would be comfortable walking an insights colleague through, with a verification checklist that works as a gate before anything is shared.",
+          extension: "Ask: “Role-play three very different interviewees answering question 4, then tell me which of my probes failed to get past a surface answer.” Use the role-play only to test the guide, never as data.",
+          watchFor: [
+            "AI can fabricate citations, statistics and quotes that look real; verify every source by opening it",
+            "Simulated consumer responses are not consumer research and must never be reported as findings",
+            "Consumer personal data must follow privacy policies and stay out of unapproved tools",
+            "Research design choices should be reviewed by insights professionals before fieldwork"
+          ],
+          fallback: "In a chat-only tool without web access, skip the search part of Stage 3 and ask for source types and search terms you will run yourself. Everything else in the prompt works as written."
       },
       {
         id: "a6",
@@ -1357,65 +1326,45 @@ Do not claim either approach is generally better; one test is one data point.`,
         fallback: "With only one basic chat, compare two prompt strategies (for example zero-shot versus structured-with-examples) in separate fresh chats in the same tool, then copy the outputs into a document and have a colleague label them A and B."
       },
       {
-        id: "a8",
-        slug: "team-jam-with-ai",
-        level: "gofurther",
-        square: "Run a team jam with AI as a seat at the table.",
-        title: "Run a team jam with AI at the table",
-        category: "Innovation practice",
-        time: "45–60 min",
-        summary: "Design and run a 30–45 minute working session where 3–6 colleagues and AI each play defined roles, then debrief on what AI added and what it distorted.",
-        why: "Almost all AI use is one person and one chat window. Putting AI into a live group changes the dynamics: it can break anchoring and fill silence, but it can also flatten discussion or get treated as an authority. Designing the rules of engagement on purpose is a skill few teams have practiced.",
-        needs: [
-          "3–6 colleagues and 30–45 minutes",
-          "One shared screen running your company-approved AI tool, operated by a single facilitator",
-          "A hypothetical or non-confidential challenge to work on"
-        ],
-        prompt: `You are helping me design a 30–45 minute team working session where AI is one participant among 3–6 people. I will run the AI from one shared screen. No personal accounts, integrations or automated actions are involved. Pause where I say.
-
-THE SESSION:
-Challenge: [DESCRIBE IN 2–3 SENTENCES. USE A HYPOTHETICAL OR NON-CONFIDENTIAL CHALLENGE, E.G., “HOW MIGHT WE MAKE OUR WEEKLY PROJECT STAND-UP MORE USEFUL?”]
-Participants: [NUMBER AND ROLES, NO NAMES NEEDED]
-Desired output: [E.G., 3 IDEAS TO TRY NEXT MONTH]
-
-Stage 1: Roles. Propose 3 roles AI could play in this session (for example provocateur, synthesizer or note-taker, devil’s advocate). For each: what it does, when it is invoked, the exact short prompt the facilitator would type, and one way that role could go wrong in a group. Stop and let me choose.
-
-Stage 2: Run-of-show. Build a minute-by-minute agenda table: Time | Round | Human-only or AI-assisted | What happens | Facilitator prompt (if AI). Requirements:
-1. Start with a human-only round so AI does not anchor the group.
-2. Include at least one round where AI challenges the group’s favorite idea.
-3. End with a human-only decision round.
-
-Stage 3: Ground rules. Write 5 short rules the facilitator reads out at the start, including: when humans override AI, how to treat AI claims of fact (unverified until checked), what not to type into the tool (confidential information, personal data), and who decides.
-
-Stage 4: Debrief. Write 6 debrief questions covering what AI added, what it distorted or flattened, whether anyone deferred to it too much, and whether we would use it the same way again.
-
-Stage 5: Playbook. Package Stages 1–4 into a one-page reusable session playbook another facilitator could run without me.
-
-Do not include any steps that send messages, schedule meetings or act outside this chat.`,
-        steps: [
-          "Run the prompt to design the session, choose AI’s roles, and adjust the run-of-show to your team’s habits.",
-          "Run the session. Only the facilitator types into the approved AI tool on the shared screen; nobody connects personal accounts or automates anything.",
-          "Human judgment: during the session, enforce the override rule out loud whenever the group starts deferring to AI or treating its claims as fact.",
-          "Hold the debrief using the generated questions and capture answers in plain notes.",
-          "Update the playbook with what you learned and save it alongside your debrief notes."
-        ],
-        output: "A reusable one-page session playbook plus debrief notes from a real run with your team.",
-        goodLooksLike: [
-          "The run-of-show has clear human-only rounds, including the opening and the final decision",
-          "The debrief names at least one thing AI added and one thing it distorted",
-          "Someone who was not there could run the session from the playbook alone",
-          "Participants could say who made the final decision, and it was a person",
-          "No confidential data was entered and no external action was taken"
-        ],
-        doneWhen: "You have run the session once and saved a playbook updated with your debrief notes.",
-        extension: "Run the same playbook with a different team and compare debriefs. Ask AI: “Here are two debriefs. What pattern suggests where AI helps groups and where it gets in the way?”",
-        watchFor: [
-          "Groups can defer to AI as an authority; its contributions are prompts for discussion, not answers",
-          "AI may confidently state facts during the session that need checking afterward",
-          "Never type confidential information or colleagues’ personal details into the tool",
-          "Do not connect personal accounts, integrations or automations to run the session"
-        ],
-        fallback: "This needs only a basic chat on a shared screen. If screen sharing is not practical, the facilitator can read AI’s responses aloud and paste the group’s inputs back in."
+          id: "a8",
+          slug: "self-critique-loop",
+          level: "gofurther",
+          square: "Make AI critique and rewrite its own first draft.",
+          title: "Run a draft, critique and revise loop",
+          category: "AI experimentation",
+          time: "25–40 min",
+          summary: "Set success criteria first, have AI draft a real work product, critique it against those criteria in a separate step, revise, and judge for yourself whether the loop improved it.",
+          why: "Most people accept or lightly edit a first draft, or ask for “make it better” and get something longer. Splitting drafting from critique (often called reflection or prompt chaining) gives the model a narrower job at each step, and running the critique in a fresh chat or as a different reviewer stops it simply agreeing with itself. The real lesson is the comparison at the end: sometimes the loop sharpens a draft and sometimes it only adds words, and you need to be able to tell which.",
+          needs: [
+            "A real, non-confidential work product you need anyway: a project update, a one-page proposal or an email to leadership",
+            "Three to five success criteria written before you open the tool",
+            "Your company-approved AI tool, ideally able to open a second fresh chat"
+          ],
+          prompt: "You are helping me run a draft, critique and revise loop on one real work product. Work in stages and stop where I say. Do not invent facts, figures, names, dates or sources; if the draft needs something I have not given you, insert [NEEDS INPUT: what is missing] instead.\n\nTHE WORK PRODUCT:\nType: [E.G., A ONE-PAGE PROJECT UPDATE, A SHORT PROPOSAL OR AN EMAIL TO LEADERSHIP]\nAudience and what they need to decide or know: [DESCRIBE]\nKey content: [BULLETS OF THE FACTS AND POINTS TO INCLUDE. USE A HYPOTHETICAL OR NON-CONFIDENTIAL VERSION.]\n\nStage 1: Criteria. My success criteria are: [3–5 CRITERIA YOU WROTE BEFORE OPENING THE TOOL, E.G., “THE ASK IS IN THE FIRST TWO LINES”]. Turn each into a 1–5 scoring anchor (what a 1, a 3 and a 5 look like). Suggest at most 2 criteria I may have missed, labeled SUGGESTED. Stop and let me confirm the final list.\n\nStage 2: Draft v1. Write the first draft using only the content I gave you. Stop.\n\nStage 3: Critique. I will ideally paste the criteria and v1 into a fresh chat with this stage only. Act as a demanding reviewer who did not write this draft and owes it nothing. Produce a table: Criterion | Score 1–5 | Evidence (quote the line) | Specific fix. Then list anything stated as fact that is really an assumption, anything the audience would question, and anything to cut. Do not soften scores to be polite; if the draft is already strong on a criterion, say so and propose no change. Stop and let me strike critique points I disagree with.\n\nStage 4: Revise v2. Apply only the critique points I kept. Keep length within 10 percent of v1 unless a criterion requires otherwise. Re-score v2 with the same table and list each change next to the criterion it serves.\n\nStage 5: Honest comparison. Tell me where v2 is worse than v1 or merely longer, and which remaining issues need my judgment or someone with domain expertise rather than another revision pass.",
+          steps: [
+            "Write your criteria before opening the tool, plus the key content in bullets using non-confidential or hypothetical details.",
+            "Run Stages 1 and 2. Human judgment: confirm the scoring anchors match what your audience actually cares about, and drop any suggested criterion that does not.",
+            "Open a fresh chat for Stage 3 and paste only the criteria, v1 and the Stage 3 instructions. Human judgment: strike any critique point you disagree with and note why.",
+            "Return to the original chat, paste in the critique points you kept, and run Stages 4 and 5.",
+            "Read v1 and v2 side by side, ignoring the scores. Write your own 3-line verdict: what improved, what got worse or longer, and whether you would use the loop for this kind of work again."
+          ],
+          output: "v1, the critique table, v2 and your own 3-line verdict on whether the loop helped.",
+          goodLooksLike: [
+            "Criteria were written before the first draft and did not change to fit it",
+            "Every critique point quotes a specific line and proposes a specific fix, not “could be clearer”",
+            "You rejected at least one critique point, with a stated reason",
+            "v2 is better on the criteria you weighted most and is no more than about 10 percent longer",
+            "Your verdict would hold up if a colleague read both versions without knowing which came first"
+          ],
+          doneWhen: "You have v1, the critique, v2 and a 3-line verdict stating whether the loop was worth it for this task.",
+          extension: "Run a second critique on v2 with a different reviewer role (e.g., a skeptical finance partner or a time-pressed executive). Ask: “Is this round finding real problems or just different preferences?” Note the point where extra passes stop paying off.",
+          watchFor: [
+            "A critique in the same chat tends to approve its own draft; a fresh chat or different reviewer role reduces this but does not remove it",
+            "Revision loops drift toward longer, more hedged text; check that the main point or ask did not get buried",
+            "AI cannot check facts it was never given; figures and [NEEDS INPUT] markers still need you",
+            "Use non-confidential content only; do not paste unpublished plans or results to make the draft feel realistic"
+          ],
+          fallback: "In a basic chat with a single conversation, run the stages as separate turns. Before Stage 3, write “Set aside that you wrote this draft. You are a new reviewer seeing it for the first time,” and treat the critique as less independent than a fresh-chat run."
       }
   ]
 };
