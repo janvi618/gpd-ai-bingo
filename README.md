@@ -107,8 +107,8 @@ It runs the testing checklist from the brief in a real browser. That covers layo
 Record the demo video (about 50 seconds, 1920×1080 MP4 for PowerPoint or Teams; needs ffmpeg):
 
 ```bash
-node tests/make-demo-video.js                       # opens "Turn messy notes into 3 clear actions"
-DEMO_SQUARE=end-boring node tests/make-demo-video.js # or feature a different square
+node tests/make-demo-video.js                        # features "End Boring your next presentation"
+DEMO_SQUARE=messy-notes node tests/make-demo-video.js # or feature a different square
 ```
 
 It shows the card, the level filter, one activity page (copy prompt, mark complete), the stamped card, and ends on the QR code. Output: `demo/GPD-AI-Bingo-demo.mp4`.

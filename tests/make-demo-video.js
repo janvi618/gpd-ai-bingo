@@ -1,7 +1,7 @@
 /* GPD AI Bingo — records a ~1-minute demo video (MP4, 1920x1080).
    Run from the gpd-ai-bingo folder:   node tests/make-demo-video.js
    Needs Playwright + Chromium and ffmpeg (with libx264) on the PATH.
-   Optional: DEMO_SQUARE=<slug> picks the square to open (default: messy-notes).
+   Optional: DEMO_SQUARE=<slug> picks the square to open (default: end-boring).
    Output: demo/GPD-AI-Bingo-demo.mp4 */
 const http = require("http");
 const fs = require("fs");
@@ -14,7 +14,7 @@ const ROOT = path.resolve(__dirname, "..");
 const OUT_DIR = path.join(ROOT, "demo");
 const OUT = path.join(OUT_DIR, "GPD-AI-Bingo-demo.mp4");
 const FRAMES = fs.mkdtempSync(path.join(require("os").tmpdir(), "bingo-frames-"));
-const SQUARE = process.env.DEMO_SQUARE || "messy-notes";
+const SQUARE = process.env.DEMO_SQUARE || "end-boring";
 const W = 1920, H = 1080;
 
 const TYPES = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".woff2": "font/woff2" };
@@ -131,6 +131,10 @@ function installOverlay() {
   await page.waitForSelector("#activity-title");
   await overlay();
   await page.mouse.move(mouse.x, mouse.y);
+  if (SQUARE === "end-boring") {
+    await caption("Squares build on what GPD already knows, like Ivan Wanis Ruiz’s End Boring");
+    await wait(4200);
+  }
   await caption("Each square explains why it’s worth trying and what you need");
   await wait(3800);
   await scrollTo(await top("#try") - 120, 1400);
