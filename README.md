@@ -28,6 +28,7 @@ The middle row is all Explore squares plus the FREE SPACE, so anyone can reach B
 | `PRESENTER-AND-TEAMS.md` | 30–45 second presenter script and a Teams/email post | Yes |
 | `tests/` | Automated browser checks and the PDF generator | No |
 | `cereal-catch/` | A separate big-screen game and trading-card maker for the *Lessons from the Frontier* session, served at `/cereal-catch/` (see its own README) | No |
+| `cereal-kingdom/` | A separate 3D adventure game for the same session, playable on phones, served at `/cereal-kingdom/` (see its own README) | No |
 
 **Technology choice.** The site is plain HTML, CSS and JavaScript with no frameworks, no build step, no backend and no external calls. That makes it simple for IT to host and review: copy the folder to any static web server.
 
