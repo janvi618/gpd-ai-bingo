@@ -15,6 +15,13 @@ const store = {
 let quality = params.get('q') || store.get('quality', isTouch ? 'medium' : 'high');
 setSound(store.get('sound', true));
 const rand = (a = 0, b = 1) => a + Math.random() * (b - a);
+const RUN_SECONDS = 120, BOSS_AT = 45;
+export const BOARD_TOPIC = params.get('board') || 'ck-frontier-x7q2m9';
+const BOARD_URL = 'https://ntfy.sh/' + BOARD_TOPIC;
+function checkCode(id, name, score){ let h = 2166136261; for (const ch of `${id}|${name}|${score}|crunch-2026`) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36).toUpperCase().slice(0, 5).padStart(5, '0'); }
+const DEVICE_ID = store.get('id', null) || (() => { const v = Math.random().toString(36).slice(2, 10); store.set('id', v); return v; })();
+const BLOCK = /(fuck|shit|bitch|cunt|dick|piss|slut|whore|nazi|fag|nigg|retard)/i;
+function cleanName(s){ s = String(s || '').replace(/[\u0000-\u001f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 16); return BLOCK.test(s) ? 'Sir Crunch' : s; }
 const TAU = Math.PI * 2;
 const angDiff = (a, b) => { let d = (b - a) % TAU; if (d > Math.PI) d -= TAU; if (d < -Math.PI) d += TAU; return d; };
 const angLerp = (a, b, t) => a + angDiff(a, b) * t;
@@ -467,7 +474,7 @@ const hero = heroModel(); scene.add(hero.root);
 const trailMat = new THREE.MeshBasicMaterial({ color: '#FFFBE6', transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false, blending: THREE.AdditiveBlending });
 const trail = new THREE.Mesh(new THREE.RingGeometry(1.1, 2.7, 36, 1, -Math.PI * 0.4, Math.PI * 0.8).rotateX(-Math.PI / 2), trailMat); scene.add(trail);
 const spinTrail = new THREE.Mesh(new THREE.RingGeometry(1.0, 3.4, 48).rotateX(-Math.PI / 2), trailMat.clone()); scene.add(spinTrail);
-const P = { x: 0, z: 25, y: 0, vx: 0, vz: 0, kx: 0, kz: 0, face: Math.PI, hp: 10, maxHp: 10, level: 1, xp: 0, next: 6, dmg: 1,
+const P = { x: 0, z: 25, y: 0, vx: 0, vz: 0, kx: 0, kz: 0, face: Math.PI, hp: 12, maxHp: 12, level: 1, xp: 0, next: 6, dmg: 1,
   atkCd: 0, combo: 0, lastAtk: -9, swingT: 0, swingDur: 0.24, swingHit: true, spin: false, dashT: 0, dashCd: 0, dashX: 0, dashZ: 0, inv: 0, special: 0, walk: 0, moving: 0, alive: true, flash: 0 };
 const pShadow = blob(1.8);
 function setDmg(){ P.dmg = 1 + Math.floor((P.level - 1) / 2); }
@@ -500,7 +507,7 @@ function spawnEnemy(kind, x, z, site){
   enemies.push(e); if (site) site.enemies.push(e); return e;
 }
 RING_SITES.forEach(s => s.guards.forEach(([k, dx, dz]) => spawnEnemy(k, s.x + dx, s.z + dz, s)));
-[[-26, 21], [-1, -28], [30, 2], [3, 46], [-46, -14], [40, -30]].forEach(([x, z]) => spawnEnemy('small', x, z, null));
+
 
 /* ================= NPCs ================= */
 const NPCS = [
@@ -558,27 +565,29 @@ decal.add(decalFill, decalRing);
 const shockMat = new THREE.MeshBasicMaterial({ color: '#FFFFFF', transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide });
 const shock = new THREE.Mesh(new THREE.RingGeometry(0.8, 1, 48).rotateX(-Math.PI / 2), shockMat); scene.add(shock); let shockT = 9, shockR = 4;
 function spawnBoss(){
+  state.bossSpawned = true;
+  let bx = P.x + camFwd.x * 13, bz = P.z + camFwd.z * 13;
+  if (height(bx, bz) < 0.8) { const p = landPointNear(P.x, P.z, 9, 16); if (p) { bx = p.x; bz = p.z; } else { bx = P.x + 7; bz = P.z; } }
   const m = soggyModel('boss'); scene.add(m.g);
-  B = { x: 4, z: 92, y: -6, hp: 45, maxHp: 45, r: 3.1, state: 'emerge', st: 0, slamT: 3.5, sumT: 9, kx: 0, kz: 0, face: Math.PI, flash: 0, phase: 1, m, alive: true, shadow: blob(7), tx: 0, tz: 0, ax: 0, az: 0 };
+  B = { x: bx, z: bz, y: height(bx, bz) - 7, hp: 30, maxHp: 30, r: 3.1, state: 'emerge', st: 0, slamT: 3.2, sumT: 8, kx: 0, kz: 0, face: Math.atan2(P.x - bx, P.z - bz), flash: 0, phase: 1, m, alive: true, shadow: blob(7), tx: 0, tz: 0, ax: 0, az: 0 };
+  sky.duskTarget = 1; playTrack('boss'); sfxPlay('roar'); state.shake = 0.9;
+  banner('The Great Sog attacks!', 'Pop him for +400');
   $('bossBar').classList.remove('hidden'); updateBossBar();
 }
 function updateBossBar(){ if (B) $('bossFill').style.transform = `scaleX(${Math.max(0, B.hp / B.maxHp)})`; }
 
 /* ================= state, HUD, UI ================= */
-const state = { mode: 'title', stage: 'talk', rings: 0, coins: 0, kills: 0, time: 0, timerOn: false, shake: 0, hitstop: 0, downT: 0, winT: -1 };
-const hud = { hp: '', xp: '', lv: '', coins: '', rings: '', timer: '', obj: '', dist: '' };
+const state = { mode: 'title', stage: 'rings', rings: 0, coins: 0, kills: 0, time: 0, timerOn: false, shake: 0, hitstop: 0, downT: 0, winT: -1,
+  score: 0, timeLeft: RUN_SECONDS, chain: 0, chainT: 0, mult: 1, bestMult: 1, pops: 0, bossSpawned: false, bossBeaten: false, spawnT: 2, countT: 0, countN: 0, name: '' };
+const hud = { hp: '', xp: '', lv: '', score: '', combo: '', rings: '', timer: '', obj: '', dist: '' };
 function fmtTime(s){ s = Math.floor(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 function setText(key, id, v){ if (hud[key] !== v) { hud[key] = v; $(id).textContent = v; } }
 function objective(){
-  if (state.stage === 'talk') { const n = NPCS[0]; return { text: 'Talk to Mayor Oatley', x: n.x, z: n.z, beacon: true }; }
-  if (state.stage === 'rings') {
-    let best = null, bd = 1e9;
-    for (const s of RING_SITES) if (!s.collected) { const d = Math.hypot(s.x - P.x, s.z - P.z); if (d < bd) { bd = d; best = s; } }
-    if (!best) return null;
-    return { text: best.cleared ? `Grab the Golden Ring at ${best.name}` : `Win back the ring at ${best.name}`, x: best.x, z: best.z, beacon: true };
-  }
-  if (state.stage === 'boss' && B && B.alive) return { text: 'Defeat the Great Sog at Milk Beach', x: B.x, z: B.z, beacon: false };
-  return { text: 'Kingdom saved! Explore freely', x: null };
+  if (B && B.alive && B.state !== 'dying') return { text: 'The Great Sog! Pop him for +400', x: B.x, z: B.z, beacon: false };
+  let best = null, bd = 1e9;
+  for (const s of RING_SITES) if (!s.collected) { const d = Math.hypot(s.x - P.x, s.z - P.z); if (d < bd) { bd = d; best = s; } }
+  if (best) return { text: best.cleared ? 'Grab the Golden Ring: +150' : `Bonus: Golden Ring at ${best.name}`, x: best.x, z: best.z, beacon: true };
+  return { text: 'Pop every soggy you can!', x: null };
 }
 const camRight = new THREE.Vector3(), camFwd = new THREE.Vector3();
 function updateHud(){
@@ -586,8 +595,10 @@ function updateHud(){
   const hpS = `${Math.max(0, Math.ceil(P.hp))} / ${P.maxHp}`;
   if (hud.hp !== hpS) { hud.hp = hpS; $('hpText').textContent = hpS; $('hpFill').style.transform = `scaleX(${Math.max(0, P.hp / P.maxHp)})`; }
   const xpS = (P.xp / P.next).toFixed(3); if (hud.xp !== xpS) { hud.xp = xpS; $('xpFill').style.transform = `scaleX(${P.xp / P.next})`; }
-  setText('coins', 'coinNum', String(state.coins));
-  setText('timer', 'timer', fmtTime(state.time));
+  setText('score', 'scoreNum', state.score.toLocaleString());
+  const tl = Math.ceil(state.timeLeft); setText('timer', 'timer', fmtTime(tl));
+  $('timeBox').classList.toggle('low', tl <= 10 && state.mode === 'play');
+  const cb = state.mult > 1 ? `Combo ×${state.mult}` : ''; if (hud.combo !== cb) { hud.combo = cb; $('comboChip').textContent = cb; $('comboChip').classList.toggle('on', !!cb); }
   const rk = String(state.rings); if (hud.rings !== rk) { hud.rings = rk; $('ringIcons').querySelectorAll('i').forEach((el, i) => el.classList.toggle('on', i < state.rings)); }
   const o = objective();
   setText('obj', 'objText', o ? o.text : '');
@@ -621,9 +632,9 @@ function updateOverlays(dt){
     const s = toScreen(f.x, f.y, f.z); f.el.style.opacity = String(Math.min(1, (f.life - f.t) * 4)); f.el.style.transform = `translate(${s.x}px,${s.y}px) translate(-50%,-50%) scale(${1 + Math.max(0, 0.15 - f.t) * 2})`; f.el.style.display = s.ok ? '' : 'none';
   }
   for (const n of NPCS) {
-    const d = Math.hypot(n.x - P.x, n.z - P.z), show = d < 12 && state.mode === 'play';
+    const d = Math.hypot(n.x - P.x, n.z - P.z), show = d < 5.5 && (state.mode === 'play' || state.mode === 'count');
     n.label.style.display = show ? '' : 'none';
-    if (show) { const s = toScreen(n.x, n.y + 2.9, n.z); n.label.style.transform = `translate(${s.x}px,${s.y}px) translate(-50%,-100%)`; n.label.querySelector('em').textContent = d < 3.4 ? (isTouch ? '· Talk' : '· E to talk') : ''; }
+    if (show) { const s = toScreen(n.x, n.y + 2.9, n.z); n.label.style.transform = `translate(${s.x}px,${s.y}px) translate(-50%,-100%)`; }
   }
   for (const e of enemies) {
     const show = e.alive && e.hp < e.maxHp && Math.hypot(e.x - P.x, e.z - P.z) < 30;
@@ -655,7 +666,6 @@ function tbtn(id, down, up){ const b = $(id); b.addEventListener('pointerdown', 
 tbtn('bAtk', () => { T.atk = true; T.atkHeld = true; }, () => { T.atkHeld = false; });
 tbtn('bDash', () => { T.dash = true; });
 tbtn('bSpecial', () => { T.sp = true; });
-tbtn('bTalk', () => { T.talk = true; });
 canvas.addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' && state.mode === 'play') T.atk = true; });
 addEventListener('contextmenu', e => e.preventDefault());
 let gpPrev = [];
@@ -706,6 +716,31 @@ function talkTo(n){
   });
 }
 
+/* ================= scoring ================= */
+function addScore(base, x, y, z, combo){
+  let pts = base;
+  if (combo) { state.chain++; state.chainT = 3.5; state.mult = state.chain >= 12 ? 4 : state.chain >= 7 ? 3 : state.chain >= 3 ? 2 : 1; state.bestMult = Math.max(state.bestMult, state.mult); pts *= state.mult; }
+  state.score += pts; floatText(x, y, z, `+${pts}`, 'pts');
+}
+function landPointNear(x, z, rMin, rMax){
+  for (let i = 0; i < 24; i++) { const a = rand(0, TAU), r = rand(rMin, rMax), px = x + Math.cos(a) * r, pz = z + Math.sin(a) * r; if (height(px, pz) > 0.8 && Math.hypot(px, pz - 11) > 5) return { x: px, z: pz }; }
+  return null;
+}
+function despawn(e){ e.alive = false; scene.remove(e.m.g); scene.remove(e.shadow); if (e.bar) { e.bar.remove(); e.bar = null; } }
+function updateSpawner(dt){
+  if (state.chainT > 0) { state.chainT -= dt; if (state.chainT <= 0) { state.chain = 0; state.mult = 1; } }
+  state.spawnT -= dt; if (state.spawnT > 0) return;
+  const elapsed = RUN_SECONDS - state.timeLeft;
+  const target = Math.min(11, 4 + Math.floor(elapsed / 14)) - (B && B.alive ? 3 : 0);
+  const alive = enemies.filter(e => e.alive && e.invader).length;
+  if (alive < target) {
+    const p = landPointNear(P.x, P.z, 10, 18);
+    if (p) { const big = elapsed > 25 && Math.random() < 0.16; const e = spawnEnemy(big ? 'big' : 'small', p.x, p.z, null); e.invader = true; e.aggro = 40; e.state = 'rise'; e.st = 0; burst(debris, p.x, height(p.x, p.z) + 0.4, p.z, 16, COL.milk, 5, 0.6, 0.45, 12); }
+  }
+  state.spawnT = alive < target - 2 ? 0.35 : 0.9;
+  for (let i = enemies.length - 1; i >= 0; i--) { const e = enemies[i]; if (e.alive && e.invader && Math.hypot(e.x - P.x, e.z - P.z) > 45) despawn(e); if (!e.alive && !e.site) enemies.splice(i, 1); }
+}
+
 /* ================= combat ================= */
 function nearestEnemy(maxD){
   let best = null, bd = maxD;
@@ -751,7 +786,8 @@ function killEnemy(e){
   burst(debris, e.x, y, e.z, 26 * e.m.s, COL.milk, 7, 0.8, 0.45, 14);
   burst(debris, e.x, y, e.z, 8, COL.crumb, 6, 0.9, 0.35, 16);
   burst(sparks, e.x, y, e.z, 14, COL.gold, 7, 0.5, 0.5, 2);
-  sfxPlay('pop'); state.kills++;
+  sfxPlay('pop'); state.kills++; state.pops++;
+  addScore(e.kind === 'big' ? 30 : 10, e.x, y + 1.6, e.z, true);
   gainXp(e.xp, e.x, y + 1, e.z);
   if (Math.random() < (P.hp < P.maxHp * 0.5 ? 0.65 : 0.3)) dropBerry(e.x, e.z);
   if (e.site && !e.site.cleared && e.site.enemies.every(g => !g.alive)) {
@@ -759,10 +795,10 @@ function killEnemy(e){
   }
 }
 function gainXp(n, x, y, z){
-  P.xp += n; floatText(x, y, z, `+${n} XP`, 'xp');
+  P.xp += n;
   while (P.xp >= P.next) {
     P.xp -= P.next; P.level++; P.next = 6 + 5 * (P.level - 1); P.maxHp += 2; P.hp = P.maxHp; setDmg();
-    banner('Level up!', `Level ${P.level}: more health${P.level % 2 === 1 ? ', stronger spoon' : ''}`); sfxPlay('level');
+    toast(`Level ${P.level}! More health${P.level % 2 === 1 ? ' and a stronger spoon' : ''}`, 1800); sfxPlay('level');
     for (let i = 0; i < 40; i++) sparks.emit(P.x + rand(-0.8, 0.8), P.y + rand(0, 0.5), P.z + rand(-0.8, 0.8), rand(-0.6, 0.6), rand(4, 9), rand(-0.6, 0.6), rand(0.7, 1.2), rand(0.3, 0.6), COL.gold, 0);
   }
 }
@@ -773,7 +809,7 @@ function hurtPlayer(dmg, fx, fz){
   floatText(P.x, P.y + 2.6, P.z, `-${dmg}`, 'hurt'); sfxPlay('hurt'); state.shake = Math.max(state.shake, 0.4);
   if (navigator.vibrate) try { navigator.vibrate(40); } catch {}
   burst(debris, P.x, P.y + 1.2, P.z, 10, COL.milk, 5, 0.6, 0.35, 14);
-  if (P.hp <= 0) { P.alive = false; state.mode = 'down'; state.downT = 1.8; banner('Soggy!', 'Back to the village to dry off'); }
+  if (P.hp <= 0) { P.alive = false; state.mode = 'down'; state.downT = 2; state.chain = 0; state.mult = 1; banner('Soggy!', 'Back in 2 seconds'); }
 }
 function doBurst(){
   P.special = 0; state.shake = 0.7; state.hitstop = 0.08; P.inv = Math.max(P.inv, 0.5); sfxPlay('burst');
@@ -787,8 +823,7 @@ function doBurst(){
 /* ================= updates ================= */
 function updatePlayer(dt, inp){
   P.atkCd -= dt; P.dashCd -= dt; P.inv -= dt; P.flash -= dt;
-  const nearNpc = NPCS.find(n => Math.hypot(n.x - P.x, n.z - P.z) < 3.4) || null;
-  $('bTalk').classList.toggle('hidden', !nearNpc || state.mode !== 'play');
+
   let tvx = 0, tvz = 0;
   const wx = camRight.x * inp.mx + camFwd.x * inp.my, wz = camRight.z * inp.mx + camFwd.z * inp.my;
   const moving = inp.mag > 0.12;
@@ -804,10 +839,7 @@ function updatePlayer(dt, inp){
   P.y = height(P.x, P.z);
   P.moving = Math.hypot(P.vx, P.vz) / 7.4;
   // actions
-  const enemyNear = enemies.some(e => e.alive && Math.hypot(e.x - P.x, e.z - P.z) < 8);
-  if (inp.talk && nearNpc) talkTo(nearNpc);
-  else if (inp.attack && nearNpc && !enemyNear) talkTo(nearNpc);
-  else if ((inp.attack || inp.held) && P.atkCd <= 0) startAttack();
+  if ((inp.attack || inp.held) && P.atkCd <= 0) startAttack();
   if (P.swingT > 0) { P.swingT -= dt; if (!P.swingHit && P.swingT <= P.swingDur - 0.06) { P.swingHit = true; applySwing(); } }
   if (inp.dash && P.dashCd <= 0) {
     const L = Math.hypot(wx, wz); P.dashX = L > 0.1 ? wx / L : Math.sin(P.face); P.dashZ = L > 0.1 ? wz / L : Math.cos(P.face);
@@ -815,7 +847,7 @@ function updatePlayer(dt, inp){
   }
   if (inp.special && P.special >= 100) doBurst();
   // pickups
-  coins.forEach((c, i) => { if (c.alive && Math.hypot(c.x - P.x, c.z - P.z) < 1.4) { c.alive = false; state.coins++; sfxPlay('coin'); burst(sparks, c.x, c.y, c.z, 8, COL.gold, 4, 0.4, 0.35, 0); } });
+  coins.forEach((c, i) => { if (c.alive && Math.hypot(c.x - P.x, c.z - P.z) < 1.4) { c.alive = false; state.coins++; sfxPlay('coin'); addScore(5, c.x, c.y + 0.6, c.z, false); burst(sparks, c.x, c.y, c.z, 8, COL.gold, 4, 0.4, 0.35, 0); } });
   for (let i = berries.length - 1; i >= 0; i--) { const b = berries[i]; if (Math.hypot(b.x - P.x, b.z - P.z) < 1.5) { scene.remove(b.g); berries.splice(i, 1); const heal = Math.min(3, P.maxHp - P.hp); P.hp = Math.min(P.maxHp, P.hp + 3); sfxPlay('berry'); floatText(P.x, P.y + 2.6, P.z, `+${Math.max(0, Math.round(heal))}`, 'heal'); burst(sparks, P.x, P.y + 1, P.z, 14, COL.blue, 4, 0.6, 0.4, 0); } }
   for (const s of RING_SITES) if (s.cleared && !s.collected && Math.hypot(s.x - P.x, s.z - P.z) < 2.9) collectRing(s);
 }
@@ -858,8 +890,10 @@ function updateEnemies(dt){
         { const wx = e.wx - e.x, wz = e.wz - e.z, wd = Math.hypot(wx, wz); if (wd > 0.5) { mvx = wx / wd; mvz = wz / wd; spd = 1.1; } }
         if (playerOk && d < e.aggro && state.stage !== 'talk') e.state = 'chase';
         break;
+      case 'rise': e.st += dt; if (e.st > 0.5) { e.state = 'chase'; } break;
       case 'chase':
-        if (!playerOk || d > 20 || Math.hypot(e.x - e.hx, e.z - e.hz) > 26) { e.state = 'return'; break; }
+        if (e.invader) { if (!playerOk) break; }
+        else if (!playerOk || d > 20 || Math.hypot(e.x - e.hx, e.z - e.hz) > 26) { e.state = 'return'; break; }
         mvx = dx / d; mvz = dz / d; spd = e.speed;
         if (d < e.r + 1.7 && e.cd <= 0) { e.state = 'windup'; e.st = 0; e.lx = dx / d; e.lz = dz / d; }
         break;
@@ -889,7 +923,8 @@ function updateEnemies(dt){
     else if (e.state === 'lunge') { sy = 1.2; sxz = 0.88; hop = Math.sin(e.st / 0.28 * Math.PI) * 1.2; }
     else if (spd > 0.5) { const ph = e.t * (spd > 2 ? 9 : 5); hop = Math.abs(Math.sin(ph)) * 0.45; const sq = Math.sin(ph * 2) * 0.08; sy = 1 + sq; sxz = 1 - sq * 0.6; }
     else { const sq = Math.sin(e.t * 3) * 0.05; sy = 1 + sq; sxz = 1 - sq * 0.5; }
-    m.body.scale.set(sxz, sy, sxz); m.body.position.y = hop;
+    if (e.state === 'rise') { const k2 = smoothstep(0, 0.5, e.st); sy *= k2; sxz *= 0.4 + 0.6 * k2; }
+    m.body.scale.set(sxz, Math.max(0.01, sy), sxz); m.body.position.y = hop;
     m.g.position.set(e.x, e.y, e.z); m.g.rotation.y = e.face;
     const f = e.flash > 0 ? 0.9 : e.state === 'windup' ? 0.25 + 0.25 * Math.sin(e.st * 40) : 0;
     m.mat.emissive.setRGB(f, f * (e.state === 'windup' ? 0.55 : 1), f * (e.state === 'windup' ? 0.2 : 1));
@@ -905,9 +940,9 @@ function updateBoss(dt){
   let hop = 0, sy = 1, sxz = 1;
   switch (B.state) {
     case 'emerge': {
-      const k = Math.min(1, B.st / 3.6); B.z = lerp(92, 66, k); B.y = lerp(-7, height(B.x, B.z) * k, smoothstep(0, 1, k)); hop = Math.abs(Math.sin(B.st * 3)) * 0.8;
-      if (Math.random() < 0.6) burst(debris, B.x + rand(-3, 3), 0.3, B.z + rand(-3, 3), 2, COL.milk, 4, 0.8, 0.6, 10);
-      if (k >= 1) { B.state = 'wait'; B.st = 0; }
+      const k = Math.min(1, B.st / 1.6), gh = height(B.x, B.z); B.y = lerp(gh - 7, gh, smoothstep(0, 1, k)); hop = Math.abs(Math.sin(B.st * 6)) * 0.4;
+      if (Math.random() < 0.8) burst(debris, B.x + rand(-3, 3), gh + 0.3, B.z + rand(-3, 3), 3, COL.milk, 5, 0.8, 0.6, 10);
+      if (k >= 1) { B.state = 'fight'; B.st = 0; }
       break;
     }
     case 'wait': if (d < 24 && P.alive) { B.state = 'fight'; B.st = 0; sfxPlay('roar'); } break;
@@ -915,13 +950,13 @@ function updateBoss(dt){
       if (!P.alive) break;
       const spd = B.phase === 2 ? 3.0 : 2.3;
       const nx = B.x + dx / d * spd * dt, nz = B.z + dz / d * spd * dt;
-      if (Math.hypot(nx - S.x, nz - S.z) < 16 && height(nx, nz) > 0.6) { B.x = nx; B.z = nz; }
+      if (height(nx, nz) > 0.6) { B.x = nx; B.z = nz; }
       B.face = angLerp(B.face, Math.atan2(dx, dz), 1 - Math.exp(-dt * 4));
       const ph = B.st * 4; hop = Math.abs(Math.sin(ph)) * 0.5; const sq = Math.sin(ph * 2) * 0.06; sy = 1 + sq; sxz = 1 - sq * 0.5;
       B.slamT -= dt; B.sumT -= dt;
       if (d < B.r + 0.8) hurtPlayer(2, B.x, B.z);
       if (B.slamT <= 0) { B.state = 'crouch'; B.st = 0; B.ax = B.x; B.az = B.z; B.tx = P.x; B.tz = P.z; decal.visible = true; decal.position.set(B.tx, height(B.tx, B.tz) + 0.08, B.tz); const r = B.phase === 2 ? 5.2 : 4.4; decal.scale.set(r, 1, r); B.slamR = r; }
-      if (B.sumT <= 0) { B.sumT = B.phase === 2 ? 9 : 12; const alive = enemies.filter(e => e.alive && !e.site).length; if (alive < 5) { for (let i = 0; i < 2; i++) { const a = rand(0, TAU); const e = spawnEnemy('small', B.x + Math.cos(a) * 5, B.z + Math.sin(a) * 5, null); e.state = 'chase'; e.hx = S.x; e.hz = S.z; burst(debris, e.x, 1, e.z, 14, COL.milk, 5, 0.6, 0.4, 12); } sfxPlay('pop'); } }
+      if (B.sumT <= 0) { B.sumT = B.phase === 2 ? 9 : 12; const alive = enemies.filter(e => e.alive && e.minion).length; if (alive < 4) { for (let i = 0; i < 2; i++) { const a = rand(0, TAU); const e = spawnEnemy('small', B.x + Math.cos(a) * 5, B.z + Math.sin(a) * 5, null); e.state = 'chase'; e.invader = true; e.minion = true; e.aggro = 40; burst(debris, e.x, 1, e.z, 14, COL.milk, 5, 0.6, 0.4, 12); } sfxPlay('pop'); } }
       break;
     }
     case 'crouch': { const k = Math.min(1, B.st / 0.55); sy = 1 - 0.3 * k; sxz = 1 + 0.2 * k; decalFill.material.opacity = 0.18 + 0.15 * Math.sin(B.st * 20); if (B.st > 0.55) { B.state = 'air'; B.st = 0; } break; }
@@ -942,7 +977,7 @@ function updateBoss(dt){
       const k = Math.min(1, B.st / 1.8); sy = 1 + Math.sin(B.st * 30) * 0.15 * (1 - k); sxz = 1 - Math.sin(B.st * 30) * 0.1;
       m.g.scale.setScalar(m.s * (1 - k * 0.9));
       if (Math.random() < 0.8) burst(debris, B.x + rand(-2, 2), B.y + rand(1, 5), B.z + rand(-2, 2), 6, COL.milk, 8, 0.8, 0.6, 12);
-      if (k >= 1) { scene.remove(m.g); scene.remove(B.shadow); B.alive = false; burst(sparks, B.x, B.y + 3, B.z, 140, COL.gold, 16, 1.2, 0.8, 3, 0.4); burst(debris, B.x, B.y + 3, B.z, 160, COL.milk, 14, 1.2, 0.8, 12, 0.4); sfxPlay('boom'); state.shake = 1; state.winT = 2.2; }
+      if (k >= 1) { scene.remove(m.g); scene.remove(B.shadow); B.alive = false; burst(sparks, B.x, B.y + 3, B.z, 140, COL.gold, 16, 1.2, 0.8, 3, 0.4); burst(debris, B.x, B.y + 3, B.z, 160, COL.milk, 14, 1.2, 0.8, 12, 0.4); sfxPlay('boom'); state.shake = 1; sky.duskTarget = 0; if (state.mode === 'play') playTrack('adventure'); }
       break;
     }
   }
@@ -955,17 +990,17 @@ function updateBoss(dt){
 }
 function bossDefeated(){
   B.state = 'dying'; B.st = 0; decal.visible = false; $('bossBar').classList.add('hidden');
-  enemies.forEach(e => { if (e.alive && !e.site) killEnemy(e); });
+  enemies.forEach(e => { if (e.alive && e.minion) killEnemy(e); });
+  state.bossBeaten = true; addScore(400, B.x, B.y + 7, B.z, false);
   gainXp(40, B.x, B.y + 6, B.z);
-  banner('The Great Sog is defeated!', 'The kingdom is crunchy again'); sfxPlay('roar');
+  banner('The Great Sog is popped!', '+400 points'); sfxPlay('roar');
 }
 function collectRing(s){
   s.collected = true; state.rings++;
   s.fly = 0; sfxPlay('ring'); state.shake = 0.3;
   burst(sparks, s.x, s.y + 3, s.z, 80, COL.gold, 10, 1.0, 0.7, 1, 0.3);
-  gainXp(6, s.x, s.y + 4, s.z);
-  banner(`Golden Ring ${state.rings} of 3`, `${s.name} is crunchy again`);
-  if (state.rings === 3) setTimeout(startBossStage, 2600);
+  gainXp(6, s.x, s.y + 4, s.z); addScore(150, s.x, s.y + 4.5, s.z, false);
+  banner(`Golden Ring ${state.rings} of 3`, '+150 points');
 }
 function updateSites(dt){
   for (const s of RING_SITES) {
@@ -1049,19 +1084,24 @@ for (const id of ['segSound', 'segSound2']) $(id).addEventListener('click', e =>
 for (const id of ['segQ', 'segQ2']) $(id).addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; applyQuality(b.dataset.v); });
 $('howto').innerHTML = isTouch
   ? '<div><b>Move</b>Left thumb, anywhere</div><div><b>Attack</b>Tap or hold the red button</div><div><b>Dash</b>Blue button, dodges hits</div><div><b>Burst</b>Fills as you hit; tap when it glows</div>'
-  : '<div><b>Move</b>WASD or arrow keys</div><div><b>Attack</b>J, Space or click</div><div><b>Dash</b>K or Shift</div><div><b>Burst · Talk</b>L when it glows · E</div>';
-const best = store.get('best', null); if (best) $('bestLine').textContent = `Your best time: ${fmtTime(best)}`;
+  : '<div><b>Move</b>WASD or arrow keys</div><div><b>Attack</b>J, Space or click</div><div><b>Dash</b>K or Shift</div><div><b>Burst</b>L when the meter glows</div>';
 function startGame(){
   if (state.mode !== 'title') return;
+  const name = cleanName($('playerName').value);
+  if (!name) { $('nameErr').textContent = 'Type a name for the leaderboard first.'; $('playerName').focus(); return; }
+  state.name = name; store.set('name', name);
   initAudio(); playTrack('adventure'); sfxPlay('ui');
   $('title').classList.add('hidden'); $('hud').classList.remove('hidden');
   if (isTouch) $('touch').classList.remove('hidden'); else $('keys').classList.remove('hidden');
-  state.mode = 'play'; state.timerOn = true; cam.mode = 'swoop';
-  setTimeout(() => { if (state.stage === 'talk') toast(isTouch ? 'Walk up to Mayor Oatley and tap Talk' : 'Walk up to Mayor Oatley and press E'); }, 1200);
+  state.mode = 'count'; state.countT = 3.4; state.countN = 0; cam.mode = 'swoop';
+  P.x = 0; P.z = 22.5; P.face = Math.PI;
 }
+$('playerName').value = store.get('name', '');
+$('playerName').addEventListener('input', () => { $('nameErr').textContent = ''; });
+$('playerName').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('playerName').blur(); startGame(); } });
 $('playBtn').addEventListener('click', startGame);
 function pause(on){
-  if (on && state.mode !== 'play' && state.mode !== 'dialog') return;
+  if (on && state.mode !== 'play' && state.mode !== 'count') return;
   if (on) { state.prevMode = state.mode; state.mode = 'paused'; $('pause').classList.remove('hidden'); suspendAudio(true); syncSettings(); applyQuality(quality); }
   else if (state.mode === 'paused') { state.mode = state.prevMode || 'play'; $('pause').classList.add('hidden'); suspendAudio(false); }
 }
@@ -1069,16 +1109,36 @@ $('pauseBtn').addEventListener('click', () => pause(true));
 $('resumeBtn').addEventListener('click', () => pause(false));
 $('restartBtn').addEventListener('click', () => location.reload());
 $('againBtn').addEventListener('click', () => location.reload());
-$('roamBtn').addEventListener('click', () => { $('win').classList.add('hidden'); state.mode = 'play'; playTrack('calm'); fireworksT = -1; if (isTouch) $('touch').classList.remove('hidden'); });
-document.addEventListener('visibilitychange', () => { if (document.hidden && (state.mode === 'play' || state.mode === 'dialog')) pause(true); });
-function showWin(){
-  state.mode = 'victory'; state.timerOn = false; sky.duskTarget = 0; camYawT = 0; playTrack('calm'); sfxPlay('win');
-  $('wTime').textContent = fmtTime(state.time); $('wLevel').textContent = P.level; $('wKills').textContent = state.kills; $('wCoins').textContent = `${state.coins} / ${coins.length}`;
-  const prev = store.get('best', null); const isBest = !prev || state.time < prev; if (isBest) store.set('best', Math.floor(state.time));
-  $('wBest').textContent = isBest ? 'A new best time on this device!' : `Your best: ${fmtTime(prev)}`;
-  $('win').classList.remove('hidden'); $('touch').classList.add('hidden');
-  fireworksT = 0;
+document.addEventListener('visibilitychange', () => { if (document.hidden && (state.mode === 'play' || state.mode === 'count')) pause(true); });
+function endRun(){
+  state.timeLeft = 0; state.mode = 'over'; decal.visible = false;
+  banner("Time's up!", `${state.score.toLocaleString()} points`); sfxPlay('win'); playTrack('calm');
+  $('touch').classList.add('hidden');
+  setTimeout(showResults, 1900);
 }
+function showResults(){
+  $('rScore').textContent = state.score.toLocaleString(); $('rName').textContent = state.name;
+  $('rPops').textContent = state.pops; $('rRings').textContent = `${state.rings} / 3`;
+  $('rBoss').textContent = state.bossBeaten ? 'Popped!' : (state.bossSpawned ? 'Escaped' : '-'); $('rCombo').textContent = `×${state.bestMult}`;
+  const prev = store.get('bestScore', 0); if (state.score > prev) store.set('bestScore', state.score);
+  $('rBest').textContent = state.score > prev && prev ? 'A new personal best on this phone!' : prev ? `Your best on this phone: ${prev.toLocaleString()}` : '';
+  $('results').classList.remove('hidden'); fireworksT = 0;
+  submitScore();
+}
+let lastEntry = null;
+async function submitScore(){
+  const entry = { v: 1, type: 'score', id: DEVICE_ID, name: state.name, score: state.score, pops: state.pops, rings: state.rings, boss: state.bossBeaten ? 1 : 0, lvl: P.level };
+  entry.chk = checkCode(entry.id, entry.name, entry.score); lastEntry = entry;
+  const el = $('rSubmit'); el.className = 'submit'; el.textContent = 'Sending your score to the big screen…'; $('retryBtn').classList.add('hidden');
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try { const r = await fetch(BOARD_URL, { method: 'POST', body: JSON.stringify(entry) }); if (r.ok) { el.className = 'submit ok'; el.textContent = 'Your score is on the big screen. Look up!'; return; } } catch {}
+    await new Promise(r => setTimeout(r, 1500 * (attempt + 1)));
+  }
+  el.className = 'submit bad'; el.innerHTML = `Couldn’t reach the leaderboard. Show this to the host: <b>${esc(entry.name)} · ${entry.score} · code ${checkCode('hand', entry.name.toLowerCase(), entry.score)}</b>`;
+  $('retryBtn').classList.remove('hidden');
+}
+function esc(s){ return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+$('retryBtn').addEventListener('click', () => submitScore());
 let fireworksT = -1;
 function updateFireworks(dt){
   if (fireworksT < 0) return; fireworksT -= dt;
@@ -1098,7 +1158,7 @@ function frame(now){
   let dt = Math.min(0.05, (now - last) / 1000); last = now;
   pollGamepad();
   const inp = readInput();
-  if (state.mode === 'title' && (inp.enter || inp.attack)) startGame();
+  if (state.mode === 'title' && document.activeElement !== $('playerName') && inp.enter) startGame();
   if (inp.pause) { if (state.mode === 'paused') pause(false); else pause(true); }
   if (state.mode === 'paused') { renderer.render(scene, camera); return; }
   // frame-rate watchdog (only steps down)
@@ -1111,17 +1171,24 @@ function frame(now){
   if (boat) { boat.position.y = 0.1 + Math.sin(clock * 1.2) * 0.2; boat.rotation.z = Math.sin(clock * 0.9) * 0.06; }
   flags.forEach((f, i) => { f.rotation.y = Math.sin(clock * 3 + i) * 0.3; });
   if (Math.random() < 0.9) debris.emit(fountainTip.x + rand(-0.2, 0.2), fountainTip.y, fountainTip.z + rand(-0.2, 0.2), rand(-0.4, 0.4), rand(-0.5, 0.5), rand(-0.4, 0.4), 1.0, 0.35, COL.milk, 9);
-  if (state.mode === 'play' && cam.mode === 'cut') { updateBoss(dt); updateSites(dt); updatePickups(dt); updateEnemies(dt); P.moving = 0; }
-  else if (state.mode === 'play') {
-    updatePlayer(simDt, inp); updateEnemies(simDt); updateBoss(simDt); updateSites(simDt); updatePickups(simDt);
-    if (state.timerOn) state.time += dt;
+  if (state.mode === 'count') {
+    state.countT -= dt; const n = Math.ceil(state.countT);
+    if (n !== state.countN && n > 0 && n <= 3) { state.countN = n; banner(String(n), n === 3 ? 'Get ready, Sir Crunch' : ''); sfxPlay('ui'); }
+    if (state.countT <= 0) { state.mode = 'play'; banner('Go!', 'Pop every soggy you can'); sfxPlay('level'); state.spawnT = 0.2; }
+    updateSites(dt); updatePickups(dt);
+  } else if (state.mode === 'play') {
+    updatePlayer(simDt, inp); updateSpawner(simDt); updateEnemies(simDt); updateBoss(simDt); updateSites(simDt); updatePickups(simDt);
+    state.time += dt; state.timeLeft -= dt;
+    if (!state.bossSpawned && state.timeLeft <= BOSS_AT) spawnBoss();
+    if (state.timeLeft <= 0) endRun();
   } else if (state.mode === 'dialog') { updateDialog(dt, inp); updateSites(dt); updatePickups(dt); updateBoss(dt); }
   else if (state.mode === 'down') {
-    state.downT -= dt; updateEnemies(dt); updateBoss(dt);
-    if (state.downT <= 0) { P.alive = true; P.hp = P.maxHp; P.x = 0; P.z = 25; P.vx = P.vz = P.kx = P.kz = 0; P.inv = 2; state.mode = 'play'; cam.mode = 'swoop'; if (B && B.alive) { B.state = 'wait'; decal.visible = false; } }
-    if (state.timerOn) state.time += dt;
+    state.downT -= dt; updateEnemies(dt); updateBoss(dt); state.timeLeft -= dt;
+    if (state.downT <= 0) { P.alive = true; P.hp = P.maxHp; P.vx = P.vz = P.kx = P.kz = 0; P.inv = 2; state.mode = 'play';
+      for (const e of enemies) if (e.alive) { const dx = e.x - P.x, dz = e.z - P.z, d = Math.hypot(dx, dz); if (d < 7) { e.kx += dx / (d || 1) * 14; e.kz += dz / (d || 1) * 14; } }
+      burst(sparks, P.x, P.y + 1, P.z, 40, COL.gold, 8, 0.6, 0.5, 0); }
+    if (state.timeLeft <= 0) endRun();
   } else { updateSites(dt); updatePickups(dt); if (state.mode === 'victory' || state.mode === 'title') { updateEnemies(dt); } }
-  if (state.winT > 0) { state.winT -= dt; if (state.winT <= 0) { state.stage = 'won'; showWin(); } }
   animateHero(simDt); updateNpcs(dt); updateFireworks(dt);
   if (shockT < 0.5) { shockT += dt; const k = shockT / 0.5; shock.scale.setScalar(0.5 + k * shockR); shockMat.opacity = (1 - k) * 0.9; } else shockMat.opacity = 0;
   sparks.update(dt); debris.update(dt);
@@ -1144,10 +1211,11 @@ if (DEBUG) {
     P, state, enemies, RING_SITES,
     tp(x, z){ P.x = x; P.z = z; },
     start(){ startGame(); },
-    rings(n){ state.stage = 'rings'; RING_SITES.slice(0, n).forEach(s => { s.enemies.forEach(e => e.alive && killEnemy(e)); s.cleared = true; collectRing(s); }); },
-    boss(){ state.stage = 'rings'; RING_SITES.forEach(s => { s.cleared = true; s.collected = true; }); state.rings = 3; startBossStage(); },
+    rings(n){ RING_SITES.slice(0, n).forEach(s => { s.enemies.forEach(e => e.alive && killEnemy(e)); s.cleared = true; collectRing(s); }); },
+    boss(){ state.timeLeft = BOSS_AT + 0.5; },
+    end(){ state.timeLeft = 0.05; },
+    go(){ if (state.mode === 'count') state.countT = 0.01; },
     hurtBoss(n){ if (B) { B.hp -= n; updateBossBar(); if (B.hp <= 0) bossDefeated(); } },
-    showWin(){ showWin(); },
     snap(){ updateCamera(0.05); camera.position.copy(desired); cam.look.copy(lookT); camera.lookAt(cam.look); },
     cam: cam, burst: doBurst, setQ: applyQuality, B: () => B
   };

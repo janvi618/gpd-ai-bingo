@@ -54,12 +54,32 @@ button{font:inherit;color:inherit;cursor:pointer}
 .keys{position:fixed;left:calc(14px + var(--sl));bottom:calc(12px + var(--sb));font-size:13px;color:rgba(255,251,242,.92);background:rgba(20,33,92,.5);padding:6px 10px;border-radius:10px;pointer-events:none}
 .keys b{background:rgba(255,251,242,.2);border-radius:5px;padding:0 5px;margin:0 2px}
 
+.center{display:flex;flex-direction:column;align-items:center;gap:6px}
+.scorebox,.timebox{background:rgba(20,33,92,.62);border:2px solid rgba(255,251,242,.6);border-radius:16px;padding:4px 14px 6px;display:flex;flex-direction:column;align-items:center;position:relative;min-width:96px}
+.scorebox .lbl,.timebox .lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
+.scorebox b,.timebox b{font-family:var(--display);font-weight:600;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.timebox.low b{color:#FF8A70;animation:tick 1s steps(1) infinite}
+@keyframes tick{50%{opacity:.55}}
+.combo{position:absolute;right:-10px;top:-10px;background:var(--coral);color:#fff;border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700;transform:scale(0);transition:transform .15s}
+.combo.on{transform:scale(1) rotate(6deg)}
+.namefield{display:flex;flex-direction:column;gap:6px}
+.namefield label{font-weight:700;font-size:15px}
+.namefield input{border:2px solid #C9CFEE;border-radius:12px;padding:12px 14px;font:inherit;font-size:18px;color:var(--ink);background:#fff;-webkit-user-select:text;user-select:text}
+.namefield input:focus{outline:none;border-color:var(--cobalt);box-shadow:0 0 0 3px rgba(35,64,232,.2)}
+.err{color:#C9361A;font-weight:700;font-size:13px;margin:0;min-height:1em}
+.points{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;font-size:12px;line-height:1.2;color:#5A6490}
+.points b{display:block;font-family:var(--display);font-size:20px;color:var(--cobalt)}
+.submit{background:#F1F3FF;border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px;line-height:1.4}
+.submit.ok{background:#E3F7EC;color:#0B6B4A}
+.submit.bad{background:#FFE9E3;color:#9A2A12}
+
 /* overlays in the world */
 .ftext{position:absolute;left:0;top:0;font-family:var(--display);font-weight:600;font-size:26px;white-space:nowrap;transform:translate(-50%,-50%);text-shadow:0 2px 0 rgba(20,33,92,.75),0 0 8px rgba(20,33,92,.4);will-change:transform}
 .ftext.small{font-size:18px}
 .ftext.hurt{color:#FFB29E}
 .ftext.xp{color:var(--sun);font-family:var(--body);font-weight:700;font-size:16px}
 .ftext.heal{color:#9EF0C5}
+.ftext.pts{color:var(--sun);font-size:22px}
 .label{position:absolute;left:0;top:0;transform:translate(-50%,-100%);background:rgba(20,33,92,.72);border:2px solid rgba(255,251,242,.7);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700;white-space:nowrap}
 .label em{font-style:normal;color:var(--sun);margin-left:4px}
 .ehp{position:absolute;left:0;top:0;width:44px;height:7px;border-radius:999px;background:rgba(20,33,92,.6);overflow:hidden;transform:translate(-50%,-50%)}
@@ -127,12 +147,19 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 @media (max-width: 640px), (max-height: 500px){
   #hud{grid-template-columns:1fr auto;font-size:13px}
-  .objective{grid-column:1 / -1;grid-row:2;justify-self:center;max-width:92vw}
+  .center{grid-column:1 / -1;grid-row:2;flex-direction:row;justify-content:center;align-items:stretch}
+  .objective{max-width:62vw}
+  .scorebox b,.timebox b{font-size:24px}
+  .right .chip{display:none}
+  .bars{width:30vw}
+  #bossBar{top:calc(132px + var(--st));font-size:15px}
+  .points{grid-template-columns:repeat(2,1fr)}
   .lv{width:40px;height:40px}.lv b{font-size:19px}
   .keys{display:none}
 }
 @media (max-height: 500px){
-  #hud{grid-template-columns:1fr auto 1fr}.objective{grid-column:auto;grid-row:auto}
+  #hud{grid-template-columns:1fr auto 1fr}.center{grid-column:auto;grid-row:auto}
+  #bossBar{top:calc(84px + var(--st))}
   .btns{transform:scale(.85);transform-origin:right bottom}
   #dialog{bottom:8px}
 }
@@ -148,29 +175,30 @@ button{font:inherit;color:inherit;cursor:pointer}
   <div class="stats">
     <div class="lv"><span>LV</span><b id="lvNum">1</b></div>
     <div class="bars">
-      <div class="bar hp"><i id="hpFill"></i><span id="hpText">10 / 10</span></div>
+      <div class="bar hp"><i id="hpFill"></i><span id="hpText">12 / 12</span></div>
       <div class="bar xp"><i id="xpFill"></i></div>
     </div>
   </div>
-  <div class="objective" id="objective">
-    <div id="compass"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L20 20 L12 15.5 L4 20 Z" fill="#FFD447" stroke="#14215C" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
-    <div><div id="objText">Talk to Mayor Oatley</div><div id="objDist"></div></div>
+  <div class="center">
+    <div class="scorebox"><span class="lbl">Score</span><b id="scoreNum">0</b><span class="combo" id="comboChip"></span></div>
+    <div class="objective" id="objective">
+      <div id="compass"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L20 20 L12 15.5 L4 20 Z" fill="#FFD447" stroke="#14215C" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+      <div><div id="objText">Pop every soggy you can!</div><div id="objDist"></div></div>
+    </div>
   </div>
   <div class="right">
+    <div class="timebox" id="timeBox"><span class="lbl">Time</span><b id="timer">2:00</b></div>
     <div class="chip"><span class="rings" id="ringIcons"><i></i><i></i><i></i></span></div>
-    <div class="chip"><span class="coin"></span><span id="coinNum">0</span></div>
-    <div class="chip" id="timer">0:00</div>
     <button class="pill" id="pauseBtn" type="button" aria-label="Pause"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg></button>
   </div>
 </div>
 <div id="bossBar" class="hidden"><span>The Great Sog</span><div class="bar"><i id="bossFill"></i></div></div>
-<div class="keys hidden" id="keys"><b>WASD</b> move <b>J</b> attack <b>K</b> dash <b>L</b> burst <b>E</b> talk</div>
+<div class="keys hidden" id="keys"><b>WASD</b> move <b>J</b> attack <b>K</b> dash <b>L</b> burst <b>P</b> pause</div>
 
 <div id="touch" class="hidden">
   <div id="joyZone"></div>
   <div id="joy"><div id="knob"></div></div>
   <div class="btns">
-    <button class="tbtn talk hidden" id="bTalk" type="button">Talk</button>
     <button class="tbtn sp" id="bSpecial" type="button">Burst</button>
     <button class="tbtn dash" id="bDash" type="button">Dash</button>
     <button class="tbtn atk" id="bAtk" type="button">Attack</button>
@@ -183,13 +211,14 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 <div class="screen" id="title">
   <div class="title-wrap">
-    <div class="logo"><div class="k">Cereal<br>Kingdom</div><div class="t">The Great Sog is soaking the land. Only Sir Crunch can save it.</div></div>
+    <div class="logo"><div class="k">Cereal<br>Kingdom</div><div class="t">2 minutes. Pop the soggies. Top 10 on the leaderboard win a prize.</div></div>
     <div class="card">
+      <div class="namefield"><label for="playerName">Your name on the leaderboard</label><input id="playerName" maxlength="16" autocomplete="off" autocapitalize="words" enterkeyhint="go" placeholder="First name is fine"><p class="err" id="nameErr" role="alert"></p></div>
       <button class="btn" id="playBtn" type="button">Play</button>
+      <div class="points"><span><b>10</b> per soggy</span><span><b>×4</b> combos</span><span><b>150</b> Golden Ring</span><span><b>400</b> Great Sog</span></div>
       <div class="howto" id="howto"></div>
       <div class="set"><span>Sound</span><div class="seg" id="segSound"><button type="button" data-v="on">On</button><button type="button" data-v="off">Off</button></div></div>
       <div class="set"><span>Graphics</span><div class="seg" id="segQ"><button type="button" data-v="low">Fast</button><button type="button" data-v="medium">Balanced</button><button type="button" data-v="high">Best</button></div></div>
-      <p class="small" id="bestLine"></p>
       <p class="small">An original game, made with AI for the Lessons from the Frontier session.</p>
     </div>
   </div>
@@ -206,19 +235,19 @@ button{font:inherit;color:inherit;cursor:pointer}
   </div>
 </div>
 
-<div class="screen dim hidden" id="win">
+<div class="screen dim hidden" id="results">
   <div class="card">
-    <p class="eyebrow">Kingdom saved</p>
-    <h2 id="winTitle">Crunchy again!</h2>
-    <p id="winLine">Sir Crunch beat the Great Sog and brought the Golden Rings home.</p>
+    <p class="eyebrow">Time’s up, <span id="rName"></span></p>
+    <h2><span id="rScore">0</span> points</h2>
     <div class="stats-grid">
-      <div><span>Time</span><b id="wTime">0:00</b></div>
-      <div><span>Level</span><b id="wLevel">1</b></div>
-      <div><span>Soggies popped</span><b id="wKills">0</b></div>
-      <div><span>Crunch bits</span><b id="wCoins">0</b></div>
+      <div><span>Soggies popped</span><b id="rPops">0</b></div>
+      <div><span>Golden Rings</span><b id="rRings">0 / 3</b></div>
+      <div><span>Great Sog</span><b id="rBoss">-</b></div>
+      <div><span>Best combo</span><b id="rCombo">×1</b></div>
     </div>
-    <p class="small" id="wBest"></p>
-    <div class="row"><button class="btn" id="againBtn" type="button">Play again</button><button class="btn ghost" id="roamBtn" type="button">Keep exploring</button></div>
+    <p class="submit" id="rSubmit">Sending your score to the big screen…</p>
+    <p class="small" id="rBest"></p>
+    <div class="row"><button class="btn" id="againBtn" type="button">Play again</button><button class="btn ghost hidden" id="retryBtn" type="button">Try sending again</button></div>
   </div>
 </div>
 
