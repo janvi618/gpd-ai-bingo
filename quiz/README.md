@@ -4,7 +4,7 @@ A quick booth quiz at `https://janvi618.github.io/gpd-ai-bingo/quiz/`. It is sep
 
 - Each player gets 5 of the 18 questions at random, with the answers shuffled.
 - After each answer, the page shows the right one and a one-line fact.
-- **4 or more right out of 5 wins a book, for the first 10 winners.** The winner's screen says "You won the book!", shows "Winner 7 of 10" and the time, and tells them to show it at the booth. After 10, a winning score says all the books have been claimed.
+- **3 or more right out of 5 wins a book, for the first 10 winners.** The winner's screen says "You won the book!", shows "Winner 7 of 10" and the time, and tells them to show it at the booth. After 10, a winning score says all the books have been claimed.
 - **One try per phone.** There is no replay button, and reloading the page continues the same game or shows the same result. This limits a phone, not a person: a second phone or a private browser window gets another try.
 
 ## For booth staff
