@@ -94,7 +94,7 @@ h1,h2,p{margin:0}
   <div class="kick">Quick quiz · win a book</div>
   <div class="three" aria-hidden="true"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
   <h1>How well do you know <em>innovation</em>?</h1>
-  <div class="prize"><b>Get all 5 right and win Ethan Mollick’s new book.</b>Five quick questions, about two minutes.<span>Only 15 copies of <i>Co-Existence</i>. First come, first served.</span></div>
+  <div class="prize"><b>Get all 5 right and win Ethan Mollick’s new book.</b>Five quick questions, about two minutes.<span>Only 10 copies of <i>Co-Existence</i>. First come, first served. One try per person.</span></div>
   <button class="primary" id="go" type="button">Start the quiz</button>
   <div class="staffbox" id="staff" hidden></div>
 </section>
@@ -186,18 +186,23 @@ const QUESTIONS = [
     src: 'Dell’Acqua and colleagues, “The Cybernetic Teammate”' }
 ];
 const PER_GAME = 5;        // questions in one game
-const BOOKS = 15;          // books to give away: the first this many perfect scores win one
+const BOOKS = 10;          // books to give away: the first this many perfect scores win one
 
 /* ---------- the quiz ---------- */
 const $ = id => document.getElementById(id);
 const shuffle = list => { const a = list.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-let seen = [];                                   // questions this device has shown, so replays bring new ones
 let round = [], at = 0, marks = [];
 function show(id){ for (const s of document.querySelectorAll('.screen')) s.classList.toggle('on', s.id === id); window.scrollTo(0, 0); for (const c of document.querySelectorAll('.confetti')) c.remove(); }
+// One try per phone. The game in progress is saved after every answer, so reloading the page picks up
+// where the player left off and can't be used to start over. A finished game shows its result again.
+function save(done){ LS.set('game', { round, marks, done: !!done, t: Date.now() }); }
 function start(){
-  let pool = QUESTIONS.map((_, i) => i).filter(i => !seen.includes(i));
-  if (pool.length < PER_GAME) { seen = []; pool = QUESTIONS.map((_, i) => i); }
-  round = shuffle(pool).slice(0, PER_GAME); seen.push(...round); at = 0; marks = [];
+  const g = LS.get('game');
+  if (g && Array.isArray(g.round) && g.round.length === PER_GAME && g.round.every(i => Number.isInteger(i) && i >= 0 && i < QUESTIONS.length)) {
+    round = g.round; marks = (Array.isArray(g.marks) ? g.marks : []).slice(0, PER_GAME).filter(m => typeof m === 'boolean');
+    at = marks.length;
+    if (g.done || at >= PER_GAME) { finish(); return; }
+  } else { round = shuffle(QUESTIONS.map((_, i) => i)).slice(0, PER_GAME); at = 0; marks = []; save(false); }
   show('quiz'); ask();
 }
 function paintProgress(){
@@ -217,7 +222,7 @@ function ask(){
 function answer(btn){
   const opts = $('opts'); if (opts.classList.contains('done')) return;
   const item = QUESTIONS[round[at]], right = btn.dataset.right === '1';
-  opts.classList.add('done'); marks[at] = right;
+  opts.classList.add('done'); marks[at] = right; save(false);
   for (const b of opts.children) { if (b.dataset.right === '1') { b.classList.add('right'); b.firstChild.textContent = '✓'; } else if (b === btn) { b.classList.add('wrong'); b.firstChild.textContent = '✕'; } else b.classList.add('dim'); }
   try { navigator.vibrate && navigator.vibrate(right ? 20 : [30, 50, 30]); } catch {}
   const fact = $('fact'); fact.textContent = '';
@@ -262,9 +267,8 @@ function party(){
     document.body.appendChild(c); setTimeout(() => c.remove(), 4200); }
 }
 function paintResult(kind, d = {}){
-  const score = $('score'), again = $('again'), claim = $('claim');
+  const score = $('score'), claim = $('claim');
   score.className = 'score' + (kind === 'won' ? ' word' : ''); $('winNo').hidden = kind !== 'won'; claim.className = 'claim' + (kind === 'won' ? ' won' : ''); claim.hidden = false;
-  again.className = kind === 'score' ? 'primary' : ''; again.textContent = kind === 'won' ? 'Play again for fun' : 'Play again';
   if (kind !== 'won') score.innerHTML = `${d.n}<small> / ${PER_GAME}</small>`;
   if (kind === 'won') {
     $('resKick').textContent = 'Perfect score'; score.textContent = 'You won the book!'; $('winNo').textContent = `Winner ${d.place} of ${BOOKS}`;
@@ -277,39 +281,39 @@ function paintResult(kind, d = {}){
     $('resKick').textContent = 'Perfect score'; $('verdict').textContent = 'Perfect score!'; $('claimHead').textContent = 'Show this screen at the booth.'; $('stamp').textContent = `We couldn’t check the book count from this phone. The first ${BOOKS} winners get a book. Finished at ${clock(Date.now())} today.`;
   } else {
     $('resKick').textContent = 'Your score';
-    $('verdict').textContent = d.n === PER_GAME - 1 ? 'So close. One away from the book.' : d.n >= PER_GAME / 2 ? 'Good round. Can you get all five?' : d.n > 0 ? 'Innovators try again.' : 'Tough round. Every good idea starts with a miss.';
-    $('claimHead').textContent = `Get all ${PER_GAME} right to win the book.`; $('stamp').textContent = 'New questions every time you play.';
+    $('verdict').textContent = d.n === PER_GAME - 1 ? 'So close. One away from the book.' : d.n >= PER_GAME / 2 ? 'Good round.' : d.n > 0 ? 'A tough set of questions.' : 'Tough round. Every good idea starts with a miss.';
+    $('claimHead').textContent = 'Thanks for playing!'; $('stamp').textContent = `It takes all ${PER_GAME} right to win the book, and everyone gets one try.`;
   }
 }
 let finishing = 0;
 async function finish(){
   const n = marks.filter(Boolean).length, run = ++finishing;
-  show('result');
+  save(true); show('result');
   if (n < PER_GAME) { paintResult('score', { n }); return; }
   const mine = LS.get('book');
-  if (mine && mine.place) { paintResult('won', mine); party(); return; }
-  paintResult('checking', { n }); party();
+  if (mine && mine.place) {                           // this phone already won: show the winner screen, and check the claim still stands
+    paintResult('won', mine);
+    claims().then(w => { if (run === finishing && !w.some(x => x.id === device())) { LS.set('book', null); LS.set('game', null); show('start'); } }).catch(() => {});
+    return;
+  }
+  paintResult('checking', { n });
   let kind = 'unknown', d = { n };
   try { const place = await claimBook(); if (place) { d = { place, t: Date.now() }; LS.set('book', d); kind = 'won'; } else kind = 'gone'; } catch {}
-  if (run !== finishing) return;                    // the player has already moved on
+  if (run !== finishing) return;
   paintResult(kind, d); if (kind === 'won') party();
 }
-// A phone that already won shows its winner screen again when the page is reopened, after checking the claim still stands.
-(function restore(){
-  const mine = LS.get('book'); if (!mine || !mine.place) return;
-  marks = Array(PER_GAME).fill(true); show('result'); paintResult('won', mine);
-  claims().then(w => { if (!w.some(x => x.id === device())) { LS.set('book', null); if (document.getElementById('result').classList.contains('on') && !$('winNo').hidden) show('start'); } }).catch(() => {});
-})();
-// Booth staff: add ?staff to the address to see how many books are claimed, and to reset the count after testing.
+// Booth staff: add ?staff to the address to see how many books are claimed, reset the count after testing,
+// and let a test phone play again.
 if (P.has('staff')) {
   const box = $('staff'); box.hidden = false;
-  const paint = async () => { box.innerHTML = 'Checking the book count…'; try { const w = await claims(); box.innerHTML = `<b>${Math.min(w.length, BOOKS)} of ${BOOKS}</b> books claimed` + (w.length ? ': ' + w.slice(0, BOOKS).map((x, i) => `#${i + 1} at ${clock(x.t)}`).join(', ') : '') + '<br><button id="stRefresh">Refresh</button><button id="stReset">Reset the book count</button>'; } catch { box.innerHTML = 'Couldn’t reach the book count. <button id="stRefresh">Try again</button>'; }
-    $('stRefresh').onclick = paint; const r = $('stReset'); if (r) r.onclick = async () => { if (!r.classList.contains('arm')) { r.classList.add('arm'); r.textContent = 'Tap again to reset'; setTimeout(() => { r.classList.remove('arm'); r.textContent = 'Reset the book count'; }, 3000); return; }
-      try { await fetchT(NTFY + TOPIC, { method: 'POST', body: JSON.stringify({ type: 'reset' }) }); LS.set('book', null); } catch {} paint(); }; };
+  const paint = async () => { box.innerHTML = 'Checking the book count…'; try { const w = await claims(); box.innerHTML = `<b>${Math.min(w.length, BOOKS)} of ${BOOKS}</b> books claimed` + (w.length ? ': ' + w.slice(0, BOOKS).map((x, i) => `#${i + 1} at ${clock(x.t)}`).join(', ') : '') + '<br><button id="stRefresh">Refresh</button><button id="stReset">Reset the book count</button><button id="stAgain">Let this phone play again</button>'; } catch { box.innerHTML = 'Couldn’t reach the book count. <button id="stRefresh">Try again</button><button id="stAgain">Let this phone play again</button>'; }
+    $('stRefresh').onclick = paint; $('stAgain').onclick = () => { LS.set('game', null); LS.set('book', null); $('stAgain').textContent = 'Done. This phone can play again.'; }; const r = $('stReset'); if (r) r.onclick = async () => { if (!r.classList.contains('arm')) { r.classList.add('arm'); r.textContent = 'Tap again to reset'; setTimeout(() => { r.classList.remove('arm'); r.textContent = 'Reset the book count'; }, 3000); return; }
+      try { await fetchT(NTFY + TOPIC, { method: 'POST', body: JSON.stringify({ type: 'reset' }) }); LS.set('book', null); LS.set('game', null); } catch {} paint(); }; };
   paint();
 }
 $('go').addEventListener('click', start);
-$('again').addEventListener('click', start);
+$('again').hidden = true;                         // one try per phone, so there is no replay button
+if (LS.get('game') && !P.has('staff')) start();   // a game in progress or finished on this phone: pick it up
 if (P.has('debug')) window.QZ = { QUESTIONS, BOOKS, claims, get round(){ return round; }, get marks(){ return marks; } };
 </script>
 </body>
