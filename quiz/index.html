@@ -23,13 +23,20 @@ h1,h2,p{margin:0}
 .primary:active{transform:translateY(4px);box-shadow:0 1px 0 #C99A0A}
 
 /* start */
-#start{justify-content:center;gap:18px}
-#start h1{font-family:var(--display);font-weight:600;font-size:clamp(40px,11.5vw,60px);line-height:1;letter-spacing:-.01em}
+#start{justify-content:center;gap:15px}
+#start h1{font-family:var(--display);font-weight:600;font-size:clamp(36px,10.4vw,56px);line-height:1;letter-spacing:-.01em}
 #start h1 em{font-style:normal;color:var(--sun)}
 #start p{font-size:19px;line-height:1.4;color:var(--mist)}
-.three{display:flex;gap:12px;margin:6px 0 10px}
-.three i{font-style:normal;width:64px;height:64px;border-radius:50%;background:var(--blue2);display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:32px;color:var(--sun);animation:bob 2.4s ease-in-out infinite}
-.three i:nth-child(2){animation-delay:.2s}.three i:nth-child(3){animation-delay:.4s}
+.three{display:flex;gap:9px;margin:4px 0 6px}
+.three i{font-style:normal;width:50px;height:50px;border-radius:50%;background:var(--blue2);display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:26px;color:var(--sun);animation:bob 2.4s ease-in-out infinite}
+.three i:nth-child(2){animation-delay:.15s}.three i:nth-child(3){animation-delay:.3s}.three i:nth-child(4){animation-delay:.45s}.three i:nth-child(5){animation-delay:.6s}
+.prize{background:var(--cream);color:var(--navy);border-radius:20px;padding:15px 17px;font-size:17px;line-height:1.35}
+.prize b{display:block;font-family:var(--display);font-weight:600;font-size:23px;line-height:1.15;margin-bottom:5px}
+.prize span{display:block;font-size:14px;color:#4B578C;margin-top:6px}
+.staffbox{background:rgba(20,33,92,.35);border-radius:16px;padding:12px 14px;font-size:15px;line-height:1.5}
+.staffbox b{color:var(--sun)}
+.staffbox button{text-decoration:underline;margin-right:14px;min-height:40px}
+.staffbox button.arm{color:var(--sun);font-weight:700}
 @keyframes bob{0%,100%{transform:none}50%{transform:translateY(-7px)}}
 
 /* question */
@@ -68,6 +75,11 @@ h1,h2,p{margin:0}
 .claim{background:var(--cream);color:var(--navy);border-radius:20px;padding:16px 18px;width:100%;font-size:18px;line-height:1.35}
 .claim b{display:block;font-size:21px}
 .claim span{display:block;font-size:14px;color:#4B578C;margin-top:6px}
+.claim.won{background:var(--sun)}
+.claim.won span{color:var(--navy)}
+.winno{font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:15px;background:var(--navy);color:var(--sun);border-radius:99px;padding:8px 16px}
+.score.word{font-size:clamp(50px,14vw,74px);line-height:1}
+#again.primary{border:0;width:100%}
 .more{font-size:16px;line-height:1.4;color:var(--mist)}
 #again{min-height:52px;border-radius:999px;border:2px solid rgba(255,251,242,.6);font-weight:700;font-size:17px;padding:0 26px;margin-top:6px}
 .confetti{position:fixed;top:-20px;width:10px;height:15px;border-radius:2px;pointer-events:none;z-index:20;animation:fall linear forwards}
@@ -79,11 +91,12 @@ h1,h2,p{margin:0}
 <body>
 <main>
 <section class="screen on" id="start">
-  <div class="kick">Quick quiz</div>
-  <div class="three" aria-hidden="true"><i>1</i><i>2</i><i>3</i></div>
+  <div class="kick">Quick quiz · win a book</div>
+  <div class="three" aria-hidden="true"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
   <h1>How well do you know <em>innovation</em>?</h1>
-  <p>Three quick questions. It takes about a minute. Show your score at the booth when you finish.</p>
+  <div class="prize"><b>Get all 5 right and win Ethan Mollick’s new book.</b>Five quick questions, about two minutes.<span>Only 15 copies of <i>Co-Existence</i>. First come, first served.</span></div>
   <button class="primary" id="go" type="button">Start the quiz</button>
+  <div class="staffbox" id="staff" hidden></div>
 </section>
 
 <section class="screen" id="quiz">
@@ -95,10 +108,11 @@ h1,h2,p{margin:0}
 </section>
 
 <section class="screen" id="result">
-  <div class="kick">Your score</div>
+  <div class="kick" id="resKick">Your score</div>
   <div class="score" id="score"></div>
+  <div class="winno" id="winNo" hidden></div>
   <h2 id="verdict"></h2>
-  <div class="claim"><b>Show this screen at the booth.</b><span id="stamp"></span></div>
+  <div class="claim" id="claim"><b id="claimHead"></b><span id="stamp"></span></div>
   <p class="more">Curious how AI is changing innovation work? Ask us for a demo of our tools.</p>
   <button id="again" type="button">Play again</button>
 </section>
@@ -106,7 +120,7 @@ h1,h2,p{margin:0}
 
 <script>
 /* ============================================================================
-   THE QUESTIONS. Each player gets 3 of these at random.
+   THE QUESTIONS. Each player gets 5 of these at random.
    To change the quiz, edit this list. For each question:
      q    the question
      a    the answers, with the CORRECT ONE FIRST (they are shuffled on screen)
@@ -171,7 +185,8 @@ const QUESTIONS = [
     fact: 'On real product-innovation problems, individuals with AI produced work about as good as teams without it. Teams with AI were the most likely to produce the very best ideas.',
     src: 'Dell’Acqua and colleagues, “The Cybernetic Teammate”' }
 ];
-const PER_GAME = 3;
+const PER_GAME = 5;        // questions in one game
+const BOOKS = 15;          // books to give away: the first this many perfect scores win one
 
 /* ---------- the quiz ---------- */
 const $ = id => document.getElementById(id);
@@ -214,22 +229,88 @@ function answer(btn){
   paintProgress(); $('next').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 $('next').addEventListener('click', () => { at++; if (at < PER_GAME) { ask(); window.scrollTo(0, 0); } else finish(); });
-function finish(){
-  const n = marks.filter(Boolean).length;
-  $('score').innerHTML = `${n}<small> / ${PER_GAME}</small>`;
-  $('verdict').textContent = ['Tough round. Every good idea starts with a miss.', 'One right. Innovators try again.', 'So close. Two out of three.', 'Perfect score!'][Math.round(n * 3 / PER_GAME)];
-  $('stamp').textContent = 'Finished at ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' today';
-  show('result');
-  if (n === PER_GAME && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const cols = ['#FFD447', '#FF5A3C', '#FFFBF2', '#9FE0C6', '#C9C4F4'];
-    for (let i = 0; i < 80; i++) { const c = document.createElement('i'); c.className = 'confetti'; c.style.left = Math.random() * 100 + 'vw'; c.style.background = cols[i % cols.length];
-      c.style.setProperty('--dx', (Math.random() * 30 - 15) + 'vw'); c.style.setProperty('--rot', (Math.random() * 900 - 450) + 'deg'); c.style.animationDuration = 1.6 + Math.random() * 1.6 + 's'; c.style.animationDelay = Math.random() * 0.5 + 's';
-      document.body.appendChild(c); setTimeout(() => c.remove(), 4200); }
+/* ---------- the book prize ----------
+   A perfect score wins a book, for the first BOOKS winners. The count is shared between phones through
+   ntfy.sh: a winning phone posts a claim, then reads the list back to find its place in line. One win
+   per device. If the count can't be reached, the screen says so and the booth decides. */
+const P = new URLSearchParams(location.search);
+const NTFY = P.get('ntfy') || 'https://ntfy.sh/', TOPIC = 'ck-quiz-book-7h2q';
+const LS = { get: k => { try { return JSON.parse(localStorage.getItem('quiz:' + k)); } catch { return null; } }, set: (k, v) => { try { v === null ? localStorage.removeItem('quiz:' + k) : localStorage.setItem('quiz:' + k, JSON.stringify(v)); } catch {} } };
+function device(){ let id = LS.get('id'); if (typeof id !== 'string' || !/^[a-z0-9]{10}$/.test(id)) { id = Array.from({ length: 10 }, () => 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 36)]).join(''); LS.set('id', id); } return id; }
+async function fetchT(url, opts, ms = 6000){ const c = new AbortController(), t = setTimeout(() => c.abort(), ms); try { const r = await fetch(url, { ...opts, signal: c.signal }); if (!r.ok) throw new Error('http ' + r.status); return r; } finally { clearTimeout(t); } }
+async function claims(){                              // every claim since the last reset, in order
+  const text = await (await fetchT(`${NTFY}${TOPIC}/json?poll=1&since=all`)).text(); let wins = [];
+  for (const line of text.split('\n')) { if (!line) continue; try { const m = JSON.parse(line); if (m.event !== 'message') continue; const d = JSON.parse(m.message);
+    if (d.type === 'reset') wins = []; else if (d.type === 'win' && /^[a-z0-9]{10}$/.test(d.id) && !wins.some(w => w.id === d.id)) wins.push({ id: d.id, t: (m.time || 0) * 1000 }); } catch {} }
+  return wins;
+}
+// Returns this device's place in line (1, 2, 3 ...), or 0 when every book was already claimed.
+async function claimBook(){
+  const id = device(); let wins = await claims(), n = wins.findIndex(w => w.id === id) + 1;
+  if (n) return n;
+  if (wins.length >= BOOKS) return 0;
+  await fetchT(NTFY + TOPIC, { method: 'POST', body: JSON.stringify({ type: 'win', id }) });
+  for (let tries = 0; tries < 3; tries++) { wins = await claims(); n = wins.findIndex(w => w.id === id) + 1; if (n) return n > BOOKS ? 0 : n; await new Promise(r => setTimeout(r, 700)); }
+  throw new Error('claim not listed');
+}
+const clock = t => new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+function party(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cols = ['#FFD447', '#FF5A3C', '#FFFBF2', '#9FE0C6', '#C9C4F4'];
+  for (let i = 0; i < 90; i++) { const c = document.createElement('i'); c.className = 'confetti'; c.style.left = Math.random() * 100 + 'vw'; c.style.background = cols[i % cols.length];
+    c.style.setProperty('--dx', (Math.random() * 30 - 15) + 'vw'); c.style.setProperty('--rot', (Math.random() * 900 - 450) + 'deg'); c.style.animationDuration = 1.6 + Math.random() * 1.6 + 's'; c.style.animationDelay = Math.random() * 0.5 + 's';
+    document.body.appendChild(c); setTimeout(() => c.remove(), 4200); }
+}
+function paintResult(kind, d = {}){
+  const score = $('score'), again = $('again'), claim = $('claim');
+  score.className = 'score' + (kind === 'won' ? ' word' : ''); $('winNo').hidden = kind !== 'won'; claim.className = 'claim' + (kind === 'won' ? ' won' : ''); claim.hidden = false;
+  again.className = kind === 'score' ? 'primary' : ''; again.textContent = kind === 'won' ? 'Play again for fun' : 'Play again';
+  if (kind !== 'won') score.innerHTML = `${d.n}<small> / ${PER_GAME}</small>`;
+  if (kind === 'won') {
+    $('resKick').textContent = 'Perfect score'; score.textContent = 'You won the book!'; $('winNo').textContent = `Winner ${d.place} of ${BOOKS}`;
+    $('verdict').textContent = ''; $('claimHead').textContent = 'Show this screen at the booth to collect your book.'; $('stamp').textContent = `Co-Existence by Ethan Mollick · won at ${clock(d.t)} today`;
+  } else if (kind === 'checking') {
+    $('resKick').textContent = 'Perfect score'; $('verdict').textContent = 'Perfect score!'; $('claimHead').textContent = 'Checking for a book…'; $('stamp').textContent = 'This takes a few seconds.';
+  } else if (kind === 'gone') {
+    $('resKick').textContent = 'Perfect score'; $('verdict').textContent = 'Perfect score!'; $('claimHead').textContent = `All ${BOOKS} books have been claimed.`; $('stamp').textContent = 'You still get the bragging rights. Thanks for playing.';
+  } else if (kind === 'unknown') {
+    $('resKick').textContent = 'Perfect score'; $('verdict').textContent = 'Perfect score!'; $('claimHead').textContent = 'Show this screen at the booth.'; $('stamp').textContent = `We couldn’t check the book count from this phone. The first ${BOOKS} winners get a book. Finished at ${clock(Date.now())} today.`;
+  } else {
+    $('resKick').textContent = 'Your score';
+    $('verdict').textContent = d.n === PER_GAME - 1 ? 'So close. One away from the book.' : d.n >= PER_GAME / 2 ? 'Good round. Can you get all five?' : d.n > 0 ? 'Innovators try again.' : 'Tough round. Every good idea starts with a miss.';
+    $('claimHead').textContent = `Get all ${PER_GAME} right to win the book.`; $('stamp').textContent = 'New questions every time you play.';
   }
+}
+let finishing = 0;
+async function finish(){
+  const n = marks.filter(Boolean).length, run = ++finishing;
+  show('result');
+  if (n < PER_GAME) { paintResult('score', { n }); return; }
+  const mine = LS.get('book');
+  if (mine && mine.place) { paintResult('won', mine); party(); return; }
+  paintResult('checking', { n }); party();
+  let kind = 'unknown', d = { n };
+  try { const place = await claimBook(); if (place) { d = { place, t: Date.now() }; LS.set('book', d); kind = 'won'; } else kind = 'gone'; } catch {}
+  if (run !== finishing) return;                    // the player has already moved on
+  paintResult(kind, d); if (kind === 'won') party();
+}
+// A phone that already won shows its winner screen again when the page is reopened, after checking the claim still stands.
+(function restore(){
+  const mine = LS.get('book'); if (!mine || !mine.place) return;
+  marks = Array(PER_GAME).fill(true); show('result'); paintResult('won', mine);
+  claims().then(w => { if (!w.some(x => x.id === device())) { LS.set('book', null); if (document.getElementById('result').classList.contains('on') && !$('winNo').hidden) show('start'); } }).catch(() => {});
+})();
+// Booth staff: add ?staff to the address to see how many books are claimed, and to reset the count after testing.
+if (P.has('staff')) {
+  const box = $('staff'); box.hidden = false;
+  const paint = async () => { box.innerHTML = 'Checking the book count…'; try { const w = await claims(); box.innerHTML = `<b>${Math.min(w.length, BOOKS)} of ${BOOKS}</b> books claimed` + (w.length ? ': ' + w.slice(0, BOOKS).map((x, i) => `#${i + 1} at ${clock(x.t)}`).join(', ') : '') + '<br><button id="stRefresh">Refresh</button><button id="stReset">Reset the book count</button>'; } catch { box.innerHTML = 'Couldn’t reach the book count. <button id="stRefresh">Try again</button>'; }
+    $('stRefresh').onclick = paint; const r = $('stReset'); if (r) r.onclick = async () => { if (!r.classList.contains('arm')) { r.classList.add('arm'); r.textContent = 'Tap again to reset'; setTimeout(() => { r.classList.remove('arm'); r.textContent = 'Reset the book count'; }, 3000); return; }
+      try { await fetchT(NTFY + TOPIC, { method: 'POST', body: JSON.stringify({ type: 'reset' }) }); LS.set('book', null); } catch {} paint(); }; };
+  paint();
 }
 $('go').addEventListener('click', start);
 $('again').addEventListener('click', start);
-if (new URLSearchParams(location.search).has('debug')) window.QZ = { QUESTIONS, get round(){ return round; }, get marks(){ return marks; } };
+if (P.has('debug')) window.QZ = { QUESTIONS, BOOKS, claims, get round(){ return round; }, get marks(){ return marks; } };
 </script>
 </body>
 </html>
