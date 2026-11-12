@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2340E8">
+<title>The 3-question innovation quiz</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="fonts.css">
+<style>
+:root{--blue:#2340E8;--blue2:#1B2FB8;--navy:#14215C;--cream:#FFFBF2;--sun:#FFD447;--coral:#E5492F;--green:#0F7A5C;--mist:#E8ECFF;--line:rgba(20,33,92,.16);
+  --display:"Fraunces",Georgia,serif;--body:"DM Sans","Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none !important}
+html,body{margin:0}
+body{min-height:100dvh;font-family:var(--body);background:var(--blue);color:var(--cream);-webkit-font-smoothing:antialiased;touch-action:manipulation}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+h1,h2,p{margin:0}
+.screen{display:none;min-height:100dvh;max-width:600px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 18px max(22px,env(safe-area-inset-bottom));flex-direction:column}
+.screen.on{display:flex}
+.kick{font-weight:700;letter-spacing:.28em;text-transform:uppercase;font-size:13px;color:var(--sun)}
+.primary{width:100%;min-height:60px;background:var(--sun);color:var(--navy);font-weight:700;font-size:20px;border-radius:999px;box-shadow:0 5px 0 #C99A0A;transition:transform .08s,box-shadow .08s}
+.primary:active{transform:translateY(4px);box-shadow:0 1px 0 #C99A0A}
+
+/* start */
+#start{justify-content:center;gap:18px}
+#start h1{font-family:var(--display);font-weight:600;font-size:clamp(40px,11.5vw,60px);line-height:1;letter-spacing:-.01em}
+#start h1 em{font-style:normal;color:var(--sun)}
+#start p{font-size:19px;line-height:1.4;color:var(--mist)}
+.three{display:flex;gap:12px;margin:6px 0 10px}
+.three i{font-style:normal;width:64px;height:64px;border-radius:50%;background:var(--blue2);display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:32px;color:var(--sun);animation:bob 2.4s ease-in-out infinite}
+.three i:nth-child(2){animation-delay:.2s}.three i:nth-child(3){animation-delay:.4s}
+@keyframes bob{0%,100%{transform:none}50%{transform:translateY(-7px)}}
+
+/* question */
+#quiz{gap:14px}
+.progress{display:flex;align-items:center;gap:8px}
+.progress i{flex:1;height:8px;border-radius:99px;background:rgba(255,251,242,.22)}
+.progress i.cur{background:var(--cream)}
+.progress i.right{background:var(--sun)}
+.progress i.wrong{background:var(--coral)}
+.progress span{font-weight:700;font-size:14px;margin-left:6px;white-space:nowrap}
+.q{font-family:var(--display);font-weight:600;font-size:clamp(24px,6.6vw,32px);line-height:1.14;margin:8px 0 4px;animation:rise .35s both}
+.opts{display:grid;gap:10px}
+.opt{width:100%;min-height:62px;background:var(--cream);color:var(--navy);border-radius:18px;padding:12px 16px;text-align:left;font-weight:700;font-size:17.5px;line-height:1.25;display:flex;align-items:center;gap:12px;border:3px solid transparent;animation:rise .35s both;transition:transform .08s}
+.opt:nth-child(2){animation-delay:.05s}.opt:nth-child(3){animation-delay:.1s}.opt:nth-child(4){animation-delay:.15s}
+.opt:active{transform:scale(.98)}
+.opt b{flex:none;width:32px;height:32px;border-radius:50%;background:var(--mist);display:grid;place-items:center;font-size:15px}
+.opt.right{background:#DDF5EA;border-color:var(--green)}
+.opt.right b{background:var(--green);color:#fff}
+.opt.wrong{background:#FCE3DD;border-color:var(--coral)}
+.opt.wrong b{background:var(--coral);color:#fff}
+.opt.dim{opacity:.5}
+.opts.done .opt{pointer-events:none}
+.fact{background:var(--blue2);border-radius:18px;padding:14px 16px;font-size:16.5px;line-height:1.4;animation:rise .35s both}
+.fact b{display:block;font-size:19px;margin-bottom:4px}
+.fact b.yes{color:var(--sun)}
+.fact small{display:block;font-size:12.5px;color:var(--mist);opacity:.85;margin-top:6px}
+#next{margin-top:auto}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* result */
+#result{justify-content:center;align-items:center;text-align:center;gap:14px}
+.score{font-family:var(--display);font-weight:600;font-size:132px;line-height:.95;color:var(--sun);animation:pop .5s cubic-bezier(.2,1.7,.4,1) both}
+.score small{font-size:.42em;color:var(--cream)}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+#verdict{font-family:var(--display);font-weight:600;font-size:clamp(28px,7.6vw,38px);line-height:1.1}
+.claim{background:var(--cream);color:var(--navy);border-radius:20px;padding:16px 18px;width:100%;font-size:18px;line-height:1.35}
+.claim b{display:block;font-size:21px}
+.claim span{display:block;font-size:14px;color:#4B578C;margin-top:6px}
+.more{font-size:16px;line-height:1.4;color:var(--mist)}
+#again{min-height:52px;border-radius:999px;border:2px solid rgba(255,251,242,.6);font-weight:700;font-size:17px;padding:0 26px;margin-top:6px}
+.confetti{position:fixed;top:-20px;width:10px;height:15px;border-radius:2px;pointer-events:none;z-index:20;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),106vh) rotate(var(--rot))}}
+@media (min-width:700px){ .screen{zoom:1.25;min-height:calc(100dvh / 1.25)} }
+@media (prefers-reduced-motion: reduce){ .three i,.q,.opt,.fact,.score{animation:none} .confetti{display:none} }
+</style>
+</head>
+<body>
+<main>
+<section class="screen on" id="start">
+  <div class="kick">Quick quiz</div>
+  <div class="three" aria-hidden="true"><i>1</i><i>2</i><i>3</i></div>
+  <h1>How well do you know <em>innovation</em>?</h1>
+  <p>Three quick questions. It takes about a minute. Show your score at the booth when you finish.</p>
+  <button class="primary" id="go" type="button">Start the quiz</button>
+</section>
+
+<section class="screen" id="quiz">
+  <div class="progress" id="progress"></div>
+  <h2 class="q" id="q" aria-live="polite"></h2>
+  <div class="opts" id="opts"></div>
+  <div class="fact" id="fact" hidden aria-live="polite"></div>
+  <button class="primary" id="next" type="button" hidden>Next question</button>
+</section>
+
+<section class="screen" id="result">
+  <div class="kick">Your score</div>
+  <div class="score" id="score"></div>
+  <h2 id="verdict"></h2>
+  <div class="claim"><b>Show this screen at the booth.</b><span id="stamp"></span></div>
+  <p class="more">Curious how AI is changing innovation work? Ask us for a demo of our tools.</p>
+  <button id="again" type="button">Play again</button>
+</section>
+</main>
+
+<script>
+/* ============================================================================
+   THE QUESTIONS. Each player gets 3 of these at random.
+   To change the quiz, edit this list. For each question:
+     q    the question
+     a    the answers, with the CORRECT ONE FIRST (they are shuffled on screen)
+     fact one or two sentences shown after the player answers
+     src  optional: where the fact comes from
+   ============================================================================ */
+const QUESTIONS = [
+  { q: 'Post-it Notes grew out of a lab result that looked like a failure. What was it?',
+    a: ['A glue that was too weak to hold', 'A paper that wouldn’t take ink', 'A tape that stuck to itself', 'A yellow dye that faded'],
+    fact: 'A 3M scientist was trying to make a stronger adhesive and got a weak one. Years later a colleague used it for bookmarks that stayed put.' },
+  { q: 'What gave an engineer the idea for the microwave oven?',
+    a: ['A candy bar melted in his pocket', 'His coffee stayed hot all day', 'A light bulb burned out', 'His radio picked up static'],
+    fact: 'In 1945 Percy Spencer was working on radar equipment when he noticed the candy bar in his pocket had melted. Popcorn was one of his first tests.' },
+  { q: 'Bubble wrap was not invented for packing. What was it first meant to be?',
+    a: ['Textured wallpaper', 'A pool cover', 'Raincoat lining', 'A children’s toy'],
+    fact: 'Its inventors sealed two shower curtains together in 1957 to make wallpaper. It found its real use protecting shipments a few years later.' },
+  { q: 'Before it was a toy, what was Play-Doh sold as?',
+    a: ['Wallpaper cleaner', 'Window putty', 'Pie crust mix', 'Shoe polish'],
+    fact: 'It was a putty for cleaning soot off wallpaper. When demand fell, a teacher’s idea to use it for classroom crafts gave it a second life.' },
+  { q: 'Cheerios launched in 1941 under a different name. What was it?',
+    a: ['CheeriOats', 'Oat Rings', 'Cheery Os', 'Toasty Oats'],
+    fact: 'The cereal was called CheeriOats for its first few years and was renamed Cheerios in 1945.' },
+  { q: 'What did a Swiss engineer study to invent Velcro?',
+    a: ['Burrs stuck in his dog’s fur', 'A gecko’s feet', 'A spider’s web', 'Pine cones opening'],
+    fact: 'After a walk in the 1940s, George de Mestral looked at the burrs on his dog under a microscope and saw tiny hooks. He copied them.' },
+  { q: 'In consumer goods, what is the “first moment of truth”?',
+    a: ['When a shopper first sees the product at the shelf', 'When a consumer first tastes the product', 'When a product first ships to stores', 'When the first review is posted'],
+    fact: 'It is the few seconds when a shopper notices a product and decides whether to pick it up. The package has to do the work.' },
+  { q: 'In a 2026 survey of scientists, nearly half said AI nudged them toward what kind of research questions?',
+    a: ['Safer, more incremental ones', 'Riskier, more ambitious ones', 'Questions outside their field', 'Questions needing no experiments'],
+    fact: 'About half said safer, and fewer than three in ten said riskier. Using AI to be more ambitious is a choice we have to make.',
+    src: 'Google, Google DeepMind and MIT FutureTech, “AI in Science: Early Insights,” 2026' },
+  { q: 'Students did a creative task with ChatGPT. Then the AI was taken away. Which group did best on the next task?',
+    a: ['Those who thought first, then used ChatGPT', 'Those who used ChatGPT from the start', 'Those who used it most often', 'All groups did the same'],
+    fact: 'The students who put their own ideas down first did best once the AI was gone. Think first, then use AI to challenge and build on it.',
+    src: 'Wong and Qiu, Educational Psychology Review, 2026' },
+  { q: 'In an experiment at Procter & Gamble, how did one person working with AI compare with a two-person team working without it?',
+    a: ['About as well as the team', 'Much worse than the team', 'Twice as well as the team', 'No difference from working alone'],
+    fact: 'On real product-innovation problems, individuals with AI produced work about as good as teams without it. Teams with AI were the most likely to produce the very best ideas.',
+    src: 'Dell’Acqua and colleagues, “The Cybernetic Teammate”' }
+];
+const PER_GAME = 3;
+
+/* ---------- the quiz ---------- */
+const $ = id => document.getElementById(id);
+const shuffle = list => { const a = list.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+let seen = [];                                   // questions this device has shown, so replays bring new ones
+let round = [], at = 0, marks = [];
+function show(id){ for (const s of document.querySelectorAll('.screen')) s.classList.toggle('on', s.id === id); window.scrollTo(0, 0); for (const c of document.querySelectorAll('.confetti')) c.remove(); }
+function start(){
+  let pool = QUESTIONS.map((_, i) => i).filter(i => !seen.includes(i));
+  if (pool.length < PER_GAME) { seen = []; pool = QUESTIONS.map((_, i) => i); }
+  round = shuffle(pool).slice(0, PER_GAME); seen.push(...round); at = 0; marks = [];
+  show('quiz'); ask();
+}
+function paintProgress(){
+  $('progress').innerHTML = round.map((_, i) => `<i class="${marks[i] === true ? 'right' : marks[i] === false ? 'wrong' : i === at ? 'cur' : ''}"></i>`).join('') + `<span>${Math.min(at + 1, PER_GAME)} of ${PER_GAME}</span>`;
+}
+function ask(){
+  const item = QUESTIONS[round[at]], opts = $('opts');
+  paintProgress();
+  $('q').textContent = item.q; $('q').style.animation = 'none'; void $('q').offsetWidth; $('q').style.animation = '';
+  $('fact').hidden = true; $('next').hidden = true; opts.classList.remove('done'); opts.textContent = '';
+  shuffle(item.a.map((text, i) => ({ text, right: i === 0 }))).forEach((o, i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.dataset.right = o.right ? '1' : '';
+    const tag = document.createElement('b'); tag.textContent = 'ABCD'[i]; const label = document.createElement('span'); label.textContent = o.text;
+    b.append(tag, label); b.addEventListener('click', () => answer(b)); opts.appendChild(b);
+  });
+}
+function answer(btn){
+  const opts = $('opts'); if (opts.classList.contains('done')) return;
+  const item = QUESTIONS[round[at]], right = btn.dataset.right === '1';
+  opts.classList.add('done'); marks[at] = right;
+  for (const b of opts.children) { if (b.dataset.right === '1') { b.classList.add('right'); b.firstChild.textContent = '✓'; } else if (b === btn) { b.classList.add('wrong'); b.firstChild.textContent = '✕'; } else b.classList.add('dim'); }
+  try { navigator.vibrate && navigator.vibrate(right ? 20 : [30, 50, 30]); } catch {}
+  const fact = $('fact'); fact.textContent = '';
+  const head = document.createElement('b'); head.textContent = right ? 'Correct!' : 'Not quite.'; if (right) head.className = 'yes';
+  fact.append(head, document.createTextNode(item.fact));
+  if (item.src) { const s = document.createElement('small'); s.textContent = 'Source: ' + item.src; fact.appendChild(s); }
+  fact.hidden = false;
+  $('next').textContent = at === PER_GAME - 1 ? 'See my score' : 'Next question'; $('next').hidden = false;
+  paintProgress(); $('next').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+$('next').addEventListener('click', () => { at++; if (at < PER_GAME) { ask(); window.scrollTo(0, 0); } else finish(); });
+function finish(){
+  const n = marks.filter(Boolean).length;
+  $('score').innerHTML = `${n}<small> / ${PER_GAME}</small>`;
+  $('verdict').textContent = ['Tough round. Every good idea starts with a miss.', 'One right. Innovators try again.', 'So close. Two out of three.', 'Perfect score!'][Math.round(n * 3 / PER_GAME)];
+  $('stamp').textContent = 'Finished at ' + new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' today';
+  show('result');
+  if (n === PER_GAME && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const cols = ['#FFD447', '#FF5A3C', '#FFFBF2', '#9FE0C6', '#C9C4F4'];
+    for (let i = 0; i < 80; i++) { const c = document.createElement('i'); c.className = 'confetti'; c.style.left = Math.random() * 100 + 'vw'; c.style.background = cols[i % cols.length];
+      c.style.setProperty('--dx', (Math.random() * 30 - 15) + 'vw'); c.style.setProperty('--rot', (Math.random() * 900 - 450) + 'deg'); c.style.animationDuration = 1.6 + Math.random() * 1.6 + 's'; c.style.animationDelay = Math.random() * 0.5 + 's';
+      document.body.appendChild(c); setTimeout(() => c.remove(), 4200); }
+  }
+}
+$('go').addEventListener('click', start);
+$('again').addEventListener('click', start);
+if (new URLSearchParams(location.search).has('debug')) window.QZ = { QUESTIONS, get round(){ return round; }, get marks(){ return marks; } };
+</script>
+</body>
+</html>
