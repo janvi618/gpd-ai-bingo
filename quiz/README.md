@@ -2,7 +2,7 @@
 
 A quick booth quiz at `https://janvi618.github.io/gpd-ai-bingo/quiz/`. It is separate from the Bingo site and shares no files with it.
 
-- Each player gets 3 of the 10 questions at random, with the answers shuffled.
+- Each player gets 3 of the 18 questions at random, with the answers shuffled.
 - After each answer, the page shows the right one and a one-line fact.
 - The last screen shows the score, "Show this screen at the booth," and the time, so a screenshot can't be reused.
 - Replays bring new questions. There are no names, no leaderboard and no network calls.
