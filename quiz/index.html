@@ -94,7 +94,7 @@ h1,h2,p{margin:0}
   <div class="kick">Quick quiz · win a book</div>
   <div class="three" aria-hidden="true"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
   <h1>How well do you know <em>innovation</em>?</h1>
-  <div class="prize"><b>Get all 5 right and win Ethan Mollick’s new book.</b>Five quick questions, about two minutes.<span>Only 10 copies of <i>Co-Existence</i>. First come, first served. One try per person.</span></div>
+  <div class="prize"><b>Get 4 of 5 right and win Ethan Mollick’s new book.</b>Five quick questions, about two minutes.<span>Only 10 copies of <i>Co-Existence</i>. First come, first served. One try per person.</span></div>
   <button class="primary" id="go" type="button">Start the quiz</button>
   <div class="staffbox" id="staff" hidden></div>
 </section>
@@ -186,6 +186,7 @@ const QUESTIONS = [
     src: 'Dell’Acqua and colleagues, “The Cybernetic Teammate”' }
 ];
 const PER_GAME = 5;        // questions in one game
+const WIN = 4;             // right answers needed to win a book
 const BOOKS = 10;          // books to give away: the first this many perfect scores win one
 
 /* ---------- the quiz ---------- */
@@ -267,29 +268,29 @@ function party(){
     document.body.appendChild(c); setTimeout(() => c.remove(), 4200); }
 }
 function paintResult(kind, d = {}){
-  const score = $('score'), claim = $('claim');
+  const score = $('score'), claim = $('claim'), top = marks.filter(Boolean).length === PER_GAME ? 'Perfect score' : 'Winning score';
   score.className = 'score' + (kind === 'won' ? ' word' : ''); $('winNo').hidden = kind !== 'won'; claim.className = 'claim' + (kind === 'won' ? ' won' : ''); claim.hidden = false;
   if (kind !== 'won') score.innerHTML = `${d.n}<small> / ${PER_GAME}</small>`;
   if (kind === 'won') {
-    $('resKick').textContent = 'Perfect score'; score.textContent = 'You won the book!'; $('winNo').textContent = `Winner ${d.place} of ${BOOKS}`;
+    $('resKick').textContent = top; score.textContent = 'You won the book!'; $('winNo').textContent = `Winner ${d.place} of ${BOOKS}`;
     $('verdict').textContent = ''; $('claimHead').textContent = 'Show this screen at the booth to collect your book.'; $('stamp').textContent = `Co-Existence by Ethan Mollick · won at ${clock(d.t)} today`;
   } else if (kind === 'checking') {
-    $('resKick').textContent = 'Perfect score'; $('verdict').textContent = 'Perfect score!'; $('claimHead').textContent = 'Checking for a book…'; $('stamp').textContent = 'This takes a few seconds.';
+    $('resKick').textContent = top; $('verdict').textContent = top + '!'; $('claimHead').textContent = 'Checking for a book…'; $('stamp').textContent = 'This takes a few seconds.';
   } else if (kind === 'gone') {
-    $('resKick').textContent = 'Perfect score'; $('verdict').textContent = 'Perfect score!'; $('claimHead').textContent = `All ${BOOKS} books have been claimed.`; $('stamp').textContent = 'You still get the bragging rights. Thanks for playing.';
+    $('resKick').textContent = top; $('verdict').textContent = top + '!'; $('claimHead').textContent = `All ${BOOKS} books have been claimed.`; $('stamp').textContent = 'You still get the bragging rights. Thanks for playing.';
   } else if (kind === 'unknown') {
-    $('resKick').textContent = 'Perfect score'; $('verdict').textContent = 'Perfect score!'; $('claimHead').textContent = 'Show this screen at the booth.'; $('stamp').textContent = `We couldn’t check the book count from this phone. The first ${BOOKS} winners get a book. Finished at ${clock(Date.now())} today.`;
+    $('resKick').textContent = top; $('verdict').textContent = top + '!'; $('claimHead').textContent = 'Show this screen at the booth.'; $('stamp').textContent = `We couldn’t check the book count from this phone. The first ${BOOKS} winners get a book. Finished at ${clock(Date.now())} today.`;
   } else {
     $('resKick').textContent = 'Your score';
-    $('verdict').textContent = d.n === PER_GAME - 1 ? 'So close. One away from the book.' : d.n >= PER_GAME / 2 ? 'Good round.' : d.n > 0 ? 'A tough set of questions.' : 'Tough round. Every good idea starts with a miss.';
-    $('claimHead').textContent = 'Thanks for playing!'; $('stamp').textContent = `It takes all ${PER_GAME} right to win the book, and everyone gets one try.`;
+    $('verdict').textContent = d.n === WIN - 1 ? 'So close. One away from the book.' : d.n >= PER_GAME / 2 ? 'Good round.' : d.n > 0 ? 'A tough set of questions.' : 'Tough round. Every good idea starts with a miss.';
+    $('claimHead').textContent = 'Thanks for playing!'; $('stamp').textContent = `It takes ${WIN} of ${PER_GAME} right to win the book, and everyone gets one try.`;
   }
 }
 let finishing = 0;
 async function finish(){
   const n = marks.filter(Boolean).length, run = ++finishing;
   save(true); show('result');
-  if (n < PER_GAME) { paintResult('score', { n }); return; }
+  if (n < WIN) { paintResult('score', { n }); return; }
   const mine = LS.get('book');
   if (mine && mine.place) {                           // this phone already won: show the winner screen, and check the claim still stands
     paintResult('won', mine);
